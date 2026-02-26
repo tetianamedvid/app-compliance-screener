@@ -1,0 +1,25 @@
+---
+description: Validation rule — WP-connected app list must match Trino distinct count
+alwaysApply: false
+globs: scripts/validate_wp_app_list.py, uw_app/trino_client.py, scripts/merge_trino_wp_apps_into_real.py, data/real_apps.json
+---
+
+# Validation: data full = local app list count equals Trino WP count
+
+## Rule
+
+- **Source of truth for “all WP-connected apps”** is Trino: distinct count of `app_id` from `prod_encrypted.payments.pp_base44_apps_replica` joined to `prod.payments.wp_accounts_replica` on `external_account_id = msid`.
+- **Data are full** when the local app list (from `APPS_JSON_PATH` / merged index) has the same number of distinct app_ids as that Trino count.
+- Use this check to validate that `data/real_apps.json` (or whatever `APPS_JSON_PATH` points to) is complete before relying on it for UW or the dashboard.
+
+## How to check
+
+- Run: `python3 scripts/validate_wp_app_list.py`
+- **OK**: local count equals Trino WP-connected count → data full.
+- **FAIL**: counts differ → data not full; refresh by updating `data/trino_wp_apps.json` (e.g. from Trino) and running `scripts/merge_trino_wp_apps_into_real.py`.
+- **SKIP**: Trino not configured or connection failed → validation cannot run.
+
+## Code
+
+- Trino count: `uw_app.trino_client.get_wp_connected_app_count()` (returns `int` or `None`).
+- Local count: `len(by_app_id)` from `uw_app.resolve.load_apps_index_merged()`.

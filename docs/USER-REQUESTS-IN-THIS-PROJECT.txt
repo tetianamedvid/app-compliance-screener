@@ -1,0 +1,172 @@
+================================================================================
+  ALL USER REQUESTS IN THIS PROJECT (COLLECTED — FULL)
+================================================================================
+Plain text. One document listing every request and requirement from the start
+of the project through to the latest. Includes project-foundation requirements
+and all follow-up requests.
+
+================================================================================
+PART A — PROJECT FOUNDATION (FROM THE START)
+================================================================================
+
+A.1  Internal UW app purpose (docs/uw-internal-app-plan.md)
+
+  - Internal app for the Underwriting team: restricted access, live and functional.
+  - User enters app_id, msid, or WP account id and gets:
+    1. App profile — information from the full-app-profile query as a transposed
+       table (one row per attribute).
+    2. UW check vs policy — app summary (middleman) + policy comparison (verdict,
+       reasoning, non-compliant subcategories).
+
+A.2  Resolve identifier → app
+
+  - Support three input types:
+    - app_id (use as-is; fetch app record for UW).
+    - msid → Trino: pp_base44_apps_replica + conversation from base44_app_context_snapshots_mongo.
+    - WP account id → Trino: join pp_base44_apps_replica with wp_accounts_replica;
+      conversation from base44_app_context_snapshots_mongo.
+  - Single resolve query returning one row: app_id, app_name, app_url,
+    conversation_summary, msid, wp_account_id.
+
+A.3  App profile (transposed table)
+
+  - Source: full-app-profile query (filter by resolved app_id).
+  - Output for UI: one row per column → transposed table (column name | value).
+  - Omit null/empty or truncate long text so the table stays readable.
+
+A.4  UW check vs policy
+
+  - Option A — Cached: conclusions per run in output/run_<run_id>/conclusion_<app_id>.md;
+    app looks up latest run and parses verdict, reasoning, app summary, Step 1/2,
+    non-compliant subcategories.
+  - Option B — On-demand: if no cached conclusion (or user clicks “Re-run UW”),
+    run pipeline for one app (Trino record, optional scrape, middleman → policy,
+    write conclusion, return result).
+  - Recommendation: default to cached; add “Re-run UW” for on-demand.
+
+A.5  Accuracy first
+
+  - Policy prompt: Step 1 must restate only what the app summary says the app
+    sells; must not list policy categories unless the summary explicitly states.
+    Step 2 must only compare items that appear in Step 1.
+  - Step 1 sanity check: if policy output lists prohibited items in Step 1 that
+    do not appear in the app summary, discard LLM output and use “Restricted /
+    insufficient evidence” template.
+  - Step 2 consistency check: if Step 2 mentions policy categories that Step 1
+    does not contain, treat as invalid and use same safe template.
+
+A.6  Underwriting output format (.cursor/rules/underwriting.mdc)
+
+  - Output is always a written conclusion (checks vs policy) — not just a risk
+    score or pass/fail label.
+  - Structure: policy ref → evidence → finding → conclusion per criterion; then
+    overall conclusion (2–4 sentences) with reference to policy categories and
+    subcategories.
+  - Data sources: TRINO (apps + conversation summary); optional scrape of app URL.
+  - Pipeline: (1) Middleman — conversation summary + scraped content → app summary
+    (intent, what is sold, what end shopper gets). (2) Policy comparison — what
+    is sold → compare to policy → Allowed / Restricted / Not-allowed + reasoning
+    + non-compliant subcategories. Scraping on by default.
+
+A.7  Validation and data fullness (.cursor/rules/validation-wp-app-list.mdc)
+
+  - Source of truth for “all WP-connected apps”: Trino (pp_base44_apps_replica
+    joined to wp_accounts_replica).
+  - Data are full when local app list has same number of distinct app_ids as
+    Trino count. Validate before relying on data for UW or dashboard.
+
+A.8  Documentation and responses (.cursor/rules/docs-and-responses.mdc)
+
+  - All user-facing docs and responses: step-by-step, for non-developers, plain
+    language. Number steps; one action per step; say what to type/click and
+    what they will see; avoid jargon; no assumptions about project root or
+    file locations.
+
+A.9  Phases (README)
+
+  - Phase 1: First successful LLM run (OpenAI key, run on sample).
+  - Phase 2: Real policy in pipeline (policy-excerpt.txt from .docx).
+  - Phase 3: Full Trino run (export to JSON, run pipeline with run-id).
+  - Phase 4: Optional — scrape app URLs, run versioning, policy from .docx.
+
+A.10 Run on production test set
+
+  - Production test (7 apps): run pipeline on data/production_test_apps.json
+    with run-id, optional scrape. Conclusions in output/run_<id>/ with manifest.
+
+================================================================================
+PART B — MAIN IMPLEMENTATION REQUEST (PROFILE, CONVERSATION, SCRAPING, POLICY)
+================================================================================
+
+B.1  Plan, implement, QA, debug and run all the following:
+
+  1) Fix in Profile section by adding:
+     1.1 App categories shall look like ["Finance", "Education", "Data & Analytics"]
+         (example for app id 69990440a6ff02254b9a9862).
+     1.2 user_description from prod.marketing.base44_user_generated_apps_v2_mongo.
+     1.3 public_settings from prod.marketing.base44_user_generated_apps_v2_mongo.
+
+  2) Conversation — only one summary; all conversations are missing. Check schema
+     again for relevant table to get all conversations.
+
+  3) Scraping not happening.
+
+  4) Failing to analyse conversation and conclude on Policy.
+
+B.2  Follow-up
+
+  "Literally nothing changed, none of the instructions implemented."
+
+================================================================================
+PART C — SUBSEQUENT REQUESTS (IN ORDER)
+================================================================================
+
+C.1  "what's next?"
+
+C.2  How to run Trino fetch
+
+  "how to do it 2. If you use Trino — Run a full fetch once so full_profiles.json
+  and app metadata are filled: python3 scripts/fetch_full_profiles_from_trino.py?"
+
+C.3  Fix / check and push
+
+  "fix everything or check its there and push"
+
+C.4  "why do i need Github?"
+
+C.5  "at this stage on local machine, please"
+
+C.6  How to run commands (terminal)
+
+  "is this in terminal? one by one? Run the app: ... Fetch from Trino: ...
+  See commit history: ... You can ignore GitHub until you decide you want
+  cloud backup or sharing."
+
+C.7  Terminal output / warning
+
+  (User shared: UW Lookup loading, urllib3/OpenSSL warning, and the commands.)
+
+C.8  "dont understand at all"
+
+C.9  "NOTHING IS DONE !"
+
+  (With screenshot: app "Risky Recall", profile without categories /
+  user_description / public_settings, empty conversation, verdict "Restricted"
+  with "Insufficient evidence".)
+
+C.10 Audit document
+
+  "write me full project description for audit end to end in one document -
+  in pdf or txt format"
+
+C.11 Collect all requests
+
+  "now collect in one doc all my requests in this project in text format"
+
+C.12 Missing requests from the start
+
+  "missing a lot - especially from the start!"
+
+================================================================================
+  END OF USER REQUESTS (FULL)
+================================================================================

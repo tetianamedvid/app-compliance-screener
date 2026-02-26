@@ -1,0 +1,28 @@
+---
+description: Underwriting control output format and pipeline behavior for WixPayments apps
+alwaysApply: true
+---
+
+# Underwriting Control for WixPayments-Connected Apps
+
+## Output format
+
+- Underwriting output is **always a written conclusion** of checks vs the policy document — not a risk score or pass/fail/review label as the primary deliverable.
+- A **separate pass/fail score** may be included if needed; the main artifact is the conclusion memo.
+- Structure per policy criterion: **policy ref** → **evidence** (what was checked) → **finding** (what was found) → **conclusion** (one sentence). Then an **overall conclusion** (2–4 sentences) with reference to specific policy categories and subcategories.
+
+## Data sources
+
+1. **TRINO**: Apps connected to WixPayments + app owner conversation summary (intent and modifications). Use the project’s canonical query (see `docs/trino-query.sql` or equivalent).
+2. **Optional**: App URL from query results; scrape content if app is published and connect scraped content to the app by `app_url`. Re-runs and versioned results are required (apps change frequently).
+
+## Policy
+
+- Policy document: `Copy of [Wix] Stripe Supportability Handling Guide_Jan25 (2).docx` (in project folder). Each check must map to a specific policy section/criterion.
+- Conclusion must cite policy sections/categories and subcategories.
+
+## Pipeline (two-step)
+
+1. **Middleman**: Use conversation summary + scraped app content to produce a structured **app summary**: intent and purpose of the app; **what is sold through the app (in detail)**; **what the end shopper gets by buying** (in detail). Prompts: `prompts/app-summary-middleman.md`. Scraping is on by default (`--no-scrape` to disable).
+2. **Policy comparison**: Using the app summary + policy document: (1) state accurately **what is being sold**; (2) **compare to policy** (categories/subcategories); (3) output **Allowed**, **Restricted**, or **Not-allowed** with short reasoning and **list all non-compliant subcategories** if any. Prompt: `prompts/policy-comparison.md`.
+- Output memo contains: App summary (middleman) + Policy comparison and verdict (Step 1, Step 2, Step 3 with Verdict, Reasoning, Non-compliant subcategories).

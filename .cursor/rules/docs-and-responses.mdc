@@ -1,0 +1,20 @@
+---
+description: Documentation and responses must be step-by-step for non-developers
+alwaysApply: true
+---
+
+# Docs and responses: step-by-step for non-devs
+
+- **All user-facing documentation** (how-to guides, README sections that people follow, runbooks) must be **step-by-step** and written for **non-developers**.
+- **Responses** (explanations, instructions, answers given in chat or in the app) must follow the same rule: **step-by-step**, **plain language**, **for non-devs**.
+
+## How to write
+
+1. **Number the steps.** Use "Step 1:", "Step 2:", etc., or "1.", "2." so the order is clear.
+2. **One action per step.** Do not combine several actions in one step unless they are a single click or a single command.
+3. **Say what to type or click** exactly (e.g. the command, the button name, the menu path).
+4. **Say what the user will see** after each step when it matters (e.g. "A browser tab will open" or "You will see 'Using live data from Trino'").
+5. **Avoid jargon** where possible. If you must use a technical term (e.g. "Terminal", "Trino"), briefly say what it is or why they need it.
+6. **No assumptions** about the user knowing where files are, what "project root" means, or how to edit a file. If they need to open a file, say how (e.g. "Open the file `.env` in a text editor" or "In Finder, open the project folder and double-click `.env`").
+
+Apply this to: RUN-UW-APP-ON-MY-COMPUTER.md, uw_app/README.md, any new how-to docs, and to **responses** you give when explaining how to do something or what to do next.

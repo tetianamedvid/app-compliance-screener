@@ -1,0 +1,10 @@
+.env
+data/user_apps.json
+data/trino_*.json
+data/.uw_missing_apps.json
+__pycache__/
+*.pyc
+.venv/
+venv/
+output/
+.DS_Store

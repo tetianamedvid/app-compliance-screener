@@ -1,0 +1,267 @@
+-- =============================================================================
+-- Base44 Application – Full App Profile (VALIDATED via Trino MCP 2026-02-20)
+-- =============================================================================
+-- Filter: edit ONLY the filter_app_ids CTE below. Same list used for UUID (wt_apps), hex (mongo), and pp_base44_apps_replica.
+-- To restrict to specific app_ids for review, replace the SELECT in filter_app_ids with e.g.:
+--   SELECT app_id FROM (VALUES ('id1'),('id2'),('id3')) AS t(app_id)
+-- or: SELECT app_id FROM your_review_table
+--
+-- When Quix says "too big": use the CHUNKED version (see trino-query-full-app-profile-chunked.sql).
+-- Run the chunked query multiple times with OFFSET 0, 500, 1000, ...; export each to a file; then
+-- merge with:  python3 scripts/merge_export_chunks.py chunk1.csv chunk2.csv ... --out data/real_apps.json
+-- No truncation: full columns, just fewer rows per run.
+--
+-- Parquet "page size exceeds maximum" on base44_app_agents_conversations_mongo.messages: the messages
+-- column is crucial but can trigger the error. We use SUBSTR(messages, 1, 100000) so the query runs
+-- while keeping most of the content. If the error persists (Parquet reads the full column before SUBSTR):
+-- use trino-query-full-app-profile-no-messages-column.sql (omits reading messages; first_agent_* = NULL)
+-- and see docs/PARQUET-MESSAGES-TABLE-FIX.md for the data-team fix (compact table or raise cluster limit).
+-- =============================================================================
+
+WITH filter_app_ids AS (
+  -- Default: all WixPayments-connected apps (no single-app limit). Restrict by uncommenting or replacing below.
+  SELECT ba.app_id
+  FROM prod_encrypted.payments.pp_base44_apps_replica ba
+  INNER JOIN prod.payments.wp_accounts_replica ap ON ap.external_account_id = ba.msid
+  WHERE ap.account_id IS NOT NULL
+  -- Optional: limit to specific app_ids for review (inject list here or via a table):
+  -- AND ba.app_id IN (SELECT app_id FROM (VALUES ('69990440a6ff02254b9a9862'),('id2')) AS t(app_id))
+),
+app_owners AS (
+  SELECT ab.app_id, ab.app_name, ab.owner_account_id AS app_owner_wix_account_id
+  FROM prod.wt_apps.base ab
+  INNER JOIN filter_app_ids f ON f.app_id = ab.app_id
+  WHERE EXISTS (
+    SELECT 1 FROM prod.users.base44_wix_user_mapping_dim m
+    WHERE m.wix_parent_account_id = ab.owner_account_id AND m.mapping_end_date IS NULL
+  )
+
+  UNION ALL
+
+  ( SELECT ug._id AS app_id, ug.name AS app_name, u.wix_account_id AS app_owner_wix_account_id
+    FROM prod.base44.base44_apps_mongo_incmnt ug
+    JOIN prod.base44.base44_users_mongo u ON u._id = ug.owner_id
+    INNER JOIN filter_app_ids f ON f.app_id = ug._id
+    WHERE (ug.is_deleted IS NULL OR ug.is_deleted = false)
+    UNION
+    SELECT ug._id AS app_id, ug.name AS app_name, u.wix_account_id AS app_owner_wix_account_id
+    FROM prod.base44.base44_user_generated_apps_v2 ug
+    JOIN prod.base44.base44_users_mongo u ON u._id = ug.owner_id
+    INNER JOIN filter_app_ids f ON f.app_id = ug._id
+    WHERE (ug.is_deleted IS NULL OR ug.is_deleted = false)
+  )
+
+  UNION ALL
+
+  SELECT ba.app_id, ba.app_name, ba.msid AS app_owner_wix_account_id
+  FROM prod_encrypted.payments.pp_base44_apps_replica ba
+  INNER JOIN filter_app_ids f ON f.app_id = ba.app_id
+),
+
+agent_conversations_per_app AS (
+  SELECT app_id, COUNT(*) AS agent_conversations_count
+  FROM prod.base44.base44_app_agents_conversations_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+support_conversations_per_app AS (
+  SELECT app_id, COUNT(*) AS support_conversations_count
+  FROM prod.base44.base44_support_conversations_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+conversation_messages_per_app AS (
+  SELECT app_id, COUNT(*) AS conversation_messages_count
+  FROM prod.base44.base44_conversation_messages_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+ownership_transfers_per_app AS (
+  SELECT app_id, COUNT(*) AS ownership_transfers_count
+  FROM prod.base44.base44_app_ownership_transfers_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+user_apps_logs_per_app AS (
+  SELECT
+    app_id,
+    COUNT(*) AS user_app_events_count,
+    MIN(created_date) AS first_activity_at,
+    MAX(created_date) AS last_activity_at
+  FROM prod.base44.base44_user_apps_logs_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+usage_per_app AS (
+  SELECT
+    app_id,
+    COUNT(*) AS usage_record_count,
+    MAX(created_date) AS last_usage_at
+  FROM prod.base44.base44_usage_logs_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+integrations_per_app AS (
+  SELECT app_id, COUNT(*) AS integrations_count
+  FROM prod.base44.base44_app_integrations_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+catalog_items_per_app AS (
+  SELECT app_id, COUNT(*) AS catalog_items_count
+  FROM prod.base44.base44_app_catalog_items_mongo
+  WHERE app_id IS NOT NULL
+  GROUP BY app_id
+),
+
+-- First (earliest) agent conversation per app — often the conversation on app creation (can be empty; see earliest_conversation_* for chat messages)
+-- IMPORTANT: messages column can trigger Parquet "page size exceeds maximum" (oversized column in Iceberg).
+-- Use SUBSTR so we never read the full page; 100000 chars keeps most of the content while avoiding the error.
+first_agent_conversation_per_app AS (
+  SELECT
+    app_id,
+    _id AS first_agent_conversation_id,
+    created_date AS first_agent_conversation_created_date,
+    agent_name AS first_agent_conversation_agent_name,
+    substr(cast(messages AS varchar), 1, 100000) AS first_agent_conversation_messages
+  FROM (
+    SELECT
+      _id,
+      app_id,
+      created_date,
+      agent_name,
+      messages,
+      ROW_NUMBER() OVER (PARTITION BY app_id ORDER BY created_date NULLS LAST, _id) AS rn
+    FROM prod.base44.base44_app_agents_conversations_mongo
+    WHERE app_id IS NOT NULL
+  ) t
+  WHERE rn = 1
+),
+
+-- Earliest conversation from conversation_messages (where live app chat messages live; use this when agent_conversations are empty)
+earliest_conversation_per_app AS (
+  SELECT app_id, conversation_id AS earliest_conversation_id, first_ts AS earliest_conversation_first_at, msg_cnt AS earliest_conversation_message_count
+  FROM (
+    SELECT app_id, conversation_id, MIN(created_date) AS first_ts, COUNT(*) AS msg_cnt,
+      ROW_NUMBER() OVER (PARTITION BY app_id ORDER BY MIN(created_date) NULLS LAST) AS rn
+    FROM prod.base44.base44_conversation_messages_mongo
+    WHERE app_id IS NOT NULL
+    GROUP BY app_id, conversation_id
+  ) t
+  WHERE rn = 1
+),
+
+-- Short preview of first messages in earliest conversation (so profile shows non-empty conversation for live apps)
+earliest_conversation_preview_per_app AS (
+  SELECT e.app_id,
+    array_join(array_agg(m.role || ': ' || substr(cast(coalesce(m.content, '') AS varchar), 1, 300) ORDER BY m.created_date), chr(10)) AS earliest_conversation_preview
+  FROM earliest_conversation_per_app e
+  JOIN (
+    SELECT app_id, conversation_id, role, content, created_date,
+      ROW_NUMBER() OVER (PARTITION BY app_id, conversation_id ORDER BY created_date) AS rn
+    FROM prod.base44.base44_conversation_messages_mongo
+  ) m ON m.app_id = e.app_id AND m.conversation_id = e.earliest_conversation_id AND m.rn <= 10
+  GROUP BY e.app_id
+),
+
+user_counts_per_owner AS (
+  SELECT
+    m.wix_parent_account_id AS wix_account_id,
+    COUNT(DISTINCT m.base44_user_id) AS base44_user_count
+  FROM prod.users.base44_wix_user_mapping_dim m
+  WHERE m.mapping_end_date IS NULL
+  GROUP BY m.wix_parent_account_id
+),
+wp_account_per_owner AS (
+  SELECT ap.external_account_id AS wix_account_id, ap.account_id AS wp_account_id
+  FROM prod.payments.wp_accounts_replica ap
+  WHERE ap.external_account_id IS NOT NULL
+)
+
+SELECT
+  a.app_id,
+  a.app_name,
+  a.app_owner_wix_account_id,
+  COALESCE(ac.agent_conversations_count, 0)    AS agent_conversations_count,
+  COALESCE(sc.support_conversations_count, 0)  AS support_conversations_count,
+  COALESCE(cm.conversation_messages_count, 0)  AS conversation_messages_count,
+  COALESCE(ot.ownership_transfers_count, 0)   AS ownership_transfers_count,
+  fac.first_agent_conversation_id              AS first_agent_conversation_id,
+  fac.first_agent_conversation_created_date    AS first_agent_conversation_created_date,
+  fac.first_agent_conversation_agent_name      AS first_agent_conversation_agent_name,
+  fac.first_agent_conversation_messages        AS first_agent_conversation_messages,
+  ecp.earliest_conversation_id                 AS earliest_conversation_id,
+  ecp.earliest_conversation_first_at           AS earliest_conversation_first_at,
+  ecp.earliest_conversation_message_count      AS earliest_conversation_message_count,
+  ecpreview.earliest_conversation_preview      AS earliest_conversation_preview,
+  ual.first_activity_at,
+  ual.last_activity_at                         AS user_apps_last_activity_at,
+  COALESCE(ual.user_app_events_count, 0)      AS user_app_events_count,
+  COALESCE(up.usage_record_count, 0)           AS usage_record_count,
+  up.last_usage_at,
+  COALESCE(ig.integrations_count, 0)           AS integrations_count,
+  COALESCE(ci.catalog_items_count, 0)          AS catalog_items_count,
+  acc.account_id                               AS wix_account_id,
+  COALESCE(u.base44_user_count, 0)             AS base44_user_count,
+  wp.wp_account_id                             AS linked_wp_account_id,
+  m.conversation_summary                       AS app_context_conversation_summary,
+  m.updated_date                               AS app_context_snapshot_updated,
+  -- base44_user_generated_apps (marketing preferred, base44 fallback; both cast to varchar to avoid type mismatches)
+  COALESCE(CAST(uga.additional_user_data_schema AS varchar), CAST(ugb.additional_user_data_schema AS varchar))   AS additional_user_data_schema,
+  COALESCE(CAST(uga.agents AS varchar), CAST(ugb.agents AS varchar))                                             AS agents,
+  COALESCE(CAST(uga.agents_enabled AS varchar), CAST(ugb.agents_enabled AS varchar))                             AS agents_enabled,
+  COALESCE(CAST(uga.app_info AS varchar), CAST(ugb.app_info AS varchar))                                         AS app_info,
+  COALESCE(CAST(uga.app_publish_info AS varchar), CAST(ugb.app_publish_info AS varchar))                         AS app_publish_info,
+  COALESCE(CAST(uga.app_stage AS varchar), CAST(ugb.app_stage AS varchar))                                       AS app_stage,
+  COALESCE(CAST(uga.app_type AS varchar), CAST(ugb.app_type AS varchar))                                         AS app_type,
+  COALESCE(CAST(uga.backend_project AS varchar), CAST(ugb.backend_project AS varchar))                           AS backend_project,
+  COALESCE(CAST(uga.captured_from_url AS varchar), CAST(ugb.captured_from_url AS varchar))                       AS captured_from_url,
+  COALESCE(CAST(uga.categories AS varchar), CAST(ugb.categories AS varchar))                                     AS categories,
+  COALESCE(CAST(uga.conversation AS varchar), CAST(ugb.conversation AS varchar))                                 AS conversation,
+  COALESCE(CAST(uga.created_by_id AS varchar), CAST(ugb.created_by_id AS varchar))                               AS created_by_id,
+  COALESCE(CAST(uga.created_date AS varchar), CAST(ugb.created_date AS varchar))                                 AS ugm_created_date,
+  COALESCE(CAST(uga.custom_domain_suggestion_analysis_result AS varchar), CAST(ugb.custom_domain_suggestion_analysis_result AS varchar)) AS custom_domain_suggestion_analysis_result,
+  COALESCE(CAST(uga.custom_domain_suggestion_count AS varchar), CAST(ugb.custom_domain_suggestion_count AS varchar)) AS custom_domain_suggestion_count,
+  COALESCE(CAST(uga.custom_domain_suggestion_last_shown_count AS varchar), CAST(ugb.custom_domain_suggestion_last_shown_count AS varchar)) AS custom_domain_suggestion_last_shown_count,
+  COALESCE(CAST(uga.custom_domain_suggestion_shown AS varchar), CAST(ugb.custom_domain_suggestion_shown AS varchar)) AS custom_domain_suggestion_shown,
+  COALESCE(CAST(uga.custom_instructions AS varchar), CAST(ugb.custom_instructions AS varchar))                   AS custom_instructions,
+  COALESCE(CAST(uga.custom_slug AS varchar), CAST(ugb.custom_slug AS varchar))                                   AS custom_slug,
+  COALESCE(CAST(uga.has_backend_functions_enabled AS varchar), CAST(ugb.has_backend_functions_enabled AS varchar)) AS has_backend_functions_enabled,
+  COALESCE(CAST(uga.has_non_prod_entities AS varchar), CAST(ugb.has_non_prod_entities AS varchar))                AS has_non_prod_entities,
+  COALESCE(CAST(uga.hide_entity_created_by AS varchar), CAST(ugb.hide_entity_created_by AS varchar))              AS hide_entity_created_by,
+  COALESCE(CAST(uga.installable_integrations AS varchar), CAST(ugb.installable_integrations AS varchar))         AS installable_integrations,
+  COALESCE(CAST(uga.installed_integration_context_items AS varchar), CAST(ugb.installed_integration_context_items AS varchar)) AS installed_integration_context_items,
+  COALESCE(CAST(uga.is_app_public AS varchar), CAST(ugb.is_app_public AS varchar))                                AS is_app_public,
+  COALESCE(CAST(uga.is_blocked AS varchar), CAST(ugb.is_blocked AS varchar))                                     AS is_blocked,
+  COALESCE(CAST(uga.status AS varchar), CAST(ugb.status AS varchar))                                             AS status,
+  COALESCE(CAST(uga.technical_description AS varchar), CAST(ugb.technical_description AS varchar))                AS technical_description,
+  COALESCE(CAST(uga.theme AS varchar), CAST(ugb.theme AS varchar))                                               AS theme,
+  COALESCE(CAST(uga.unblocked_at AS varchar), CAST(ugb.unblocked_at AS varchar))                                 AS unblocked_at,
+  COALESCE(CAST(uga.unblocked_by_script AS varchar), CAST(ugb.unblocked_by_script AS varchar))                    AS unblocked_by_script,
+  COALESCE(CAST(uga.updated_date AS varchar), CAST(ugb.updated_date AS varchar))                                 AS ugm_updated_date,
+  COALESCE(CAST(uga.use_agentic_builder AS varchar), CAST(ugb.use_agentic_builder AS varchar))                   AS use_agentic_builder,
+  COALESCE(CAST(uga.user_description AS varchar), CAST(ugb.user_description AS varchar))                          AS user_description,
+  COALESCE(CAST(uga.user_facing_chat_system_prompt AS varchar), CAST(ugb.user_facing_chat_system_prompt AS varchar)) AS user_facing_chat_system_prompt,
+  ar.risk_level                                AS wp_account_risk_level,
+  ar.manual_review_status                      AS wp_account_manual_review_status,
+  ar.automatic_review_status                   AS wp_account_automatic_review_status
+FROM app_owners a
+LEFT JOIN agent_conversations_per_app ac ON ac.app_id = a.app_id
+LEFT JOIN support_conversations_per_app sc ON sc.app_id = a.app_id
+LEFT JOIN conversation_messages_per_app cm ON cm.app_id = a.app_id
+LEFT JOIN first_agent_conversation_per_app fac ON fac.app_id = a.app_id
+LEFT JOIN earliest_conversation_per_app ecp ON ecp.app_id = a.app_id
+LEFT JOIN earliest_conversation_preview_per_app ecpreview ON ecpreview.app_id = a.app_id
+LEFT JOIN ownership_transfers_per_app ot ON ot.app_id = a.app_id
+LEFT JOIN user_apps_logs_per_app ual ON ual.app_id = a.app_id
+LEFT JOIN usage_per_app up ON up.app_id = a.app_id
+LEFT JOIN integrations_per_app ig ON ig.app_id = a.app_id
+LEFT JOIN catalog_items_per_app ci ON ci.app_id = a.app_id
+LEFT JOIN prod.wt_accounts.base acc ON acc.account_id = a.app_owner_wix_account_id
+LEFT JOIN user_counts_per_owner u ON u.wix_account_id = a.app_owner_wix_account_id
+LEFT JOIN wp_account_per_owner wp ON wp.wix_account_id = a.app_owner_wix_account_id
+LEFT JOIN prod.marketing.base44_app_context_snapshots_mongo m ON m.app_id = a.app_id
+LEFT JOIN prod.marketing.base44_user_generated_apps_v2_mongo uga ON uga._id = a.app_id
+LEFT JOIN prod.base44.base44_user_generated_apps_v2 ugb ON ugb._id = a.app_id
+LEFT JOIN prod.payments.wp_account_reviews_replica ar ON ar.account_id = wp.wp_account_id
+ORDER BY a.app_id;

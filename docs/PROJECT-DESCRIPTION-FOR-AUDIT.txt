@@ -1,0 +1,367 @@
+================================================================================
+  BASE44 UNDERWRITING LOOKUP — FULL PROJECT DESCRIPTION FOR AUDIT (END-TO-END)
+================================================================================
+Version: 1.0
+Date: February 2025
+Format: Plain text (suitable for audit; can be converted to PDF)
+
+--------------------------------------------------------------------------------
+1. PROJECT NAME AND PURPOSE
+--------------------------------------------------------------------------------
+
+Project name: Base44 Underwriting Lookup (UW Lookup)
+
+Purpose:
+  - Produce a written underwriting conclusion per WixPayments-connected Base44
+    app, with a clear Allowed / Restricted / Not-allowed verdict and reasoning
+    against a defined policy.
+  - Provide a local dashboard (UW Lookup) to look up any such app by App ID,
+    MSID, or WixPayments account ID; view app profile, conversation history,
+    and cached underwriting verdict; and run the underwriting pipeline for
+    a single app or for all apps missing a conclusion.
+
+Business context:
+  - Supports policy compliance review for apps connected to WixPayments.
+  - Evidence used: builder conversation (what the app is for, what is sold),
+    optional scraped public app content, and policy excerpt. No automated
+    decision without human review when LLM is not used.
+
+--------------------------------------------------------------------------------
+2. SCOPE FOR AUDIT (END-TO-END)
+--------------------------------------------------------------------------------
+
+In scope:
+  - Data sources: Trino (prod.marketing, prod.base44, prod_encrypted.payments,
+    prod.payments), local JSON app lists, optional full_profiles.json.
+  - Pipeline: load apps → (optional) scrape app URL → middleman step (intent,
+    what is sold, what buyer gets) → policy comparison step → verdict and
+    written conclusion per app.
+  - Dashboard: app resolution, profile display, conversation history display,
+    UW verdict display, one-click “Run UW for this app”, batch “UW for missing”.
+  - Profile fields: app_id, app_name, app_url, msid, WP account id,
+    user_description, categories, public_settings, dates, counts (from Trino
+    or full_profiles.json).
+  - Conversation: message-level from base44_conversation_messages_mongo;
+    or snapshots from base44_app_context_snapshots_mongo; or from full_profiles
+    when Trino is unavailable.
+  - Output: Markdown conclusion files per app under output/run_<run_id>/,
+    plus manifest.json per run.
+
+Out of scope (unless explicitly agreed):
+  - Trino cluster security or schema design.
+  - Policy document authorship or legal validity.
+  - Deployment or production hosting.
+
+--------------------------------------------------------------------------------
+3. ARCHITECTURE AND COMPONENTS
+--------------------------------------------------------------------------------
+
+3.1 High-level flow
+
+  [App list: real_apps.json + user_apps.json]
+           |
+           v
+  [Resolve: App ID / MSID / WP account ID -> single app record]
+           |
+           v
+  [Profile: Trino full profile OR full_profiles.json + app record]
+           |
+           v
+  [Conversation: Trino messages/snapshots OR full_profiles snapshots/summary]
+           |
+           v
+  [UW verdict: from cached conclusion_<app_id>.md, or Run UW pipeline]
+           |
+           v
+  [Pipeline: conversation_summary + scraped content -> middleman -> policy -> verdict]
+
+3.2 Main components
+
+  (a) Dashboard (Streamlit)
+      - File: streamlit_uw.py
+      - Entry: run_uw_app.py (runs optional sync then streamlit_uw.py)
+      - Port: 8501 (http://localhost:8501)
+      - Functions: Look up app by ID/MSID/WP account; show profile, conversation,
+        UW verdict; “Run UW for this app”; reload app list; debug expander
+        (Trino vs local, full profile loaded, conversation source).
+
+  (b) Underwriting pipeline
+      - File: run_underwriting.py
+      - Input: JSON/CSV of apps (app_id, app_name, app_url, conversation_summary).
+      - Steps: Optional scrape of app_url; middleman (LLM or template) ->
+        app summary; policy comparison (LLM or template) -> verdict + reasoning
+        + non-compliant subcategories.
+      - Output: output/run_<run_id>/conclusion_<app_id>.md, manifest.json.
+      - Options: --llm none | openai | ollama | auto; --no-scrape; --run-id;
+        --policy path; --apps path; --out dir.
+
+  (c) Trino client
+      - File: uw_app/trino_client.py
+      - Functions: resolve(app_id | msid | wp_account_id); get_full_profile(app_id);
+        get_conversation_snapshots(app_id); get_conversation_messages(app_id);
+        get_all_wp_user_logs(); get_all_wp_conversation_snapshots();
+        get_all_wp_app_metadata() (user_description, public_settings, categories).
+      - Config: .env TRINO_HOST, TRINO_PORT, TRINO_CATALOG, TRINO_USER;
+        optional SSO/cookie/path.
+
+  (d) Profile
+      - File: uw_app/profile.py
+      - Builds transposed profile table (field | value) from app record or
+        Trino full-profile row. Includes: user_description, categories
+        (formatted as ["Finance", "Education", ...]), public_settings,
+        WP account id (collapsed), dates, counts. Skips conversation_summary
+        (shown in Conversation section).
+
+  (e) Resolve and app list
+      - File: uw_app/resolve.py
+      - Loads merged app list (main list first, then user list; user overwrites
+        for same app_id). APPS_JSON_PATH in .env or default data/real_apps.json,
+        data/user_apps.json. resolve(identifier_type, value) returns one
+        app record (from Trino if configured, else from merged list).
+
+  (f) UW cache
+      - File: uw_app/uw_cache.py
+      - Reads conclusion_<app_id>.md from output/run_uw_lookup/ (or configured
+        run dir), parses verdict, reasoning, non_compliant_subcategories,
+        app_summary, step1_what_sold, step2_comparison for dashboard display.
+
+  (g) Fetch and build (Trino -> local JSON)
+      - Scripts: scripts/fetch_full_profiles_from_trino.py,
+        scripts/build_full_profiles_from_trino.py
+      - Fetch: get_all_wp_user_logs(), get_all_wp_conversation_snapshots(),
+        get_all_wp_app_metadata(); writes data/trino_user_logs.json,
+        data/trino_conversations.json, data/trino_app_metadata.json; then
+        runs build script.
+      - Build: reads those files, merges into data/full_profiles.json (per app:
+        user_app_events_count, first_activity_at, user_apps_last_activity_at,
+        conversation_snapshots[], user_description, public_settings, categories).
+      - When Trino is unavailable, dashboard uses full_profiles.json for
+        profile and conversation so that categories, user_description,
+        public_settings and conversation appear after one successful fetch.
+
+  (h) Batch UW for missing
+      - Script: scripts/run_uw_for_missing.py
+      - Finds apps in merged list with no conclusion_<app_id>.md in
+        output/run_<run_id>/; writes temp JSON; runs run_underwriting.py.
+      - Scraping: on by default; use --no-scrape to disable.
+
+  (i) Run all (sync)
+      - Script: scripts/run_all.py
+      - Steps: validate WP app list count; optional --fetch-profiles (Trino
+        fetch + build); optional --uw-missing (run UW for missing; use
+        --uw-scrape to enable scraping). run_uw_app.py runs this with
+        --fetch-profiles --uw-missing --uw-scrape unless SKIP_STARTUP_SYNC=1.
+
+--------------------------------------------------------------------------------
+4. DATA SOURCES AND DATA FLOW
+--------------------------------------------------------------------------------
+
+4.1 Trino (when configured and live)
+
+  - prod_encrypted.payments.pp_base44_apps_replica: app_id, app_name, app_url, msid.
+  - prod.payments.wp_accounts_replica: link msid -> account_id (WixPayments).
+  - prod.marketing.base44_user_generated_apps_v2_mongo: user_description,
+    public_settings, categories (_id = app_id).
+  - prod.marketing.base44_app_context_snapshots_mongo: conversation snapshots
+    per app (updated_date, conversation_summary).
+  - prod.base44.base44_conversation_messages_mongo: message-level conversation
+    (conversation_id, role, content, created_date) per app.
+  - Full-app profile query: docs/trino-query-full-app-profile-no-messages-column.sql
+    (many columns including user_description, public_settings, categories,
+    earliest_conversation_preview; no Parquet messages column read).
+
+4.2 Local JSON
+
+  - data/real_apps.json (or APPS_JSON_PATH): main app list (app_id, app_name,
+    app_url, msid, account_id, conversation_summary, ...).
+  - data/user_apps.json: user-added/overrides.
+  - data/full_profiles.json: extended profile + conversation_snapshots per app;
+    produced by fetch + build from Trino, or provided manually.
+  - data/trino_app_metadata.json: written by fetch (app_id, user_description,
+    public_settings, categories); consumed by build only.
+
+4.3 Output
+
+  - output/run_<run_id>/conclusion_<app_id>.md: per-app conclusion (header,
+    sources checked, app summary, policy comparison, verdict, reasoning,
+    non-compliant subcategories).
+  - output/run_<run_id>/manifest.json: run_id, started_at, finished_at, app_ids.
+
+--------------------------------------------------------------------------------
+5. END-TO-END PROCESS (AUDIT TRAIL)
+--------------------------------------------------------------------------------
+
+5.1 Lookup and display (dashboard)
+
+  1. User enters App ID, MSID, or WP account ID and clicks Look up.
+  2. resolve() returns one app record (Trino or merged list).
+  3. If Trino configured and live: get_full_profile(app_id) -> profile_row;
+     get_conversation_messages(app_id); get_conversation_snapshots(app_id).
+  4. If no Trino profile: load full_profiles.json; merge into record_for_profile;
+     use conversation_snapshots / conversation_summary from full_profiles.
+  5. Profile table built from profile_row or record_for_profile; categories
+     formatted as JSON array; user_description and public_settings shown.
+  6. Conversation: message-level table if conv_messages; else preview + snapshots
+     or placeholder.
+  7. get_uw_for_app(app_id) reads cached conclusion from output/run_uw_lookup/;
+     verdict, reasoning, non-compliant subcategories displayed.
+
+5.2 Run UW for this app (single app)
+
+  1. User clicks “Run UW for this app”.
+  2. best_summary = profile app_context_conversation_summary OR conv_messages
+     OR snapshots OR app_record conversation_summary; append [User description]
+     and [App categories] from profile_row or record_for_profile.
+  3. Write one_app.json with app_id, app_name, app_url, conversation_summary.
+  4. Run: run_underwriting.py --apps one_app.json --policy policy/policy-excerpt.txt
+        --out output --run-id uw_lookup --llm none (no --no-scrape, so scrape).
+  5. Pipeline: scrape app_url; middleman (template if --llm none) -> app summary;
+     policy step (template) -> verdict; write conclusion_<app_id>.md.
+  6. Dashboard reruns; cached verdict appears.
+
+5.3 Batch UW for missing
+
+  1. run_uw_for_missing.py (or run_all.py --uw-missing) loads merged app list;
+     finds app_ids with no conclusion in output/run_<run_id>/.
+  2. Writes temp JSON of those apps; runs run_underwriting.py (scrape by default
+     unless --no-scrape).
+  3. Conclusions written to output/run_<run_id>/; manifest.json updated.
+
+5.4 Populate full_profiles when Trino available
+
+  1. User runs: python3 scripts/fetch_full_profiles_from_trino.py (from project
+     folder; Trino configured in .env).
+  2. Fetch writes trino_user_logs.json, trino_conversations.json,
+     trino_app_metadata.json; invokes build_full_profiles_from_trino.py.
+  3. data/full_profiles.json contains per-app: user_description, public_settings,
+     categories, conversation_snapshots, first_activity_at, etc.
+  4. When Trino is later unavailable, dashboard still shows profile and
+     conversation from full_profiles.json.
+
+--------------------------------------------------------------------------------
+6. KEY IMPLEMENTATION DETAILS (AUDIT-RELEVANT)
+--------------------------------------------------------------------------------
+
+6.1 Profile
+
+  - categories: from Trino (prod.marketing.base44_user_generated_apps_v2_mongo)
+    or full_profiles; displayed as JSON array e.g. ["Finance", "Education",
+    "Data & Analytics"] (uw_app/profile.py _format_categories).
+  - user_description, public_settings: same sources; included in profile field
+    order and display. Full-profile SQL: docs/trino-query-full-app-profile-
+    no-messages-column.sql (COALESCE uga/user_description, public_settings,
+    categories).
+
+6.2 Conversation
+
+  - All conversations: message-level from prod.base44.base44_conversation_
+    messages_mongo (get_conversation_messages); or snapshots from
+    base44_app_context_snapshots_mongo; or from full_profiles.conversation_
+    snapshots / conversation_summary when Trino off. Dashboard shows either
+    message table or snapshot list (or placeholder with instructions).
+
+6.3 Scraping
+
+  - Default: on. run_underwriting.py do_scrape = not args.no_scrape.
+  - “Run UW for this app” does not pass --no-scrape. run_uw_for_missing.py
+    defaults to scrape; --no-scrape to disable. run_all.py passes --no-scrape
+    only when --uw-scrape is not set.
+
+6.4 Policy conclusion
+
+  - With --llm none: _template_app_summary includes evidence block (conversation
+    excerpt + scraped content) so conclusion file contains evidence for manual
+    review. Policy step outputs template verdict (manual review / cannot assign)
+    or insufficient-evidence verdict when app summary has no clear offerings.
+  - With LLM (openai/ollama): middleman and policy steps use prompts in
+    prompts/app-summary-middleman.md, prompts/policy-comparison.md; verdict and
+    reasoning in conclusion.
+
+--------------------------------------------------------------------------------
+7. HOW TO RUN (LOCAL MACHINE)
+--------------------------------------------------------------------------------
+
+  - Start app (sync + dashboard):
+    cd "<project folder>"
+    python3 run_uw_app.py
+    Open http://localhost:8501
+
+  - Start app without sync:
+    SKIP_STARTUP_SYNC=1 python3 run_uw_app.py
+
+  - Fetch from Trino (to fill full_profiles.json):
+    cd "<project folder>"
+    python3 scripts/fetch_full_profiles_from_trino.py
+
+  - Run UW for missing apps (with scrape):
+    python3 scripts/run_uw_for_missing.py
+    (Add --no-scrape to disable scraping.)
+
+  - Run full pipeline on a JSON file:
+    python3 run_underwriting.py --apps data/<file>.json --policy policy/policy-excerpt.txt --out output --run-id <id> --llm none
+
+  - QA: python3 scripts/qa_uw_lookup.py (from project folder).
+
+--------------------------------------------------------------------------------
+8. FILE LAYOUT (KEY FILES)
+--------------------------------------------------------------------------------
+
+  run_uw_app.py              - Entry: sync + start dashboard
+  streamlit_uw.py             - UW Lookup dashboard
+  run_underwriting.py         - Two-step pipeline (middleman + policy)
+  uw_app/trino_client.py      - Trino queries and connection
+  uw_app/profile.py           - Profile table from record or Trino row
+  uw_app/resolve.py           - App list merge and resolve
+  uw_app/uw_cache.py          - Read cached conclusion for display
+  scripts/fetch_full_profiles_from_trino.py  - Trino -> JSON
+  scripts/build_full_profiles_from_trino.py - Build full_profiles.json
+  scripts/run_uw_for_missing.py             - Batch UW for apps without conclusion
+  scripts/run_all.py          - Validate, fetch, UW missing
+  docs/trino-query-full-app-profile-no-messages-column.sql - Full profile SQL
+  policy/policy-excerpt.txt  - Policy text for comparison
+  prompts/app-summary-middleman.md
+  prompts/policy-comparison.md
+  data/real_apps.json        - Main app list (path via APPS_JSON_PATH)
+  data/full_profiles.json    - Extended profile + conversation (after fetch)
+  output/run_<run_id>/       - Conclusion files and manifest
+
+--------------------------------------------------------------------------------
+9. SECURITY AND COMPLIANCE NOTES
+--------------------------------------------------------------------------------
+
+  - .env is in .gitignore; do not commit TRINO_HOST, OPENAI_API_KEY, or
+    other secrets.
+  - Trino: connection uses env config; optional SSO/cookie (no API key in repo).
+  - Pipeline: reads only app_id, app_name, app_url, conversation_summary from
+    input JSON; writes only to output/ and data/temp_uw/.
+  - No automated final decision: with --llm none, conclusions state manual
+    review required; with LLM, output is advisory and should be reviewed.
+
+--------------------------------------------------------------------------------
+10. AUDIT CHECKLIST (WHAT TO VERIFY END-TO-END)
+--------------------------------------------------------------------------------
+
+  [ ] App list loads (merged real_apps + user_apps).
+  [ ] Look up by App ID / MSID / WP account ID returns one app and shows
+      profile (including user_description, categories, public_settings when
+      Trino or full_profiles provides them).
+  [ ] Conversation section shows messages or snapshots or clear placeholder
+      with instructions to run Trino fetch.
+  [ ] Cached UW verdict (if present) shows verdict, reasoning, non-compliant
+      subcategories.
+  [ ] “Run UW for this app” runs pipeline without --no-scrape; writes
+      conclusion to output/run_uw_lookup/; after refresh verdict appears.
+  [ ] Fetch script (with Trino configured) writes trino_* JSON and
+      full_profiles.json; build merges user_description, public_settings,
+      categories, conversation_snapshots.
+  [ ] After fetch, with Trino off, profile and conversation still populated
+      from full_profiles.json for apps in that file.
+  [ ] run_underwriting.py with --llm none produces conclusion with evidence
+      block when conversation_summary non-empty; policy step does not invent
+      categories.
+  [ ] Batch “UW for missing” uses scrape by default; conclusions written to
+      configured run_id directory with manifest.
+
+================================================================================
+  END OF PROJECT DESCRIPTION FOR AUDIT
+================================================================================
