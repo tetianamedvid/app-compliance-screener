@@ -21,7 +21,7 @@ from uw_app.resolve import load_apps_index_merged
 
 
 def main():
-    by_app_id, _, _ = load_apps_index_merged()
+    by_app_id, _, _, _ = load_apps_index_merged()
     local_count = len(by_app_id)
 
     try:

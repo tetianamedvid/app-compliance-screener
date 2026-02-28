@@ -5,3 +5,4 @@ fastapi>=0.100.0
 uvicorn[standard]>=0.22.0
 streamlit>=1.28.0
 trino>=0.326.0
+playwright>=1.40.0

@@ -56,14 +56,29 @@ def _resolve_via_trino(identifier_type: str, value: str) -> Optional[dict]:
     return None
 
 
-def load_apps_index(path: Path) -> tuple[dict, dict, dict]:
-    """Load apps JSON and build indexes by app_id, msid, account_id (WP)."""
+def _normalize_url(url: str) -> str:
+    """Normalize URL for lookup (lowercase, strip, no trailing slash)."""
+    if not url or not isinstance(url, str):
+        return ""
+    s = url.strip().lower().rstrip("/")
+    if s.startswith("https://"):
+        return s
+    if s.startswith("http://"):
+        return s
+    if "://" not in s and ("." in s or "/" in s):
+        return "https://" + s
+    return s
+
+
+def load_apps_index(path: Path) -> tuple[dict, dict, dict, dict]:
+    """Load apps JSON and build indexes by app_id, msid, account_id (WP), app_url."""
     if not path.exists():
-        return {}, {}, {}
+        return {}, {}, {}, {}
     rows = json.loads(path.read_text(encoding="utf-8"))
     by_app_id = {}
     by_msid = {}
     by_account_id = {}
+    by_app_url = {}
     for r in rows:
         aid = r.get("app_id")
         if aid:
@@ -71,28 +86,36 @@ def load_apps_index(path: Path) -> tuple[dict, dict, dict]:
         msid = r.get("msid")
         if msid:
             by_msid[str(msid)] = r
-        acc = r.get("account_id")
-        if acc:
-            by_account_id[str(acc)] = r
-    return by_app_id, by_msid, by_account_id
+        for acc_key in ("account_id", "wp_account_id", "linked_wp_account_id"):
+            acc = r.get(acc_key)
+            if acc and str(acc).strip():
+                by_account_id[str(acc).strip()] = r
+        url = r.get("app_url")
+        if url and str(url).strip():
+            norm = _normalize_url(str(url))
+            if norm:
+                by_app_url[norm] = r
+            by_app_url[str(url).strip()] = r
+    return by_app_id, by_msid, by_account_id, by_app_url
 
 
-def load_apps_index_merged(paths: Optional[list] = None) -> tuple[dict, dict, dict]:
-    """Load one or more JSON files and merge into single indexes by app_id, msid, account_id."""
+def load_apps_index_merged(paths: Optional[list] = None) -> tuple[dict, dict, dict, dict]:
+    """Load one or more JSON files and merge into single indexes by app_id, msid, account_id, app_url."""
     if paths is None:
         paths = _all_app_list_paths()
-    by_app_id, by_msid, by_account_id = {}, {}, {}
+    by_app_id, by_msid, by_account_id, by_app_url = {}, {}, {}, {}
     for path in paths:
         if not path.exists():
             continue
         try:
-            a, m, ac = load_apps_index(path)
+            a, m, ac, u = load_apps_index(path)
             by_app_id.update(a)
             by_msid.update(m)
             by_account_id.update(ac)
+            by_app_url.update(u)
         except Exception:
             pass
-    return by_app_id, by_msid, by_account_id
+    return by_app_id, by_msid, by_account_id, by_app_url
 
 
 def add_app_to_user_list(
@@ -162,31 +185,39 @@ def resolve(
     if not value:
         return None
     identifier_type = (identifier_type or "").strip().lower()
-    if identifier_type not in ("app_id", "msid", "wp_account_id"):
+    if identifier_type not in ("app_id", "msid", "wp_account_id", "app_url"):
         return None
 
     # 1) If APPS_JSON_PATH is set, check the main list file first — use it when app is there (source of truth)
     main_path = _apps_json_path()
     if main_path.exists() and os.environ.get("APPS_JSON_PATH", "").strip():
-        main_by_id, main_by_msid, main_by_acc = load_apps_index(main_path)
-        main_row = (
-            main_by_id.get(value)
-            if identifier_type == "app_id"
-            else (main_by_msid.get(value) if identifier_type == "msid" else main_by_acc.get(value))
-        )
+        main_by_id, main_by_msid, main_by_acc, main_by_url = load_apps_index(main_path)
+        main_row = None
+        if identifier_type == "app_id":
+            main_row = main_by_id.get(value)
+        elif identifier_type == "msid":
+            main_row = main_by_msid.get(value)
+        elif identifier_type == "wp_account_id":
+            main_row = main_by_acc.get(value)
+        elif identifier_type == "app_url":
+            main_row = main_by_url.get(value) or main_by_url.get(_normalize_url(value))
         if main_row and ((main_row.get("app_name") or "").strip() not in ("", "—") or (main_row.get("app_url") or "").strip()):
             return _normalize_row_for_ui(main_row)
 
     # 2) Load merged list (user + main) and use if we have a record with real data
     paths = [Path(p) for p in (apps_json_path,) if apps_json_path is not None] if apps_json_path is not None else None
-    by_app_id, by_msid, by_account_id = load_apps_index_merged(paths)
+    by_app_id, by_msid, by_account_id, by_app_url = load_apps_index_merged(paths)
 
     def _get_from_json():
         if identifier_type == "app_id":
             return by_app_id.get(value)
         if identifier_type == "msid":
             return by_msid.get(value)
-        return by_account_id.get(value)
+        if identifier_type == "wp_account_id":
+            return by_account_id.get(value)
+        if identifier_type == "app_url":
+            return by_app_url.get(value) or by_app_url.get(_normalize_url(value))
+        return None
 
     json_row = _get_from_json()
     if json_row and (json_row.get("app_name") or "").strip() and (json_row.get("app_name") or "").strip() != "—":

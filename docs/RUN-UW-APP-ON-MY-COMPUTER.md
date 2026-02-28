@@ -16,7 +16,11 @@
 
 **Recommended:** Run `python3 run_uw_app.py` — it runs full sync (validate, fetch profiles, UW for missing) then starts the dashboard; you only open the browser. To skip sync and start the dashboard only, set `SKIP_STARTUP_SYNC=1` in `.env` or run `python3 -m streamlit run streamlit_uw.py --server.port 8501`.
 
-**Run QA (resolve + full profile):** From the project folder run `python3 scripts/qa_uw_lookup.py`. It exits 0 if lookup and profile work for the test app; non-zero if something is wrong (e.g. merge order or missing data).
+**Run QA (resolve + full profile):** From the project folder run `python3 scripts/qa_uw_lookup.py`.
+
+**Debug Trino conversation:** Run `python3 scripts/debug_trino_conversation.py <app_id>` to see conversation history fetched directly from Trino (no local data). See `docs/DEBUG-TRINO-CONVERSATION.md`.
+
+**Trino setup and troubleshooting:** Configuration, connection test, 403 Forbidden, and local-only mode. See `docs/TRINO-SETUP-AND-TROUBLESHOOTING.md`. It exits 0 if lookup and profile work for the test app; non-zero if something is wrong (e.g. merge order or missing data).
 
 **Check dashboard is ready to QA:** Run `python3 scripts/qa_dashboard_ready.py`. It checks that the app list loads (e.g. 99 apps), a sample app has profile rows, and prints the run command. Then start the app and QA in the browser.
 
@@ -279,6 +283,8 @@ If the app shows **"403 Forbidden"** and mentions **Wix.com** or **bo.wix.com**,
 
 Until you set the correct Trino host, the app will keep using sample/local JSON data.
 
+**Verify:** Run `python3 scripts/test_live_trino.py` — it prints the exact Trino error when connection fails. See `docs/TRINO-SETUP-AND-TROUBLESHOOTING.md` for full details.
+
 ---
 
 ## Use your browser session so the app runs Trino as you
@@ -347,6 +353,8 @@ If **you** can run Trino queries in Quix in the browser, the app can use the sam
 3. Wait until it finishes (you may see a lot of text; that’s normal).
 
 **What you see:** At the end it usually says something like “Successfully installed …”. You only need to do this step once (or again if someone tells you dependencies changed).
+
+**For full scraping of JavaScript apps** (e.g. base44.app): After pip install, run once: `python3 -m playwright install chromium`. This lets the scraper render pages that say "You need to enable JavaScript." Without it, scraped content may be minimal.
 
 ---
 

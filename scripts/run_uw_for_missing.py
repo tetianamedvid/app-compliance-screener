@@ -37,7 +37,7 @@ def main():
     p.add_argument("--llm", default="none", choices=("auto", "openai", "ollama", "none"), help="LLM mode for run_underwriting")
     args = p.parse_args()
 
-    by_app_id, _, _ = load_apps_index_merged()
+    by_app_id, _, _, _ = load_apps_index_merged()
     run_dir = OUTPUT_DIR / f"run_{args.run_id}"
     existing = set()
     if run_dir.exists():

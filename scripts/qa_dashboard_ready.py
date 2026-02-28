@@ -22,7 +22,7 @@ from uw_app.profile import profile_from_app_record
 
 def main():
     # 1. App list
-    by_app_id, _, _ = load_apps_index_merged()
+    by_app_id, _, _, _ = load_apps_index_merged()
     if not by_app_id:
         print("FAIL: No apps in list. Set APPS_JSON_PATH to data/real_apps.json (or run merge_trino_wp_apps_into_real.py).")
         return 1

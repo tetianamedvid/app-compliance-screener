@@ -66,22 +66,70 @@ def load_policy(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace").strip()
 
 
-def scrape_app_url(url: str, timeout_seconds: int = 10, max_chars: int = 15000) -> Optional[str]:
-    """Fetch URL and return plain text (strip HTML). Returns None on failure."""
-    if not url or not url.startswith("http"):
+def _scrape_with_playwright(url: str, timeout_ms: int = 20000, max_chars: int = 15000) -> Optional[str]:
+    """Use Playwright to render JavaScript and extract visible text. Returns None if Playwright unavailable or fails."""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
         return None
     try:
-        req = Request(url, headers={"User-Agent": "UnderwritingPipeline/1.0"})
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            try:
+                page = browser.new_page()
+                page.goto(url, wait_until="domcontentloaded", timeout=timeout_ms)
+                # Wait for SPA to render: retry until "enable javascript" disappears or we hit max wait
+                text = ""
+                for _ in range(6):
+                    page.wait_for_timeout(2500)
+                    text = page.evaluate("""() => {
+                        const body = document.body;
+                        if (!body) return '';
+                        const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
+                        const parts = [];
+                        let node;
+                        while (node = walker.nextNode()) {
+                            const t = node.textContent.trim();
+                            if (t && !node.parentElement.closest('script, style, noscript')) parts.push(t);
+                        }
+                        return parts.join(' ');
+                    }""")
+                    if text and isinstance(text, str):
+                        text = re.sub(r"\s+", " ", text).strip()
+                        if text and "enable javascript" not in text.lower() and len(text) > 80:
+                            return (text[:max_chars] + "...") if len(text) > max_chars else text
+                # Final attempt: use whatever we got
+                if text and isinstance(text, str):
+                    text = re.sub(r"\s+", " ", text).strip()
+                    return (text[:max_chars] + "...") if len(text) > max_chars else text
+            finally:
+                browser.close()
+    except Exception:
+        pass
+    return None
+
+
+def scrape_app_url(url: str, timeout_seconds: int = 15, max_chars: int = 15000) -> Optional[str]:
+    """Fetch URL and return plain text. Tries Playwright first (for JS-rendered SPAs), then urllib."""
+    if not url or not url.startswith("http"):
+        return None
+    # 1) Try Playwright for JavaScript-rendered pages (avoids "You need to enable JavaScript")
+    out = _scrape_with_playwright(url, timeout_ms=timeout_seconds * 1000, max_chars=max_chars)
+    if out and "enable javascript" not in (out or "").lower():
+        return out
+    # 2) Fallback: urllib (fast but no JS execution)
+    try:
+        req = Request(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"})
         with urlopen(req, timeout=timeout_seconds) as resp:
             raw = resp.read().decode("utf-8", errors="replace")
     except (URLError, HTTPError, OSError, Exception):
-        return None
-    # Strip script/style and tags, collapse whitespace
+        return out if out else None
     raw = re.sub(r"<script[^>]*>.*?</script>", " ", raw, flags=re.DOTALL | re.IGNORECASE)
     raw = re.sub(r"<style[^>]*>.*?</style>", " ", raw, flags=re.DOTALL | re.IGNORECASE)
     raw = re.sub(r"<[^>]+>", " ", raw)
     raw = re.sub(r"\s+", " ", raw).strip()
-    return (raw[:max_chars] + "...") if len(raw) > max_chars else raw if raw else None
+    fallback = (raw[:max_chars] + "...") if len(raw) > max_chars else raw if raw else None
+    return fallback if fallback else out
 
 
 def build_middleman_prompt(app_name: str, app_url: Optional[str], conversation_summary: str, scraped_content: Optional[str]) -> str:
@@ -346,6 +394,42 @@ Using the policy excerpt above: evidence from the conversation summary and (wher
 
 Manual review required. Compare the policy excerpt and findings above to the full policy document; document alignment or gaps per criterion and state a final conclusion. To get LLM-generated reasoning and overall conclusion, set OPENAI_API_KEY or run Ollama locally (--llm ollama).
 """
+
+
+def run_standalone_uw(url: str, policy_path: Optional[Path] = None, llm_mode: str = "none") -> dict:
+    """
+    Standalone scrape + UW for a URL when app is not in the list.
+    Returns dict: scraped, app_summary, policy_conclusion, verdict, reasoning, sources_checked.
+    """
+    url = (url or "").strip()
+    if not url or not url.startswith("http"):
+        return {"error": "Invalid URL"}
+    policy_path = policy_path or (PROJECT_ROOT / "policy" / "policy-excerpt.txt")
+    if not policy_path.exists():
+        return {"error": "Policy file not found", "scraped": None, "app_summary": None, "policy_conclusion": None}
+    policy = load_policy(policy_path)
+    scraped = scrape_app_url(url)
+    sources_checked = "Public app content: yes (scraped)" if scraped else "Public app content: no (unavailable or error)"
+    conv = "(No conversation — app not in list. Standalone URL check.)"
+    app_summary = get_app_summary("Standalone URL", url, conv, scraped, llm_mode, "gpt-4o-mini", 0)
+    policy_conclusion = get_policy_conclusion(app_summary, policy, llm_mode, "gpt-4o-mini", 0)
+    # Parse verdict and reasoning for UI
+    import re
+    m = re.search(r"\*\*Step 3 — Verdict:\*\*\s*\n?([^\n]+)", policy_conclusion)
+    verdict = m.group(1).strip() if m else "Manual Review Required"
+    m = re.search(r"\*\*Reasoning:\*\*\s*(.+?)(?=\n\*\*Non-compliant|\Z)", policy_conclusion, re.DOTALL)
+    reasoning = m.group(1).strip() if m else ""
+    m = re.search(r"\*\*Non-compliant subcategories:\*\*\s*(.+)", policy_conclusion, re.DOTALL)
+    non_compliant = (m.group(1).strip() if m else "").strip()
+    return {
+        "scraped": scraped,
+        "app_summary": app_summary,
+        "policy_conclusion": policy_conclusion,
+        "verdict": verdict,
+        "reasoning": reasoning,
+        "non_compliant_subcategories": non_compliant,
+        "sources_checked": sources_checked,
+    }
 
 
 def get_conclusion(

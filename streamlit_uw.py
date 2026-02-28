@@ -25,6 +25,7 @@ from uw_app import data_refresh
 from uw_app.uw_cache import get_uw_for_app
 from uw_app.profile import profile_from_app_record, profile_from_trino_row
 from uw_app.trino_client import get_full_profile, get_conversation_snapshots, get_conversation_messages, is_configured as trino_configured, test_connection, get_last_trino_error
+from run_underwriting import run_standalone_uw
 
 
 def _load_full_profiles_json():
@@ -65,18 +66,28 @@ col1, col2 = st.columns([1, 3])
 with col1:
     id_type = st.selectbox(
         "I have",
-        options=["app_id", "msid", "wp_account_id"],
-        format_func=lambda x: {"app_id": "App ID (24-character)", "msid": "MSID", "wp_account_id": "WixPayments account ID"}[x],
+        options=["app_id", "msid", "wp_account_id", "app_url"],
+        format_func=lambda x: {
+            "app_id": "App ID (24-character)",
+            "msid": "MSID",
+            "wp_account_id": "WixPayments account ID",
+            "app_url": "App URL",
+        }[x],
         index=0,
     )
 with col2:
-    value = st.text_input("Paste the value here", placeholder="e.g. 698406273ade17b9bd851188", label_visibility="collapsed")
-st.caption("App ID is 24-character hex; MSID and WP account ID are UUIDs.")
+    placeholder = (
+        "e.g. https://my-app.base44.app"
+        if id_type == "app_url"
+        else "e.g. 698406273ade17b9bd851188"
+    )
+    value = st.text_input("Paste the value here", placeholder=placeholder, label_visibility="collapsed")
+st.caption("App ID is 24-character hex; MSID and WP account ID are UUIDs; App URL is the full app URL (e.g. https://my-app.base44.app).")
 
 def _stub_app_list():
     """App IDs and names from main list + user_apps.json (merged)."""
     try:
-        by_app_id, _, _ = load_apps_index_merged()
+        by_app_id, _, _, _ = load_apps_index_merged()
         return [(aid, (r.get("app_name") or "—")) for aid, r in sorted(by_app_id.items())]
     except Exception:
         return []
@@ -152,6 +163,7 @@ if st.button("Look up", type="primary"):
             trino_err = get_last_trino_error()
             raw = (value or "").strip()
             is_app_id = id_type == "app_id" and raw and 20 <= len(raw) <= 30 and raw.replace("-", "").replace("_", "").isalnum()
+            is_url = id_type == "app_url" and raw and raw.startswith("http")
             if is_app_id:
                 st.session_state["pending_add_app_id"] = raw
             if trino_configured() and not st.session_state.get("trino_live") and trino_err:
@@ -171,9 +183,18 @@ if st.button("Look up", type="primary"):
                 st.error("That app is not in the sample set.")
                 if is_app_id:
                     st.session_state["pending_add_app_id"] = raw
+            # Store URL for standalone pre-fill when app not found
+            if is_url:
+                st.session_state["standalone_prefill_url"] = raw
         else:
             if "pending_add_app_id" in st.session_state:
                 del st.session_state["pending_add_app_id"]
+            if "standalone_result" in st.session_state:
+                del st.session_state["standalone_result"]
+            if "standalone_result_url" in st.session_state:
+                del st.session_state["standalone_result_url"]
+            if "standalone_prefill_url" in st.session_state:
+                del st.session_state["standalone_prefill_url"]
             app_id = app_record.get("app_id")
             app_name = app_record.get("app_name") or "Unnamed app"
             st.markdown("---")
@@ -429,13 +450,68 @@ if st.button("Look up", type="primary"):
                         st.caption("Last Trino error: " + err)
                 st.caption("For full profile when Trino is unavailable, use a JSON export that includes first_activity_at, user_description, etc., and set APPS_JSON_PATH.")
 
+# Standalone URL check — always visible so it works after rerun (outside Look up block)
+st.markdown("---")
+st.subheader("🔗 Standalone URL check")
+st.caption("Scrape any app URL and run UW check (no app in list required).")
+_default = st.session_state.get("standalone_result_url") or st.session_state.get("standalone_prefill_url", "")
+with st.form("standalone_uw_form", clear_on_submit=False):
+    standalone_url = st.text_input(
+        "App URL",
+        value=_default,
+        placeholder="e.g. https://my-app.base44.app",
+        key="standalone_url_input",
+        label_visibility="collapsed",
+    )
+    submitted = st.form_submit_button("Scrape & Run UW")
+if submitted:
+    url_to_check = (standalone_url or "").strip()
+    if url_to_check.startswith("http"):
+        try:
+            with st.spinner("Scraping and running UW check… (this may take 15–30 seconds)"):
+                result = run_standalone_uw(url_to_check, llm_mode="none")
+            st.session_state["standalone_result"] = result
+            st.session_state["standalone_result_url"] = url_to_check
+            st.rerun()
+        except Exception as e:
+            st.error("Scrape & UW failed: " + str(e))
+            import traceback
+            with st.expander("Details"):
+                st.code(traceback.format_exc())
+    else:
+        st.warning("Enter a valid URL (e.g. https://my-app.base44.app).")
+
+if st.session_state.get("standalone_result"):
+    res = st.session_state["standalone_result"]
+    if res.get("error"):
+        st.error(res["error"])
+    else:
+        st.success("**Scraped & UW check complete.**")
+        with st.expander("📄 Scraped content", expanded=True):
+            scraped_text = res.get("scraped") or "(no content)"
+            st.text(scraped_text[:8000] + ("…" if len(scraped_text or "") > 8000 else ""))
+        st.markdown("**Verdict:** " + (res.get("verdict") or "—"))
+        if res.get("reasoning"):
+            st.markdown("**Reasoning:** " + (res.get("reasoning") or ""))
+        if res.get("non_compliant_subcategories"):
+            st.markdown("**Non-compliant subcategories:** " + (res.get("non_compliant_subcategories") or ""))
+        with st.expander("📋 App summary (middleman)"):
+            st.markdown(res.get("app_summary") or "")
+        with st.expander("📜 Policy comparison"):
+            st.markdown(res.get("policy_conclusion") or "")
+
 # Add button runs here every time so the click is handled (Streamlit re-runs on button click)
 pending = st.session_state.get("pending_add_app_id")
 if pending:
     st.markdown("---")
-    st.warning("App not in your list. Add it below (optional: fill **App name** and **App URL** for full profile), then click **Look up** again. For full data for many apps, use a JSON export and set `APPS_JSON_PATH` in `.env`.")
+    st.warning("App not in your list. Add it below, then click **Look up** again. For full data for many apps, use a JSON export and set `APPS_JSON_PATH` in `.env`.")
     add_name = st.text_input("App name (optional)", key="add_name", placeholder="e.g. My App Name")
-    add_url = st.text_input("App URL (optional)", key="add_url", placeholder="e.g. https://my-app.base44.app")
+    add_url = st.text_input(
+        "App URL (paste or pick up)",
+        key="add_url",
+        placeholder="e.g. https://my-app.base44.app",
+        help="Paste the full app URL here for scraping and full profile.",
+    )
     if st.button("➕ Add this App ID to my list", type="primary", key="add_to_list"):
         ok, err = add_app_to_user_list(
             pending,

@@ -613,6 +613,8 @@ def get_conversation_messages(app_id: str):
 
 def test_connection() -> bool:
     """Run a trivial query to trigger SSO if needed (browser may open). Returns True if Trino is reachable."""
+    global _last_trino_error
+    _last_trino_error = None
     params_conn = _conn_params()
     if not params_conn:
         return False
@@ -624,7 +626,8 @@ def test_connection() -> bool:
         cur.execute("SELECT 1 AS ok")
         row = cur.fetchone()
         return row is not None
-    except Exception:
+    except Exception as e:
+        _last_trino_error = _normalize_error(e)
         return False
     finally:
         try:

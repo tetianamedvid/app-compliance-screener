@@ -27,7 +27,7 @@ EXTENDED_FIELDS = ("first_activity_at", "user_app_events_count", "user_descripti
 
 
 def main():
-    by_app_id, _, _ = load_apps_index_merged()
+    by_app_id, _, _, _ = load_apps_index_merged()
     if TEST_APP_ID not in by_app_id:
         print(f"FAIL: {TEST_APP_ID} not in merged index (check APPS_JSON_PATH and data/real_apps.json)")
         return 1
