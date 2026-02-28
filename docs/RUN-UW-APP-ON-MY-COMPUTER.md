@@ -354,7 +354,11 @@ If **you** can run Trino queries in Quix in the browser, the app can use the sam
 
 **What you see:** At the end it usually says something like “Successfully installed …”. You only need to do this step once (or again if someone tells you dependencies changed).
 
-**For full scraping of JavaScript apps** (e.g. base44.app): After pip install, run once: `python3 -m playwright install chromium`. This lets the scraper render pages that say "You need to enable JavaScript." Without it, scraped content may be minimal.
+**For full scraping of JavaScript apps** (e.g. base44.app): After pip install, run once:
+   ```
+   python3 -m playwright install chromium
+   ```
+   This downloads the browser used to render JavaScript pages. **Without this step, scraped content will be minimal** (e.g. "You need to enable JavaScript to run this app" instead of the real page content). Run it once per machine.
 
 ---
 

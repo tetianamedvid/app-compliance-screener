@@ -25,6 +25,13 @@ def _parse_conclusion(text: str) -> dict:
     row["non_compliant_subcategories"] = (m.group(1).strip() if m else "").strip()
     app_sec = re.search(r"## App summary \(middleman\)\s*\n(.*?)(?=\n## Policy comparison|\Z)", text, re.DOTALL)
     row["app_summary"] = app_sec.group(1).strip() if app_sec else ""
+    # Scraped content from Evidence section
+    scraped_m = re.search(
+        r"\*\*Scraped website / app content \(full text for manual review\):\*\*\s*\n\n(.*?)(?=\n\n---|\Z)",
+        text,
+        re.DOTALL,
+    )
+    row["scraped_content"] = scraped_m.group(1).strip() if scraped_m else ""
     # Old conclusions: "Restricted" + insufficient evidence => show as Manual Review Required (no-LLM intent)
     verdict_lower = (row.get("verdict") or "").strip().lower()
     reasoning_lower = (row.get("reasoning") or "").lower()

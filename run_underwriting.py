@@ -66,7 +66,7 @@ def load_policy(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace").strip()
 
 
-def _scrape_with_playwright(url: str, timeout_ms: int = 20000, max_chars: int = 15000) -> Optional[str]:
+def _scrape_with_playwright(url: str, timeout_ms: int = 25000, max_chars: int = 15000) -> Optional[str]:
     """Use Playwright to render JavaScript and extract visible text. Returns None if Playwright unavailable or fails."""
     try:
         from playwright.sync_api import sync_playwright
@@ -77,31 +77,31 @@ def _scrape_with_playwright(url: str, timeout_ms: int = 20000, max_chars: int = 
             browser = p.chromium.launch(headless=True)
             try:
                 page = browser.new_page()
-                page.goto(url, wait_until="domcontentloaded", timeout=timeout_ms)
+                page.goto(url, wait_until="domcontentloaded", timeout=min(timeout_ms, 15000))
                 # Wait for SPA to render: retry until "enable javascript" disappears or we hit max wait
                 text = ""
-                for _ in range(6):
-                    page.wait_for_timeout(2500)
+                for i in range(8):
+                    page.wait_for_timeout(3000)
                     text = page.evaluate("""() => {
                         const body = document.body;
                         if (!body) return '';
-                        const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
-                        const parts = [];
-                        let node;
-                        while (node = walker.nextNode()) {
-                            const t = node.textContent.trim();
-                            if (t && !node.parentElement.closest('script, style, noscript')) parts.push(t);
-                        }
-                        return parts.join(' ');
+                        return body.innerText || body.textContent || '';
                     }""")
                     if text and isinstance(text, str):
                         text = re.sub(r"\s+", " ", text).strip()
-                        if text and "enable javascript" not in text.lower() and len(text) > 80:
+                        if not text:
+                            continue
+                        # Reject if we only have the create-react-app placeholder
+                        if "enable javascript" in text.lower() and len(text) < 150:
+                            continue
+                        # Good content: either no "enable javascript" or we have substantial text
+                        if "enable javascript" not in text.lower() or len(text) > 200:
                             return (text[:max_chars] + "...") if len(text) > max_chars else text
-                # Final attempt: use whatever we got
+                # Final attempt: use whatever we got (even if short)
                 if text and isinstance(text, str):
                     text = re.sub(r"\s+", " ", text).strip()
-                    return (text[:max_chars] + "...") if len(text) > max_chars else text
+                    if text:
+                        return (text[:max_chars] + "...") if len(text) > max_chars else text
             finally:
                 browser.close()
     except Exception:

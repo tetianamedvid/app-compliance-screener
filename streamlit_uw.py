@@ -365,6 +365,10 @@ if st.button("Look up", type="primary"):
                     st.markdown("**Why:** " + (uw.get("reasoning") or ""))
                 if uw.get("non_compliant_subcategories"):
                     st.markdown("**Non-compliant subcategories:** " + (uw.get("non_compliant_subcategories") or ""))
+                if uw.get("scraped_content"):
+                    with st.expander("📄 Scraped content", expanded=True):
+                        scraped = uw.get("scraped_content") or ""
+                        st.text(scraped[:8000] + ("…" if len(scraped) > 8000 else ""))
                 for key, title in [("app_summary", "📄 App summary"), ("step1_what_sold", "🛒 What is sold (Step 1)"), ("step2_comparison", "📜 Policy comparison (Step 2)")]:
                     if uw.get(key):
                         with st.expander(title):
