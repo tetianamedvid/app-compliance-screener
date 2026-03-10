@@ -25,7 +25,7 @@ from uw_app import data_refresh
 from uw_app.uw_cache import get_uw_for_app
 from uw_app.profile import profile_from_app_record, profile_from_trino_row
 from uw_app.trino_client import get_full_profile, get_conversation_snapshots, get_conversation_messages, is_configured as trino_configured, test_connection, get_last_trino_error
-from run_underwriting import run_standalone_uw
+from run_underwriting import run_standalone_uw, _get_or_create_browser
 
 
 def _load_full_profiles_json():
@@ -44,7 +44,16 @@ def _load_full_profiles_json():
         pass
     return {}
 
-st.set_page_config(page_title="UW Lookup on WP base44 users", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="UW Lookup on WP base44 users", layout="wide", initial_sidebar_state="auto")
+
+# Pre-warm Playwright browser on startup (runs once, reused for all subsequent scrapes)
+if "browser_warmed" not in st.session_state:
+    try:
+        import threading
+        threading.Thread(target=_get_or_create_browser, daemon=True).start()
+        st.session_state["browser_warmed"] = True
+    except Exception:
+        pass
 
 # Quiet refresh: if APPS_REFRESH_SOURCE_PATH is set, re-import from that file at most once per hour (or on first open)
 data_refresh.run_refresh_if_due()
@@ -60,6 +69,209 @@ st.title("UW Lookup on WP base44 users")
 st.markdown("Look up any app by **App ID**, **MSID**, or **WixPayments account ID** to see its profile and policy check.")
 if not (trino_configured() and st.session_state.get("trino_live")):
     st.success("**App is ready.** Use an App ID from the list below and click **Look up**.")
+st.markdown("---")
+
+# Standalone APP URL check — at top so users can scrape any URL without looking up first
+st.subheader("🔗 Standalone APP URL check")
+st.caption("Scrape any app URL and run UW check (no app in list required).")
+_default = st.session_state.get("standalone_result_url") or st.session_state.get("standalone_prefill_url", "")
+with st.form("standalone_uw_form", clear_on_submit=False):
+    standalone_url = st.text_input(
+        "App URL",
+        value=_default,
+        placeholder="e.g. https://my-app.base44.app",
+        key="standalone_url_input",
+        label_visibility="collapsed",
+    )
+    col_s1, col_s2 = st.columns(2)
+    with col_s1:
+        scrape_deep = st.checkbox("Deep scrape (JS render + links)", value=False, key="standalone_deep_v2", help="Off = fast (~1-3s). On = launches browser (~5-15s).")
+    with col_s2:
+        llm_mode = st.selectbox(
+            "Analysis",
+            options=["none", "auto", "openai", "ollama"],
+            format_func=lambda x: {"none": "Fast (no LLM)", "auto": "Auto (LLM — slower)", "openai": "OpenAI", "ollama": "Ollama"}[x],
+            index=0,
+            key="standalone_llm_mode",
+            help="Auto tries OpenAI then Ollama. Rule-based: full extraction without any API key.",
+        )
+    submitted = st.form_submit_button("Scrape & Run UW")
+if submitted:
+    url_to_check = (standalone_url or "").strip()
+    if url_to_check and not url_to_check.startswith("http"):
+        url_to_check = "https://" + url_to_check
+    if url_to_check.startswith("http"):
+        try:
+            spinner_msg = "Deep analysis (scrape + forensics + screenshot)…" if scrape_deep else "Analyzing (scrape + forensics + risk score)…"
+            if llm_mode != "none":
+                spinner_msg += " + LLM"
+            with st.spinner(spinner_msg):
+                result = run_standalone_uw(url_to_check, llm_mode=llm_mode, scrape_deep=scrape_deep)
+            st.session_state["standalone_result"] = result
+            st.session_state["standalone_result_url"] = url_to_check
+            if "ask_question_answer" in st.session_state:
+                del st.session_state["ask_question_answer"]
+            if "ask_question_question" in st.session_state:
+                del st.session_state["ask_question_question"]
+            st.rerun()
+        except Exception as e:
+            st.error("Scrape & UW failed: " + str(e))
+            import traceback
+            with st.expander("Details"):
+                st.code(traceback.format_exc())
+    else:
+        st.warning("Enter a valid URL (e.g. https://my-app.base44.app).")
+
+if st.session_state.get("standalone_result"):
+    res = st.session_state["standalone_result"]
+    if res.get("error"):
+        st.error(res["error"])
+    else:
+        st.success("**Scraped & UW check complete.**")
+        base44_app_id = res.get("base44_app_id")
+        base44_app_name = res.get("base44_app_name")
+        if base44_app_id or base44_app_name:
+            st.info(
+                f"**App ID (from Base44 API):** `{base44_app_id or '—'}`  \n"
+                f"**App name (from Base44 API):** {base44_app_name or '—'}"
+            )
+
+        # --- Risk Score Badge ---
+        risk_score = res.get("risk_score")
+        risk_color = res.get("risk_color", "gray")
+        risk_verdict = res.get("risk_verdict", "—")
+        risk_category = res.get("risk_category", "Unknown")
+        color_map = {"green": "#28a745", "orange": "#fd7e14", "red": "#dc3545", "gray": "#6c757d"}
+        badge_hex = color_map.get(risk_color, "#6c757d")
+        bg_map = {"green": "#d4edda", "orange": "#fff3cd", "red": "#f8d7da", "gray": "#e2e3e5"}
+        bg_hex = bg_map.get(risk_color, "#e2e3e5")
+
+        if risk_score is not None:
+            st.markdown(
+                f'<div style="background:{bg_hex};border-left:5px solid {badge_hex};padding:16px 20px;border-radius:8px;margin:12px 0">'
+                f'<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">'
+                f'<span style="background:{badge_hex};color:white;font-size:28px;font-weight:bold;padding:8px 18px;border-radius:50%;min-width:50px;text-align:center">{risk_score}</span>'
+                f'<div>'
+                f'<div style="font-size:20px;font-weight:bold;color:{badge_hex}">{risk_verdict}</div>'
+                f'<div style="font-size:14px;color:#555">Category: {risk_category}'
+                f'{" &nbsp;|&nbsp; Payments detected" if res.get("has_payments") else ""}</div>'
+                f'</div></div></div>',
+                unsafe_allow_html=True,
+            )
+
+        # --- Risk Flags ---
+        risk_flags = res.get("risk_flags") or []
+        if risk_flags:
+            with st.expander("Risk signals & flags", expanded=True):
+                for flag in risk_flags:
+                    if flag.startswith("High-risk") or flag.startswith("Crypto miner") or flag.startswith("Payment bypass"):
+                        st.markdown(f"- :red[**{flag}**]")
+                    elif flag.startswith("Medium-risk") or flag.startswith("Auth:") or "obfusc" in flag.lower():
+                        st.markdown(f"- :orange[{flag}]")
+                    else:
+                        st.markdown(f"- {flag}")
+
+        # --- JS Security Forensics ---
+        js_sec = res.get("js_security") or {}
+        has_forensics = any(js_sec.get(k) for k in ("payment_bypass", "crypto", "miners"))
+        if has_forensics or js_sec.get("obfuscation"):
+            with st.expander("JS Forensics", expanded=has_forensics):
+                if js_sec.get("payment_bypass"):
+                    st.markdown("**Payment bypass signals:**")
+                    for s in js_sec["payment_bypass"]:
+                        st.markdown(f"- :red[{s}]")
+                if js_sec.get("crypto"):
+                    st.markdown("**Crypto/Web3 signals:**")
+                    for s in js_sec["crypto"]:
+                        st.markdown(f"- :orange[{s}]")
+                if js_sec.get("miners"):
+                    st.markdown("**Crypto miners detected:**")
+                    for s in js_sec["miners"]:
+                        st.markdown(f"- :red[**{s}**]")
+                if js_sec.get("obfuscation"):
+                    st.markdown("- :orange[Heavily obfuscated JS code]")
+                if not has_forensics and not js_sec.get("obfuscation"):
+                    st.markdown("No suspicious JS signals found.")
+
+        # --- Legal Pages ---
+        legal = res.get("legal_info") or {}
+        if legal:
+            with st.expander("Legal page analysis"):
+                if legal.get("pages_found"):
+                    st.markdown("**Pages found:** " + ", ".join(legal["pages_found"]))
+                    if legal.get("has_company_name"):
+                        st.markdown("- Company/business name found")
+                    if legal.get("has_address"):
+                        st.markdown("- Physical address found")
+                    if legal.get("has_contact"):
+                        st.markdown("- Contact information found")
+                else:
+                    st.warning("No legal pages found (/privacy-policy, /terms, /legal, /about)")
+
+        # --- LLM Assessment (if present) ---
+        llm_a = res.get("llm_assessment")
+        if llm_a:
+            with st.expander("LLM risk assessment", expanded=True):
+                st.json(llm_a)
+
+        # --- Screenshot ---
+        screenshot = res.get("screenshot_path")
+        if screenshot:
+            from pathlib import Path as _P
+            if _P(screenshot).exists():
+                with st.expander("Homepage screenshot"):
+                    st.image(screenshot, use_container_width=True)
+
+        # --- Traditional outputs ---
+        with st.expander("Scraped content", expanded=False):
+            scraped_text = res.get("scraped") or "(no content)"
+            st.text(scraped_text[:8000] + ("…" if len(scraped_text or "") > 8000 else ""))
+
+        policy_verdict = res.get("verdict") or "—"
+        reasoning = res.get("reasoning") or ""
+        no_llm = "No LLM available" in reasoning or "Manual Review Required" in policy_verdict
+        with st.expander("App summary (middleman)", expanded=True):
+            st.markdown(res.get("app_summary") or "")
+        if not no_llm:
+            with st.expander("Policy comparison"):
+                st.markdown(res.get("policy_conclusion") or "")
+
+        sources = res.get("sources_checked", "")
+        if sources:
+            st.caption(f"Sources: {sources}")
+
+        st.markdown("---")
+        st.subheader("Ask a question about this app")
+        st.caption("Clarify policy concerns, e.g. \"Is this app selling 3D printed weapons?\" Requires OpenAI or Ollama.")
+        with st.form("ask_question_form", clear_on_submit=False):
+            q = st.text_area(
+                "Your question",
+                placeholder="e.g. Does this app sell 3D printed weapons or firearm parts?",
+                key="ask_question_input",
+                height=80,
+            )
+            q_submitted = st.form_submit_button("Get answer")
+        if q_submitted and (q or "").strip():
+            try:
+                from run_underwriting import ask_question_about_app, load_policy
+                policy_path = ROOT / "policy" / "policy-excerpt.txt"
+                policy = load_policy(policy_path) if policy_path.exists() else None
+                with st.spinner("Asking LLM…"):
+                    answer = ask_question_about_app(
+                        q.strip(),
+                        res.get("scraped") or "",
+                        res.get("app_summary") or "",
+                        policy,
+                    )
+                st.session_state["ask_question_answer"] = answer
+                st.session_state["ask_question_question"] = q.strip()
+                st.rerun()
+            except Exception as e:
+                st.error("Failed: " + str(e))
+        if st.session_state.get("ask_question_question") and st.session_state.get("ask_question_answer"):
+            st.markdown(f"**Q:** {st.session_state['ask_question_question']}")
+            st.markdown(f"**A:** {st.session_state['ask_question_answer']}")
+
 st.markdown("---")
 
 col1, col2 = st.columns([1, 3])
@@ -398,12 +610,20 @@ if st.button("Look up", type="primary"):
                         cat = (profile_row or record_for_profile or {}).get("categories") or (app_record.get("categories") or "")
                         if ud or cat:
                             best_summary = (best_summary or "") + "\n\n[User description] " + (ud or "—") + "\n[App categories] " + (cat or "—")
+                        ep = (
+                            (profile_row or {}).get("earliest_conversation_preview")
+                            or full_profiles.get(app_id, {}).get("earliest_conversation_preview")
+                            or ""
+                        )
+                        ep = (ep or "").strip()
                         one_app = [
                             {
                                 "app_id": app_id,
                                 "app_name": app_record.get("app_name") or "—",
                                 "app_url": app_record.get("app_url") or "",
                                 "conversation_summary": best_summary or "",
+                                "user_description": ud or "",
+                                "earliest_conversation_preview": ep,
                             }
                         ]
                         one_app_path.write_text(json.dumps(one_app, indent=2), encoding="utf-8")
@@ -453,56 +673,6 @@ if st.button("Look up", type="primary"):
                     if err:
                         st.caption("Last Trino error: " + err)
                 st.caption("For full profile when Trino is unavailable, use a JSON export that includes first_activity_at, user_description, etc., and set APPS_JSON_PATH.")
-
-# Standalone URL check — always visible so it works after rerun (outside Look up block)
-st.markdown("---")
-st.subheader("🔗 Standalone URL check")
-st.caption("Scrape any app URL and run UW check (no app in list required).")
-_default = st.session_state.get("standalone_result_url") or st.session_state.get("standalone_prefill_url", "")
-with st.form("standalone_uw_form", clear_on_submit=False):
-    standalone_url = st.text_input(
-        "App URL",
-        value=_default,
-        placeholder="e.g. https://my-app.base44.app",
-        key="standalone_url_input",
-        label_visibility="collapsed",
-    )
-    submitted = st.form_submit_button("Scrape & Run UW")
-if submitted:
-    url_to_check = (standalone_url or "").strip()
-    if url_to_check.startswith("http"):
-        try:
-            with st.spinner("Scraping and running UW check… (this may take 15–30 seconds)"):
-                result = run_standalone_uw(url_to_check, llm_mode="none")
-            st.session_state["standalone_result"] = result
-            st.session_state["standalone_result_url"] = url_to_check
-            st.rerun()
-        except Exception as e:
-            st.error("Scrape & UW failed: " + str(e))
-            import traceback
-            with st.expander("Details"):
-                st.code(traceback.format_exc())
-    else:
-        st.warning("Enter a valid URL (e.g. https://my-app.base44.app).")
-
-if st.session_state.get("standalone_result"):
-    res = st.session_state["standalone_result"]
-    if res.get("error"):
-        st.error(res["error"])
-    else:
-        st.success("**Scraped & UW check complete.**")
-        with st.expander("📄 Scraped content", expanded=True):
-            scraped_text = res.get("scraped") or "(no content)"
-            st.text(scraped_text[:8000] + ("…" if len(scraped_text or "") > 8000 else ""))
-        st.markdown("**Verdict:** " + (res.get("verdict") or "—"))
-        if res.get("reasoning"):
-            st.markdown("**Reasoning:** " + (res.get("reasoning") or ""))
-        if res.get("non_compliant_subcategories"):
-            st.markdown("**Non-compliant subcategories:** " + (res.get("non_compliant_subcategories") or ""))
-        with st.expander("📋 App summary (middleman)"):
-            st.markdown(res.get("app_summary") or "")
-        with st.expander("📜 Policy comparison"):
-            st.markdown(res.get("policy_conclusion") or "")
 
 # Add button runs here every time so the click is handled (Streamlit re-runs on button click)
 pending = st.session_state.get("pending_add_app_id")

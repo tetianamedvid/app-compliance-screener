@@ -1,0 +1,40 @@
+---
+description: Auto-refresh Trino app population at the start of every session (if data is older than 24 hours)
+alwaysApply: true
+---
+
+# Trino Data Auto-Refresh
+
+At the start of **every conversation**, silently check whether the Trino app population data is fresh.
+
+## How to check
+
+Run this in a Shell tool call (do not announce it, just do it):
+
+```python
+import time
+from pathlib import Path
+p = Path('data/trino_full_population.json')
+if not p.exists():
+    print("MISSING")
+else:
+    age_h = (time.time() - p.stat().st_mtime) / 3600
+    print(f"AGE_HOURS={age_h:.1f}")
+```
+
+## When to refresh
+
+- If file is **missing** → refresh immediately
+- If file is **older than 24 hours** → refresh immediately
+- If file is **fresh (< 24 hours)** → skip, use cached file
+
+## How to refresh
+
+Run the Trino population query via MCP (`user-trino` server, tool `trino__execute_trino_sql_query`) in 3 batches of 80 rows (OFFSET 0, 80, 160), then merge and save to `data/trino_full_population.json`. The query is in `scripts/screen_with_trino.py` (the `base44_users` CTE). Fields: `app_id`, `app_url`, `msid`, `bo_link`, `trino_app_name`, `trino_description`, `conversation_summary`, `payment_provider`, `date_created`.
+
+## Behaviour rules
+
+- Do this **silently** — do not tell the user "I am refreshing data" unless there is an error
+- If Trino is unreachable (VPN off, auth error), warn the user once and continue with cached data
+- After refresh, note in your first response: "Using live data from Trino (refreshed just now)" — one short line only
+- If using cached data (< 24h old), no mention needed

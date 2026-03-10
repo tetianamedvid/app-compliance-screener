@@ -75,6 +75,14 @@ Example (Ollama, no key):
 python3 run_underwriting.py --apps data/real_apps.json --policy policy/policy-excerpt.txt --out output --run-id ollama_run --llm ollama
 ```
 
+**Faster batch runs** — Use `--workers 8` to process apps in parallel (scraping and LLM calls run concurrently). Use `--delay 0` to skip the 0.5s pause after each LLM call (faster but may hit rate limits). Use `--no-scrape` when conversation_summary + user_description already give enough signal.
+
+**Save app summary (middleman)** — The pipeline caches the middleman app summary in `output/uw_cache/` by app_id. On re-runs, cached summaries are reused so the middleman step is skipped (only policy comparison runs). Use `--no-cache` to force regeneration.
+
+```bash
+python3 run_underwriting.py --apps data/real_apps.json --policy policy/policy-excerpt.txt --out output --run-id fast_run --workers 8 --delay 0
+```
+
 **Why not DORA / MCP?** MCP (e.g. Trino MCP, DORA) in Cursor is for the **AI assistant** (Cursor) to call tools while you chat. The underwriting pipeline runs as a **standalone script** (`run_underwriting.py`); it does not run inside Cursor, so it cannot use Cursor’s MCP connections. To use a DORA-backed LLM from the pipeline you would add a small backend in the repo (e.g. `_call_dora()` in `run_underwriting.py`) that calls whatever **HTTP/API** DORA exposes for programmatic use (URL + auth in `.env`). If your team provides a DORA completion API, that can be wired in the same way as OpenAI/Ollama.
 
 ---
@@ -360,6 +368,21 @@ If **you** can run Trino queries in Quix in the browser, the app can use the sam
    ```
    This downloads the browser used to render JavaScript pages. **Without this step, scraped content will be minimal** (e.g. "You need to enable JavaScript to run this app" instead of the real page content). Run it once per machine.
 
+**Scraping architecture (Base44-aware):** The scraper uses different strategies depending on the URL:
+
+- **base44.app URLs (React SPAs):** Skips plain HTTP fetch (always returns JS shell). Goes directly: Base44 public API → SEO meta tags → Playwright rendering. This saves 2-8 seconds per app.
+- **Custom domain URLs:** If the HTML contains Base44 markers, automatically probes Base44 public APIs too.
+- **Non-Base44 URLs:** Uses fast HTTP fetch first, falls back to Playwright only if needed.
+
+What the scraper extracts:
+- **SEO meta tags** (title, description, og:image) from raw HTML — available even before JS renders
+- **Base44 public API data** — app name, description, visibility (public/private), login methods, payment signals, integrations, AI agents
+- **Entity data** (data model) — captures entity names, record counts, field names, and sample data from SDK API calls during rendering
+- **Backend function calls** — detects function names like `createCheckout`, `processPayment` which reveal app capabilities
+- **Auth wall classification** — distinguishes between private apps (by design), public apps with auth, and broken apps
+- **Sitemap pages** — probes sitemap.xml for page structure
+- **Product extraction** — JSON-LD and DOM-based product/price extraction
+
 ---
 
 ### Step 4: Start the app
@@ -418,6 +441,8 @@ If **you** can run Trino queries in Quix in the browser, the app can use the sam
 2. Under **“I have”**, choose what you’re looking up: **App ID (24-character)**, **MSID (UUID)**, or **WixPayments account ID (UUID)**.
 3. In the box next to it, **paste or type** the value (for example an app ID like `698406273ade17b9bd851188`).
 4. Click the red **Look up** button.
+
+**Standalone URL check:** At the bottom, paste any app URL and click **Scrape & Run UW**. Use **Analysis: Auto** to get LLM verdicts when OpenAI or Ollama is available; use **Deep scrape** to capture API responses, follow links, and extract products. See "Underwriting pipeline: LLM options" above for setup.
 
 **What you see:** The page shows **App profile** (a table of fields and values) and **UW check vs policy** (verdict, reasoning, and expandable sections). If you’re on sample data, only certain app IDs work; the page tells you and shows which ones.
 

@@ -1,8 +1,14 @@
 # Underwriting control — WixPayments-connected apps
 
-Produces a **written conclusion** per app (checks vs policy) with a clear **Allowed / Restricted / Not-allowed** verdict and reasoning. See `.cursor/rules/underwriting.mdc` for the project rule.
+Two tools for policy compliance review of WixPayments-connected Base44 apps:
 
-**Pipeline (two-step):** (1) **Middleman** — uses conversation summary + scraped app content to summarize intent, what is sold through the app, and what the end shopper gets. (2) **Policy comparison** — defines what is sold in detail, compares to policy, then outputs **Allowed**, **Restricted**, or **Not-allowed** with short reasoning and **non-compliant subcategories** (if any). Scraping is on by default (`--no-scrape` to disable).
+**Tool 1 — UW Lookup** (`streamlit_uw.py`, port 8501): Look up any app by ID/MSID/WP account, view full profile + conversation + cached verdict, run the LLM underwriting pipeline.
+
+**Tool 2 — App Compliance Screener** (`streamlit_screener.py`, port 8502): Paste URLs → instant rule-based policy classification → verdict. Batch-screen the full Trino population (240+ apps) with conversation summaries as extra signal. Catches auth-walled apps where the public page reveals nothing but the builder conversation reveals the real product (e.g. cannabis shop with a "fashion" description).
+
+**UW Pipeline (two-step):** (1) **Middleman** — uses conversation summary + scraped app content to summarize intent, what is sold through the app, and what the end shopper gets. (2) **Policy comparison** — defines what is sold in detail, compares to policy, then outputs **Allowed**, **Restricted**, or **Not-allowed** with short reasoning and **non-compliant subcategories** (if any). Scraping is on by default (`--no-scrape` to disable).
+
+**Trino data:** The Cursor AI automatically refreshes `data/trino_full_population.json` (240 apps with conversation summaries) at the start of each session if the data is older than 24 hours. See `.cursor/rules/trino-data-refresh.mdc`.
 
 ## Phase 1: First successful LLM run
 
@@ -87,10 +93,17 @@ python3 scripts/build_full_profiles_from_trino.py  # merges into full_profiles.j
 ## Project layout
 
 - `.cursor/rules/underwriting.mdc` — project rule (output = written conclusion, structure, data sources)
+- `.cursor/rules/trino-data-refresh.mdc` — auto-refresh Trino population at session start
+- `docs/BASE44-UW-PROJECT-DOCUMENTATION.md` — full technical documentation (v3.0)
 - `docs/trino-query.sql` — canonical TRINO query (WixPayments apps + conversation summary for underwriting)
-- `docs/trino-query-full-app-profile.sql` — Base44 full app profile (counts, conversations, app metadata). Default: all WixPayments-connected apps. To limit to specific app_ids for review, edit the `filter_app_ids` CTE (e.g. `SELECT app_id FROM (VALUES ('id1'),('id2')) AS t(app_id)`).
 - `prompts/underwriting-conclusion.md` — LLM prompt used every run
-- `templates/conclusion-template.md` — conclusion memo template
 - `policy/policy-excerpt.txt` — policy text (replace with real excerpts from the .docx)
-- `run_underwriting.py` — pipeline script
-- `output/` — conclusion memos per app
+- `run_underwriting.py` — UW pipeline script
+- `streamlit_uw.py` — UW Lookup dashboard (port 8501)
+- `streamlit_screener.py` — App Compliance Screener (port 8502)
+- `uw_app/app_screener.py` — URL → scrape + classify → verdict
+- `uw_app/policy_classifier.py` — rule-based Stripe policy taxonomy
+- `scripts/screen_with_trino.py` — batch-screen full Trino population
+- `scripts/validate_screener.py` — validate accuracy vs known non-compliant apps
+- `data/trino_full_population.json` — live Trino population (240 apps, auto-refreshed)
+- `output/` — conclusion memos and screener results

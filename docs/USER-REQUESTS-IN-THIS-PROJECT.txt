@@ -168,5 +168,97 @@ C.12 Missing requests from the start
   "missing a lot - especially from the start!"
 
 ================================================================================
+PART D — SESSION: MARCH 6, 2026 (SCREENER + TRINO INTEGRATION)
+================================================================================
+
+D.1  Execute steps 1–3
+
+  "Execute steps from 1 to 3"
+
+  Step 1: Validate screener accuracy against 27 known non-compliant apps.
+    - Result: 48% catch rate (13/27 flagged). Remaining misses: auth-walled
+      apps, scams/IPR violations needing business context.
+    - "Insufficient Data" fix: apps with no scraped content now return gray
+      verdict instead of misleading "Likely Supportable".
+    - Keyword improvements: added healthcare injections, peptides, telehealth
+      subcategory, virtual wallet/stored value signals.
+    - Scripts added: scripts/validate_screener.py, scripts/screen_non_flagged.py
+
+  Step 2: Fix default verdict (no content → "Insufficient Data").
+    - Fixed in uw_app/app_screener.py: if content_length == 0 and no
+      description/meta, override to "Insufficient Data" (gray, confidence 0).
+    - Exception: if Trino context was provided, treat as having content.
+
+  Step 3: Batch-screen 155 non-flagged apps.
+    - Result: 14 flagged out of 156.
+    - High priority: trend-bet-now (gambling 100%), bankrollbattle (gambling),
+      atx-golfpulse (golf wagers).
+    - Results saved to output/non_flagged_screen_results.csv.
+
+D.2  ZazaStyle cannabis shop example
+
+  User provided app_id 699ce719af3b04ee2d440034 (ZazaStyle) as a case where:
+  - Trino description: "fashion and lifestyle products" (fake/misleading)
+  - Conversation summary: "PACKMAN project" (known cannabis brand)
+  - Live app: cannabis shop (behind login, not publicly scrapeable)
+  
+  Also shared improved Trino query (with base44_apps name/description join,
+  manual_review_status filter, bo_link construction).
+
+  Changes made:
+  - Added cannabis slang to policy_classifier.py: zaza, packman, runtz strain,
+    thca flower, delta-8, live resin, smoke shop, pre-roll, cookies strain, etc.
+  - screen() now accepts conversation_summary=, trino_description=, app_name_hint=
+  - classify() now accepts extra_context= parameter
+  - screen_batch() accepts trino_rows= list for bulk Trino context
+  - ZazaStyle now correctly flagged: Not Supportable (80%) via zaza + packman
+
+D.3  Run Trino query and screen with conversation summaries
+
+  "yes" (confirm to run Trino query and re-screen with conversation summaries)
+
+  - Ran full Trino population query via MCP (3 batches of 80 rows each)
+  - Saved 240 apps to data/trino_full_population.json
+  - Ran context-only classification (no scraping): 42 flagged out of 240
+  - Key new findings: Imperial Casino, Story Spinners Casino, Betting Ball
+    (all clear gambling apps not previously identified)
+  - Script added: scripts/screen_with_trino.py
+
+D.4  Google Sheet / scheduling discussion
+
+  User asked if Trino query could be scheduled and results pushed to a
+  Google Sheet accessible to AI always.
+
+  Answer: AI already has Trino MCP access and can run the query fresh each
+  session. For a shared human-readable sheet, options are:
+    A) Scheduled local script → Google Sheets via gspread (needs Google API creds)
+    B) GitHub Actions workflow (cloud, VPN may block)
+    C) Wix internal infrastructure (Airflow / scheduled job)
+  Decision: use Cursor rule instead — simpler, no credentials needed.
+
+D.5  Trino data auto-refresh rule
+
+  "A ok, so we need a rule for you here to run this query on every session
+  and on top run it every 24 hours if project is opened all the time?"
+
+  Created: .cursor/rules/trino-data-refresh.mdc (alwaysApply: true)
+  - At the start of every conversation, AI checks age of
+    data/trino_full_population.json
+  - If missing or older than 24 hours → runs Trino query via MCP silently
+  - If fresh → uses cached file with no mention
+  - If Trino unreachable → warns once, continues with cached data
+
+D.6  Save and update the documentation
+
+  "save and update the documentation"
+
+  Updated:
+  - docs/BASE44-UW-PROJECT-DOCUMENTATION.md → Version 3.0; added Section 6
+    (App Compliance Screener), Section 13 (Trino Data Auto-Refresh); updated
+    Architecture, File Layout, Data Sources, Audit Checklist
+  - docs/USER-REQUESTS-IN-THIS-PROJECT.txt → added Part D (this session)
+  - README.md → updated to mention Compliance Screener
+
+================================================================================
   END OF USER REQUESTS (FULL)
 ================================================================================

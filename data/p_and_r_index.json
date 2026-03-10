@@ -1,0 +1,982 @@
+[
+  {
+    "p_and_r_id": 1,
+    "p_and_r_name": "[WP] Adult goods and Fetish products",
+    "p_and_r_family_id": 1,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "The main reason why the adult industry is high risk is because of the high chargebacks",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 2,
+    "p_and_r_name": "[WP] Pornographic content: books, magazines, audio, videos, websites, streaming services and other content formats deemed offensive or of a sexual nature",
+    "p_and_r_family_id": 1,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Pornography in particular non-consensual sexual behavior mutilation of an individual or a body part bestiality exploitation of a child. link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 3,
+    "p_and_r_name": "[WP] Entertainment: Gentleman's clubs, topless bars, strip clubs, sexually oriented massage parlors, saunas, escort agencies, or any sexually-related services",
+    "p_and_r_family_id": 1,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC 7273 - Dating and Escort Services. 7841 Video Entertainment Rental Stores (adult content); 5967 Direct Marketing \u2013 Inbound Telemarketing Merchants (adult content)",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 4,
+    "p_and_r_name": "[WP] Sexually oriented dating services",
+    "p_and_r_family_id": 1,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC 7273 - Dating and Escort Services.",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 5,
+    "p_and_r_name": "[WP] Binary options",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051  Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 6,
+    "p_and_r_name": "[WP] Buy now pay later / Installment payment methods",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 7,
+    "p_and_r_name": "[WP] Credit card and identity theft protection",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 8,
+    "p_and_r_name": "[WP] Credit repair and credit protection business",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 9,
+    "p_and_r_name": "[WP] Debt repayment and collection agency",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 - High Risk MCC  Financial Institutions \u2013 Merchandise, Services, and Debt Repaymen",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 10,
+    "p_and_r_name": "[WP] E-wallet or e-money that can be monetized, re-sold or converted to physical and digital goods and services or otherwise exit the virtual world",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051 Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 11,
+    "p_and_r_name": "[SP] Extended warranties",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Not BRAM",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 12,
+    "p_and_r_name": "[WP] Financial service or money service business, including but not limited to: Traveler checks, Money orders, Foreign Exchange, Check cashing, Virtual currencies, Cash advances by non-financial institutes, Cryptocurrency exchange",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051  Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 13,
+    "p_and_r_name": "[WP] Fines or penalty collections of any kind",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 14,
+    "p_and_r_name": "[WP] Forwarding brokers",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 15,
+    "p_and_r_name": "[WP] Independent or unlicensed financial advisors",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051  Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 16,
+    "p_and_r_name": "[WP] Insurance sales and services (life) & (non-life)",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 17,
+    "p_and_r_name": "[WP] Money transfer & remittance businesses",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051 Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 18,
+    "p_and_r_name": "[WP] Payday loans, unsecured loans and loans originating from non FDIC insured banks",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051 Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 19,
+    "p_and_r_name": "[WP] Payroll, invoice and business services",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 20,
+    "p_and_r_name": "[WP] Provider or seller prepaid access/stored value",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 21,
+    "p_and_r_name": "[WP] Shell banks",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 22,
+    "p_and_r_name": "[WP] Counterfeit products, replicas or designed infringements of them including products designed to circumvent IP",
+    "p_and_r_family_id": 18,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Copyright and trademark infringement link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 23,
+    "p_and_r_name": "[WP] Essay mills, paper mills where the intent is to falsely submit documents as their own work",
+    "p_and_r_family_id": 18,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Copyright and trademark infringement link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 24,
+    "p_and_r_name": "[WP] Products designed to circumvent copyright protection techniques or to otherwise facilitate the unlicensed use of copyrighted material",
+    "p_and_r_family_id": 18,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Copyright and trademark infringement link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 25,
+    "p_and_r_name": "[WP] Business investment opportunities operating as \u2018get rich quick schemes\u2019",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "as part of High Risk MCC 6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 26,
+    "p_and_r_name": "[WP] Business models that use ransom - or extortion like practices",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips - Unlike ransomware which forces the business to either pay up or lose access to the stolen data extortionists threaten to publicly release the collected information. This often pressures the business to comply which increases the likelihood the victim will adhere to the extortion demands. Link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 27,
+    "p_and_r_name": "[WP] Business practices that are designed to evade excessive chargeback monitoring programs",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Source",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 28,
+    "p_and_r_name": "[WP] Data pass",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "A data pass merchant engages is a form of deceptive marketing (e.g., \"free trials\" leading to hidden subscriptions), this can result in excessive chargebacks, which triggers BRAM enforcement [context: A data pass merchant is a type of merchant that does not directly acquire its customers but instead relies on another entity (such as a lead generator, affiliate, or partner) to pass along customer information to complete transactions. Essentially, the merchant receives customer payment data (e.g., credit card details) from third parties and processes transactions without having direct interaction or a legitimate relationship with the customer. Exsample - buying airline ticket with enrollment to a membership club]",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 29,
+    "p_and_r_name": "[WP] Deceptive marketing tactics related to disclosure, false or inaccurate claims, before/after claims, endorsements, cancellation or refunds avoidance, pre- checked opt-ins, poorly disclosed negative options, misappropriation of incentives, disproportionate rebates, sweepstakes",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Source; High Risk MCC 5968",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 30,
+    "p_and_r_name": "[WP] Fake references and other services or products that foster deception",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Source",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 32,
+    "p_and_r_name": "[WP] Products or services that promote hate, violence, discrimination, terrorism, harassment or abuse in any shape or form",
+    "p_and_r_family_id": 15,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 33,
+    "p_and_r_name": "[WP] Pyramid selling, chain letters or other financial scams",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Source Webshield on BRAM ; Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips Link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 34,
+    "p_and_r_name": "[WP] Unregistered charities",
+    "p_and_r_family_id": 7,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 35,
+    "p_and_r_name": "[WP] Crowdfunding",
+    "p_and_r_family_id": 7,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 36,
+    "p_and_r_name": "[WP] Airlines",
+    "p_and_r_family_id": 19,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Not BRAM",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 37,
+    "p_and_r_name": "[AP] Ancestry research",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 38,
+    "p_and_r_name": "[WP] Animals and wildlife products classified as endangered or protected",
+    "p_and_r_family_id": 17,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 39,
+    "p_and_r_name": "[WP] Bail bonds and bankruptcy lawyers",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 40,
+    "p_and_r_name": "[WP] Bidding fee and penny auctions",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 41,
+    "p_and_r_name": "[WP] Certain social media business (e.g. click farms, sale of Twitter followers, Facebook likes, YouTube views, and other forms of social media activity and online traffic)",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 42,
+    "p_and_r_name": "[WP] Cloud storage, VPN, file sharing, (high-risk) cyber lockers",
+    "p_and_r_family_id": 6,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC: 4816 Computer Network/Information Services for the sale of access to cyberlockers or remote digital file-sharing services",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 43,
+    "p_and_r_name": "[WP] Cruise Lines",
+    "p_and_r_family_id": 19,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 44,
+    "p_and_r_name": "[WP] Direct Marketing \u2013 Inbound teleservices, outbound telemarketing and travel-related arrangement services, Insurance services, catalog merchants, door-to-door sales",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC: 5962 Direct Marketing \u2013 Travel-Related Arrangement Services 5966 Direct Marketing \u2013 Outbound Telemarketing Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 45,
+    "p_and_r_name": "[WP] Governmental services, such as embassies or consulates",
+    "p_and_r_family_id": 17,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 46,
+    "p_and_r_name": "[WP] Hazardous materials",
+    "p_and_r_family_id": 27,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 47,
+    "p_and_r_name": "[WP] Health practitioners, private medical practices, e-doctors, dental/medical services and facilities",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 48,
+    "p_and_r_name": "[WP] Human body parts or bodily fluids (excluding hair and teeth)",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 49,
+    "p_and_r_name": "[WP] Internet product and service providers",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC: 4816 Computer Network/Information Services for the sale of access to cyberlockers or remote digital file-sharing services",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 50,
+    "p_and_r_name": "[WP] Intravenous therapy (e.g. IV drip bar, vitamin infusions, hangover cures)",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 51,
+    "p_and_r_name": "[WP] Key-entry telecom merchant",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 52,
+    "p_and_r_name": "[WP] Live-streaming Services with in-app currency or in-app donations functionality",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 53,
+    "p_and_r_name": "[WP] Medical, dental, ophthalmic and hospital equipment and supplies",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 54,
+    "p_and_r_name": "[WP] Medical benefit packages",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 55,
+    "p_and_r_name": "[WP] Multi-level marketing",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 56,
+    "p_and_r_name": "[WP] Nutraceuticals and food products, including, but not limited to CBD and Hemp seed related products",
+    "p_and_r_family_id": 20,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 57,
+    "p_and_r_name": "[WP] Pawn shops",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 58,
+    "p_and_r_name": "[WP] Telemarketing companies selling products or services as an agent for a third party",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 59,
+    "p_and_r_name": "[WP] Timeshare and timeshare maintenance",
+    "p_and_r_family_id": 5,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Not BRAM",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 60,
+    "p_and_r_name": "[WP] Veterinary practices",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 61,
+    "p_and_r_name": "[WP] Alcohol sales as main product (e.g. alcohol shops, bars, breweries, wineries)",
+    "p_and_r_family_id": 4,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 62,
+    "p_and_r_name": "[WP] Cannabis dispensaries and related businesses",
+    "p_and_r_family_id": 8,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Illegal Drugs link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 63,
+    "p_and_r_name": "[WP] Drugs, and tools specifically intended for the production of drugs, drug paraphernalia, illegal drugs, substances designed to mimic illegal drugs and/or other psychoactive products",
+    "p_and_r_family_id": 8,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Illegal Drugs link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 64,
+    "p_and_r_name": "[WP] Illegal products or services or any service providing peripheral support of illegal activities. Illegal transactions \u2013 Submitting any transaction into the payment system that is illegal or that the merchant knows or should have known was illegal. Transactions must be legal in both the cardholder\u2019s and merchant\u2019s jurisdiction. Before entering into, extending, or renewing a Merchant Agreement or ATM Owner Agreement",
+    "p_and_r_family_id": 17,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 65,
+    "p_and_r_name": "[WP] Illegal gambling services & Legal gambling or Game of Skill where participants receive cash or cash equivalents or prizes with/of material value: including but not limited to: Casinos, poker, bingo, slot machines, betting, lotteries, racing, fantasy sports. Any type of US based gambling services",
+    "p_and_r_family_id": 14,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "7994 Skill games Merchants;\n7995 Betting including Lottery Tickets Casino Gaming Chips Off-Track Betting and Wagers at Race Tracks\n9406 Government-owned lottery Merchants (Global Excluding U.S. Region)\n7800 Government-owned lottery Merchants (U.S. Region only)\n7801 Internet Gambling (U.S. Region Only)\n7802 Government Licensed Horse/Dog Racing (U.S. Region Only)",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 66,
+    "p_and_r_name": "[WP] Products or services specifically offered or intended to be used to create, produce or grow drugs or drug ingredients",
+    "p_and_r_family_id": 8,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Illegal Drugs link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 67,
+    "p_and_r_name": "[WP] Pharmaceuticals, prescription medicine and medical devices (including animal pharmaceuticals)",
+    "p_and_r_family_id": 16,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "5122 Drugs Drug Proprietaries Druggist Sundries",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 68,
+    "p_and_r_name": "[WP] Tobacco, smoking supplies, e-cigarettes, e-liquids, vaping liquid, vaping accessories",
+    "p_and_r_family_id": 21,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "5993 Cigar Stores and Stands / Non\u2013face-to-face tobacco product Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 69,
+    "p_and_r_name": "[WP] Trade of fireworks, flammable or radioactive materials",
+    "p_and_r_family_id": 27,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Other illegal or brand damaging products\nsuch as: Fake IDs Illegal telecommunications equipment Modification chips link; Entering illegal or brand-damaging Transaction activity into the Visa payment system",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 70,
+    "p_and_r_name": "[WP] Trade of weapons, ammunitions, military arms, explosive devices and firearm parts",
+    "p_and_r_family_id": 27,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Well Fargo policy: \u201cCard-not-present\u201d arms sales: Because of the elevated risks and difficulty in ensuring required licensing, merchants\nengaging in the sale of weapons, ammunition, and firearms products in a \u201ccard not present\u201d environment (such as\necommerce, mail-order, telephone-order) are not qualified to receive processing services from Wells Fargo Merchant\nServices., use case",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 1,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "High"
+  },
+  {
+    "p_and_r_id": 72,
+    "p_and_r_name": "[WP] Cryptocurrency mining equipment",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 73,
+    "p_and_r_name": "[WP] High-risk securities: Contract for difference (CFD), Financial spread betting, Initial coin offering (ICO), Forex currency options, Cryptocurrency options, Trading and purchases",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051  Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 74,
+    "p_and_r_name": "[WP] Security Brokers / Investments of any Kind: Securities, Currencies, Derivatives, Commodities, Shares, Options, Precious Metals, Other Financial Instruments",
+    "p_and_r_family_id": 28,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "6012 Financial Institutions \u2013 Merchandise Services and Debt Repaymen; 6051 Non-Financial Institutions \u2013 Foreign Currency Non-Fiat Currency [for example Cryptocurrency] Money Orders [Not Money Transfer] Travelers Cheques and Debt Repayment) for the sale of cryptocurrencies\n6211 High-risk securities Merchants",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 75,
+    "p_and_r_name": "[WP] Aggregators, including but not limited to:",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 76,
+    "p_and_r_name": "[WP] Marketplaces",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 77,
+    "p_and_r_name": "[WP] Platforms",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 78,
+    "p_and_r_name": "[WP] Staged Digital Wallet Operators",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 79,
+    "p_and_r_name": "[WP] Payment Facilitators or other internet payment or member service providers (IPSP or MPS)",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 80,
+    "p_and_r_name": "[WP] Peer-to-peer",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 81,
+    "p_and_r_name": "[WP] Bill payments",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 82,
+    "p_and_r_name": "[WP] Commissary accounts",
+    "p_and_r_family_id": 3,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 83,
+    "p_and_r_name": "[WP] Decryption and descrambler products and services, devices designed to block, jam or interfere with cellular and personal communications",
+    "p_and_r_family_id": 6,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "HR MCC: 4816 Computer Network/Information Services for the sale of access to cyberlockers or remote digital file-sharing services",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 84,
+    "p_and_r_name": "[MC] [VR] Full disclosure of products and services",
+    "p_and_r_family_id": 24,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 85,
+    "p_and_r_name": "[VRP] as a best practice is the collection of the following information Mobile device applications",
+    "p_and_r_family_id": 24,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 86,
+    "p_and_r_name": "[WPT] Processor\u2019s acceptance of Merchant as user of the Services and the relevant Payment Methods is limited to the use by Merchant of the Services for payment of Merchant\u2019s own products and services and not for any related or unrelated 3rd party.",
+    "p_and_r_family_id": 24,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 87,
+    "p_and_r_name": "[VR] For E-commerce Transactions, Merchant is obliged to provide on its website the following information to an Account Holder for every Transaction: complete description of the goods or services offered, returned merchandise and refund policy, customer service contact (including email address and/or telephone number), address, delivery policy, Merchant\u2019s consumer data protection policy and all other legally required information to be provided to the Account Holder in the relevant jurisdiction.",
+    "p_and_r_family_id": 26,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 88,
+    "p_and_r_name": "[MC] [VR] Transaction laundering (factoring) \u2013 Accepting a transaction that does not result from an act between the cardholder and the merchant or the cardholder and the sponsored merchant. Payment facilitators may deposit a transaction between the cardholder and a sponsored merchant of the payment facilitator but must not deposit a transaction on behalf of another payment facilita",
+    "p_and_r_family_id": 25,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": "Transaction laundering (aggregation) Link",
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 1,
+    "sensitivity_to_risk": "Medium"
+  },
+  {
+    "p_and_r_id": 89,
+    "p_and_r_name": "[WP] Social reviews / traffic / reputaion (Monitoring Illegal Transactions AACQ.C17.1) - not used for now",
+    "p_and_r_family_id": 22,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 90,
+    "p_and_r_name": "[MC] An Acquirer must verify that the Merchant or ATM owner from which it intends to acquire Transactions is a bona fide business, has sufficient safeguards in place to protect Account data from unauthorized disclosure or use, and complies with applicable laws, and that each POS Transaction will reflect bona fide business between the Merchant or Submerchant and a Cardholder. Procedures for verifying that a Merchant or ATM owner is a bona fide business are set forth in Chapter 7 of the Security Rules and Procedures manual.",
+    "p_and_r_family_id": 23,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 91,
+    "p_and_r_name": "[AP] Sex toys",
+    "p_and_r_family_id": 1,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 92,
+    "p_and_r_name": "[VR] MCC detection",
+    "p_and_r_family_id": 22,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 93,
+    "p_and_r_name": "[WP] CBD",
+    "p_and_r_family_id": 8,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 94,
+    "p_and_r_name": "[VR MCR] Merchant Location - A Merchant\u2019s location is at an address in the country where the Merchant conducts the business described in the Merchant application and governed by the Merchant Agreement",
+    "p_and_r_family_id": 22,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 95,
+    "p_and_r_name": "[AP, SP] Regulated Business not in WP P&R / other findings",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 96,
+    "p_and_r_name": "[AP] Detective Agencies, legal, private investigation, or bodyguard services",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 98,
+    "p_and_r_name": "[AP] Political, Religious, or Social Campaigning",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 99,
+    "p_and_r_name": "[AP] Car and truck rental / sales / importers / car parts >2000EU/single trx",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 100,
+    "p_and_r_name": "[AP] Services associated with pseudoscience (e.g. clairvoyance, horoscopes)",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  },
+  {
+    "p_and_r_id": 101,
+    "p_and_r_name": "[AP, SP] Jewelry, watch, precious stones, metals and silverware stores >2000EU/single trx",
+    "p_and_r_family_id": 2,
+    "p_and_r_family_name": null,
+    "why_is_it_bram_if_applicable": null,
+    "sensitivity_to_risk_non_compliance_case_and_fines": 0,
+    "sensitivity_to_risk_bram": 0,
+    "sensitivity_to_risk": "Low"
+  }
+]

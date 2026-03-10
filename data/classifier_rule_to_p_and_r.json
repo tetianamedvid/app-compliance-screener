@@ -1,0 +1,228 @@
+[
+  {
+    "stripe_category": "Adult Content, Products, and Services",
+    "stripe_subcategory": "Pornographic Imagery",
+    "p_and_r_ids": [
+      2
+    ]
+  },
+  {
+    "stripe_category": "Adult Content, Products, and Services",
+    "stripe_subcategory": "Sexually Driven Services",
+    "p_and_r_ids": [
+      3
+    ]
+  },
+  {
+    "stripe_category": "Adult Content, Products, and Services",
+    "stripe_subcategory": "Sexually Driven Dating",
+    "p_and_r_ids": [
+      4
+    ]
+  },
+  {
+    "stripe_category": "Adult Content, Products, and Services",
+    "stripe_subcategory": "Sex Toys and Accessories",
+    "p_and_r_ids": [
+      1,
+      91
+    ]
+  },
+  {
+    "stripe_category": "Alcohol",
+    "stripe_subcategory": "Alcoholic Beverages",
+    "p_and_r_ids": [
+      61
+    ]
+  },
+  {
+    "stripe_category": "Content Creation",
+    "stripe_subcategory": "Creator Platform / Tips / Digital Goods",
+    "p_and_r_ids": [
+      77,
+      52
+    ]
+  },
+  {
+    "stripe_category": "Cryptocurrency Products and Services",
+    "stripe_subcategory": "Trade / Exchange / Wallets",
+    "p_and_r_ids": [
+      12
+    ]
+  },
+  {
+    "stripe_category": "Debt and Credit Services",
+    "stripe_subcategory": "Debt Collection / Relief / Credit Repair",
+    "p_and_r_ids": [
+      9
+    ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Loans / BNPL / Brokerage / Neobank / P2P",
+    "p_and_r_ids": [
+      18,
+      12,
+      6
+    ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Dropshipping / Resale Consulting",
+    "p_and_r_ids": [
+      15
+    ]
+  },
+  {
+    "stripe_category": "Fundraising",
+    "stripe_subcategory": "Crowdfunding / Donations",
+    "p_and_r_ids": [
+      35
+    ]
+  },
+  {
+    "stripe_category": "Gambling and Games of Skill",
+    "stripe_subcategory": "Betting / Casino / Lottery",
+    "p_and_r_ids": [
+      65
+    ]
+  },
+  {
+    "stripe_category": "Gambling and Games of Skill",
+    "stripe_subcategory": "Games of Skill with Monetary Prizes",
+    "p_and_r_ids": [
+      65
+    ]
+  },
+  {
+    "stripe_category": "Hazardous Materials",
+    "stripe_subcategory": "Explosives / Fireworks / Toxic / Radioactive",
+    "p_and_r_ids": [
+      46
+    ]
+  },
+  {
+    "stripe_category": "Healthcare Products and Services",
+    "stripe_subcategory": "Prescription Pharmaceuticals",
+    "p_and_r_ids": [
+      29,
+      47
+    ]
+  },
+  {
+    "stripe_category": "Healthcare Products and Services",
+    "stripe_subcategory": "Nutraceuticals / Weight Loss / Sexual Enhancement",
+    "p_and_r_ids": [
+      29,
+      56
+    ]
+  },
+  {
+    "stripe_category": "Healthcare Products and Services",
+    "stripe_subcategory": "Telehealth / Medical Marketplace",
+    "p_and_r_ids": [
+      53
+    ]
+  },
+  {
+    "stripe_category": "Illegal Drugs and Related Products",
+    "stripe_subcategory": "Illegal Substances / Paraphernalia",
+    "p_and_r_ids": [
+      63
+    ]
+  },
+  {
+    "stripe_category": "Illegal Products and Services",
+    "stripe_subcategory": "Counterfeit / Fake IDs / Human Trafficking",
+    "p_and_r_ids": [
+      48,
+      64
+    ]
+  },
+  {
+    "stripe_category": "Illegal Products and Services",
+    "stripe_subcategory": "Hate Speech Products",
+    "p_and_r_ids": [
+      64
+    ]
+  },
+  {
+    "stripe_category": "Marijuana and Related Businesses",
+    "stripe_subcategory": "Marijuana / CBD Products",
+    "p_and_r_ids": [
+      62,
+      63
+    ]
+  },
+  {
+    "stripe_category": "Weapons, Ammunition, and Related Products",
+    "stripe_subcategory": "Firearms / Ammunition / Weapon Parts",
+    "p_and_r_ids": [
+      70
+    ]
+  },
+  {
+    "stripe_category": "Weapons, Ammunition, and Related Products",
+    "stripe_subcategory": "Knives / Martial Arts Weapons",
+    "p_and_r_ids": [
+      70
+    ]
+  },
+  {
+    "stripe_category": "Tobacco and Nicotine Products",
+    "stripe_subcategory": "Cigarettes / Vape / E-cigarettes",
+    "p_and_r_ids": [
+      68
+    ]
+  },
+  {
+    "stripe_category": "Unfair, Deceptive, or Abusive Practices",
+    "stripe_subcategory": "Get Rich Quick / Fake Guarantees / MLM",
+    "p_and_r_ids": [
+      25,
+      33
+    ]
+  },
+  {
+    "stripe_category": "Unfair, Deceptive, or Abusive Practices",
+    "stripe_subcategory": "Negative Option Marketing / Hidden Subscriptions",
+    "p_and_r_ids": [
+      29
+    ]
+  },
+  {
+    "stripe_category": "Multi-Level Marketing",
+    "stripe_subcategory": "MLM / Network Marketing",
+    "p_and_r_ids": [
+      55
+    ]
+  },
+  {
+    "stripe_category": "Insurance",
+    "stripe_subcategory": "Insurance Products",
+    "p_and_r_ids": [
+      16
+    ]
+  },
+  {
+    "stripe_category": "Government Products and Services",
+    "stripe_subcategory": "Unauthorized Government Services / Visa Scams",
+    "p_and_r_ids": [
+      45
+    ]
+  },
+  {
+    "stripe_category": "Identity Related Services",
+    "stripe_subcategory": "Identity Theft Protection / Monitoring",
+    "p_and_r_ids": [
+      7
+    ]
+  },
+  {
+    "stripe_category": "Mortgage Consulting",
+    "stripe_subcategory": "Predatory Mortgage Services",
+    "p_and_r_ids": [
+      30
+    ]
+  }
+]

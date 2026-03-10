@@ -1,0 +1,29 @@
+# Base44 Public Documentation — Local Copy
+# Source: https://docs.base44.com/llms.txt
+# Fetched: 2026-02-22
+# These are summarized versions of the official docs, focused on UW-relevant details.
+
+## Files in this directory:
+
+### Payments and Selling
+- payments-wix.md — Base44 Payments powered by Wix (setup, prohibited items, verification)
+- payments-stripe.md — Stripe integration (setup, payment flows)
+- wix-prohibited-products.md — FULL Wix Payments prohibited products/services list
+
+### Policies and Compliance
+- responsible-use-policy.md — Base44 Responsible Use Policy (28 prohibited use categories)
+- privacy-security.md — Privacy, security, SOC2, ISO 27001, data storage
+- ai-service-providers.md — Third-party AI providers (Anthropic, Google, OpenAI)
+
+### Security and Access Control
+- security.md — App security settings, RLS, access rules, security scanner
+- login-registration.md — Authentication options, signup, SSO
+- access-control.md — App visibility, roles, collaborators, invitations
+
+### Technical Architecture
+- entities-overview.md — Data model / entities system
+- backend-functions.md — Serverless functions, automations, webhooks
+- ai-agents.md — AI agent setup, capabilities, WhatsApp integration
+
+## Full online docs index
+- https://docs.base44.com/llms.txt
