@@ -14,13 +14,20 @@ except ImportError:
     pass
 
 import streamlit as st
-from uw_app.app_screener import screen, screen_batch, ScreenResult
-from uw_app import findings_store
-from uw_app.ui_helpers import (
-    SCREENER_CSS, render_kpis, render_filters,
-    build_findings_df, render_findings_table,
-    render_findings_rows, render_policy_matches,
-)
+
+try:
+    from uw_app.app_screener import screen, screen_batch, ScreenResult
+    from uw_app import findings_store
+    from uw_app.ui_helpers import (
+        SCREENER_CSS, render_kpis, render_filters,
+        build_findings_df, render_findings_table,
+        render_findings_rows, render_policy_matches,
+    )
+except Exception as _import_err:
+    st.error(f"Import failed: {_import_err}")
+    import traceback
+    st.code(traceback.format_exc())
+    st.stop()
 
 st.set_page_config(
     page_title="App Compliance Screener",
