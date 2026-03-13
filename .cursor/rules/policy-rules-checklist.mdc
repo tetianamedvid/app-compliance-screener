@@ -1,0 +1,19 @@
+---
+description: Checklist when adding or editing policy rules in policy_classifier.py
+globs: uw_app/policy_classifier.py, data/classifier_rule_to_p_and_r.json, data/policy_keywords.json
+alwaysApply: false
+---
+
+# Policy rules checklist
+
+Every time you add, remove, or modify a rule in `_POLICY` inside `uw_app/policy_classifier.py`, complete **all** of these steps before you are done:
+
+1. **P&R mapping** — add or update the entry in `data/classifier_rule_to_p_and_r.json` so the new rule maps to a P&R ID and name. If no obvious P&R match exists, flag it for the user.
+2. **Signal IDs** — populate `signal_ids` and `regulation` if the keywords came from `data/compliance_signal_library.json`.
+3. **Word-boundary keywords** — single-word keywords ≤ 10 chars get automatic `\b` boundary matching. Keep ambiguous single words at weight ≤ 10.
+4. **Regenerate exports** — run:
+   ```bash
+   python3 -c "from uw_app.policy_classifier import _POLICY; import json, pathlib; pathlib.Path('data/policy_keywords.json').write_text(json.dumps(_POLICY, indent=2, default=str))"
+   ```
+   Then regenerate the markdown version (`data/policy_keywords.md`) if it exists.
+5. **Smoke test** — screen at least one URL that should and one that should not match the new rule and verify the output.

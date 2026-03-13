@@ -25,7 +25,8 @@ from uw_app import data_refresh
 from uw_app.uw_cache import get_uw_for_app
 from uw_app.profile import profile_from_app_record, profile_from_trino_row
 from uw_app.trino_client import get_full_profile, get_conversation_snapshots, get_conversation_messages, is_configured as trino_configured, test_connection, get_last_trino_error
-from run_underwriting import run_standalone_uw, _get_or_create_browser
+from run_underwriting import run_standalone_uw
+from uw_app.scraper import _get_or_create_browser
 
 
 def _load_full_profiles_json():

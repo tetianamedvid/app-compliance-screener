@@ -1,0 +1,17 @@
+---
+description: Findings store is the single gateway for screening results — always use its API
+globs: uw_app/findings_store.py, uw_app/app_screener.py, pages/*.py, streamlit_screener.py
+alwaysApply: false
+---
+
+# Findings store integrity
+
+`data/findings.jsonl` is managed exclusively through `uw_app/findings_store.py`.
+
+## Rules
+
+1. **Never write to `findings.jsonl` directly.** Always use `findings_store.append()` to save a result. It handles dedup-by-URL and preserves existing review metadata automatically.
+2. **One row per URL.** Re-screening the same URL replaces the previous entry (review_status/note are preserved). `load_all()` deduplicates on read as a safety net.
+3. **Sorting** — use `findings_store.sort_findings(rows)` whenever displaying or exporting. Order: verdict severity (Not Supportable first) → confidence descending.
+4. **Review updates** — use `findings_store.update_review(url, status, note)`. Do not mutate rows in memory and rewrite manually.
+5. **URL normalisation** — all URL comparisons go through `_normalize_url()` (strip, rstrip `/`, lowercase). If you add a new lookup method, use it.

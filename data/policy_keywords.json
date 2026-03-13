@@ -1,12 +1,36 @@
 [
   {
+    "index": 0,
     "category": "Adult Content, Products, and Services",
     "subcategory": "Pornographic Imagery",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      2
+    ],
     "keywords": [
-      [
-        80,
-        [
+      "18+ content",
+      "adult content",
+      "adult entertainment",
+      "adult video",
+      "deep-fake porn",
+      "erotic video",
+      "explicit sexual",
+      "hentai",
+      "nsfw",
+      "nsfw content",
+      "nude photo",
+      "nude video",
+      "onlyfans clone",
+      "porn site",
+      "pornograph",
+      "xxx"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "pornograph",
           "xxx",
           "porn site",
@@ -19,31 +43,50 @@
           "nude video",
           "adult entertainment"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "nsfw",
           "adult content",
           "18+ content",
           "erotic video",
           "nude photo"
         ]
-      ]
-    ],
-    "index": 0,
-    "p_and_r_ids": [
-      2
+      }
     ]
   },
   {
+    "index": 1,
     "category": "Adult Content, Products, and Services",
     "subcategory": "Sexually Driven Services",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      3
+    ],
     "keywords": [
-      [
-        80,
-        [
+      "adult service",
+      "cam girl",
+      "cam model",
+      "erotic massage",
+      "escort",
+      "escort agency",
+      "escort service",
+      "feet video",
+      "fetish service",
+      "financial domination",
+      "gentleman club",
+      "mail-order bride",
+      "sex worker",
+      "sexual service",
+      "strip club"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "escort service",
           "escort agency",
           "gentleman club",
@@ -56,30 +99,44 @@
           "cam model",
           "sex worker"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "escort",
           "erotic massage",
           "adult service",
           "sexual service"
         ]
-      ]
-    ],
-    "index": 1,
-    "p_and_r_ids": [
-      3
+      }
     ]
   },
   {
+    "index": 2,
     "category": "Adult Content, Products, and Services",
     "subcategory": "Sexually Driven Dating",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      4
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "adult dating",
+      "ashley madison",
+      "casual sex",
+      "dating app",
+      "dating site",
+      "hook-up",
+      "hookup app",
+      "meet singles",
+      "sex dating",
+      "sexual encounter"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "hook-up",
           "hookup app",
           "sexual encounter",
@@ -88,29 +145,44 @@
           "adult dating",
           "sex dating"
         ]
-      ],
-      [
-        30,
-        [
+      },
+      {
+        "weight": 30,
+        "keywords": [
           "dating site",
           "dating app",
           "meet singles"
         ]
-      ]
-    ],
-    "index": 2,
-    "p_and_r_ids": [
-      4
+      }
     ]
   },
   {
+    "index": 3,
     "category": "Adult Content, Products, and Services",
     "subcategory": "Sex Toys and Accessories",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      1,
+      91
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "adult toy",
+      "bdsm",
+      "bondage",
+      "dildo",
+      "fetish gear",
+      "lingerie shop",
+      "sex accessory",
+      "sex shop",
+      "sex toy",
+      "vibrator"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "sex toy",
           "dildo",
           "vibrator",
@@ -122,22 +194,40 @@
           "fetish gear",
           "lingerie shop"
         ]
-      ]
-    ],
-    "index": 3,
-    "p_and_r_ids": [
-      1,
-      91
+      }
     ]
   },
   {
+    "index": 4,
     "category": "Alcohol",
     "subcategory": "Alcoholic Beverages",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      61
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "alcohol delivery",
+      "beer",
+      "beer delivery",
+      "cocktail",
+      "craft brewery",
+      "distillery",
+      "liquor store",
+      "rum",
+      "spirits store",
+      "tequila",
+      "vodka",
+      "whiskey",
+      "wine",
+      "wine cellar",
+      "wine shop"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 50,
+        "keywords": [
           "wine shop",
           "beer delivery",
           "spirits store",
@@ -147,10 +237,10 @@
           "wine cellar",
           "distillery"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "wine",
           "beer",
           "whiskey",
@@ -159,21 +249,36 @@
           "tequila",
           "cocktail"
         ]
-      ]
-    ],
-    "index": 4,
-    "p_and_r_ids": [
-      61
+      }
     ]
   },
   {
+    "index": 5,
     "category": "Content Creation",
     "subcategory": "Creator Platform / Tips / Digital Goods",
     "supportability": "not_enabled",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      77,
+      52
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "content creator platform",
+      "creator",
+      "creator economy",
+      "creator monetization",
+      "exclusive content",
+      "fan subscription",
+      "patreon clone",
+      "subscriber content",
+      "tip creator",
+      "tip jar"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "content creator platform",
           "creator monetization",
           "tip creator",
@@ -181,31 +286,70 @@
           "fan subscription",
           "creator economy"
         ]
-      ],
-      [
-        25,
-        [
+      },
+      {
+        "weight": 25,
+        "keywords": [
           "tip jar",
           "creator",
           "subscriber content",
           "exclusive content"
         ]
-      ]
-    ],
-    "index": 5,
-    "p_and_r_ids": [
-      77,
-      52
+      }
     ]
   },
   {
+    "index": 6,
     "category": "Cryptocurrency Products and Services",
     "subcategory": "Trade / Exchange / Wallets",
     "supportability": "not_enabled",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      12
+    ],
     "keywords": [
-      [
-        80,
-        [
+      "bitcoin",
+      "bitcoin exchange",
+      "blockchain",
+      "buy bitcoin",
+      "buy crypto",
+      "crypto",
+      "crypto exchange",
+      "crypto lending",
+      "crypto mining",
+      "crypto staking",
+      "crypto trading",
+      "crypto wallet",
+      "cryptocurrency",
+      "decentralized finance",
+      "defi",
+      "defi platform",
+      "digital wallet",
+      "e-wallet",
+      "ethereum",
+      "ico launch",
+      "in-app coins",
+      "in-app currency",
+      "initial coin offering",
+      "nft",
+      "nft marketplace",
+      "sell bitcoin",
+      "solana",
+      "stored value",
+      "token",
+      "token sale",
+      "virtual coins",
+      "virtual currency",
+      "virtual wallet",
+      "wallet",
+      "web3",
+      "yield farm"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "crypto exchange",
           "bitcoin exchange",
           "crypto trading",
@@ -230,10 +374,10 @@
           "virtual coins",
           "virtual currency"
         ]
-      ],
-      [
-        50,
-        [
+      },
+      {
+        "weight": 50,
+        "keywords": [
           "cryptocurrency",
           "blockchain",
           "ethereum",
@@ -244,30 +388,52 @@
           "nft",
           "crypto mining"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "bitcoin",
           "crypto",
           "token",
           "wallet"
         ]
-      ]
-    ],
-    "index": 6,
-    "p_and_r_ids": [
-      12
+      }
     ]
   },
   {
+    "index": 7,
     "category": "Debt and Credit Services",
     "subcategory": "Debt Collection / Relief / Credit Repair",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      9
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "collect debt",
+      "collect now",
+      "collection agency",
+      "consolidate your bills",
+      "credi collect",
+      "credit collect",
+      "credit monitoring",
+      "credit repair",
+      "credit score fix",
+      "debt collection",
+      "debt collector",
+      "debt consolidation",
+      "debt reduction",
+      "debt relief",
+      "debt settlement",
+      "past due receivable",
+      "stop foreclosure",
+      "wipe out your debt"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "debt collection",
           "debt relief",
           "debt settlement",
@@ -281,10 +447,10 @@
           "credi collect",
           "credit collect"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "debt collector",
           "past due receivable",
           "credit score fix",
@@ -292,21 +458,56 @@
           "collect now",
           "collection agency"
         ]
-      ]
-    ],
-    "index": 7,
-    "p_and_r_ids": [
-      9
+      }
     ]
   },
   {
+    "index": 8,
     "category": "Financial Services",
     "subcategory": "Loans / BNPL / Brokerage / Neobank / P2P",
     "supportability": "not_enabled",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      18,
+      12,
+      6
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "binary option",
+      "bnpl",
+      "buy now pay later",
+      "cash advance",
+      "currency exchange",
+      "easy loan",
+      "escrow service",
+      "fast loan",
+      "forex trading",
+      "funded trading",
+      "high-yield return",
+      "invest",
+      "investment platform",
+      "lending platform",
+      "loan",
+      "loan app",
+      "loan pay",
+      "loan service",
+      "money remittance",
+      "money transfer",
+      "neobank",
+      "payday loan",
+      "peer-to-peer money",
+      "portfolio",
+      "prop firm",
+      "quick loan",
+      "send money",
+      "stock brokerage",
+      "trading signal"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "payday loan",
           "cash advance",
           "buy now pay later",
@@ -322,10 +523,10 @@
           "escrow service",
           "currency exchange"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "loan service",
           "lending platform",
           "investment platform",
@@ -338,32 +539,43 @@
           "fast loan",
           "loan app"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "invest",
           "portfolio",
           "trading signal",
           "loan"
         ]
-      ]
-    ],
-    "index": 8,
-    "p_and_r_ids": [
-      18,
-      12,
-      6
+      }
     ]
   },
   {
+    "index": 9,
     "category": "Financial Services",
     "subcategory": "Dropshipping / Resale Consulting",
     "supportability": "not_enabled",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      15
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "amazon fba course",
+      "dropship consulting",
+      "dropshipping",
+      "dropshipping course",
+      "how to dropship",
+      "make money reselling",
+      "resale profit",
+      "reselling course",
+      "reselling guide"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "dropshipping course",
           "reselling course",
           "how to dropship",
@@ -371,29 +583,44 @@
           "amazon fba course",
           "resale profit"
         ]
-      ],
-      [
-        30,
-        [
+      },
+      {
+        "weight": 30,
+        "keywords": [
           "dropshipping",
           "reselling guide",
           "make money reselling"
         ]
-      ]
-    ],
-    "index": 9,
-    "p_and_r_ids": [
-      15
+      }
     ]
   },
   {
+    "index": 10,
     "category": "Fundraising",
     "subcategory": "Crowdfunding / Donations",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      35
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "charity",
+      "charity raffle",
+      "crowdfunding",
+      "donate",
+      "donate now",
+      "donation",
+      "donation page",
+      "fundraise",
+      "gofundme",
+      "nonprofit",
+      "nonprofit donation"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 50,
+        "keywords": [
           "crowdfunding",
           "gofundme",
           "fundraise",
@@ -402,30 +629,73 @@
           "charity raffle",
           "nonprofit donation"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "donate",
           "donation",
           "charity",
           "nonprofit"
         ]
-      ]
-    ],
-    "index": 10,
-    "p_and_r_ids": [
-      35
+      }
     ]
   },
   {
+    "index": 11,
     "category": "Gambling and Games of Skill",
     "subcategory": "Betting / Casino / Lottery",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "GAMB-001"
+    ],
+    "regulation": "UIGEA; state gambling laws; BRAM; GBPP",
+    "p_and_r_ids": [
+      65
+    ],
     "keywords": [
-      [
-        80,
-        [
+      " bet ",
+      "baccarat",
+      "bet online",
+      "betting",
+      "betting odds",
+      "bingo online",
+      "blackjack",
+      "casino",
+      "crypto casino",
+      "draftkings",
+      "e-voucher gambling",
+      "fanduel",
+      "fantasy sports betting",
+      "gamble",
+      "gambling site",
+      "jackpot",
+      "lottery",
+      "lottery ticket",
+      "odds",
+      "online casino",
+      "online gambling",
+      "online lottery",
+      "place a bet",
+      "place bet",
+      "play for real money",
+      "poker",
+      "poker online",
+      "roulette",
+      "slot",
+      "slot machine",
+      "slots online",
+      "speculating on",
+      "sports betting",
+      "sportsbook",
+      "trend bet",
+      "wager",
+      "wagering"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "online casino",
           "sports betting",
           "place bet",
@@ -441,12 +711,17 @@
           "gamble",
           "gambling site",
           "bingo online",
-          "trend bet"
+          "trend bet",
+          "online gambling",
+          "crypto casino",
+          "e-voucher gambling",
+          "play for real money",
+          "online lottery"
         ]
-      ],
-      [
-        50,
-        [
+      },
+      {
+        "weight": 50,
+        "keywords": [
           "casino",
           "betting",
           "wager",
@@ -456,33 +731,64 @@
           "odds",
           "sportsbook",
           "place a bet",
-          "speculating on"
+          "speculating on",
+          "wagering",
+          "slots online",
+          "bet online"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "poker",
           "roulette",
           "blackjack",
           "baccarat",
           " bet "
         ]
-      ]
-    ],
-    "index": 11,
-    "p_and_r_ids": [
-      65
+      }
     ]
   },
   {
+    "index": 12,
     "category": "Gambling and Games of Skill",
     "subcategory": "Games of Skill with Monetary Prizes",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      65
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "$10,000 prize",
+      "$5,000 prize",
+      "bracket challenge prize",
+      "cash giveaway",
+      "cash prize game",
+      "daily fantasy",
+      "entry fee tournament",
+      "esports tournament entry",
+      "fantasy sports betting",
+      "leaderboard cash prize",
+      "money prize",
+      "pay to play tournament",
+      "pick em contest",
+      "play for money",
+      "prediction market",
+      "prize giveaway",
+      "prize pool",
+      "prize winner",
+      "referrer bonus",
+      "top referrer",
+      "tournament prize",
+      "win cash",
+      "win money",
+      "win prize money"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "prize pool",
           "entry fee tournament",
           "cash prize game",
@@ -496,10 +802,10 @@
           "prediction market",
           "win prize money"
         ]
-      ],
-      [
-        25,
-        [
+      },
+      {
+        "weight": 25,
+        "keywords": [
           "win cash",
           "money prize",
           "tournament prize",
@@ -513,21 +819,33 @@
           "win money",
           "prize winner"
         ]
-      ]
-    ],
-    "index": 12,
-    "p_and_r_ids": [
-      65
+      }
     ]
   },
   {
+    "index": 13,
     "category": "Hazardous Materials",
     "subcategory": "Explosives / Fireworks / Toxic / Radioactive",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      46
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "dynamite",
+      "explosive",
+      "firework",
+      "gunpowder",
+      "pesticide",
+      "radioactive material",
+      "rocket propellant",
+      "toxic chemical"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "firework",
           "explosive",
           "gunpowder",
@@ -537,21 +855,125 @@
           "pesticide",
           "rocket propellant"
         ]
-      ]
-    ],
-    "index": 13,
-    "p_and_r_ids": [
-      46
+      }
     ]
   },
   {
+    "index": 14,
     "category": "Healthcare Products and Services",
     "subcategory": "Prescription Pharmaceuticals",
     "supportability": "restricted",
+    "signal_ids": [
+      "RX-001",
+      "RX-002",
+      "RX-003",
+      "RX-004",
+      "RX-005"
+    ],
+    "regulation": "FDCA; ICANN RAA 3.18; BRAM; GBPP; DEA CSA",
+    "p_and_r_ids": [
+      29,
+      47
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "acyclovir",
+      "anazole",
+      "answer a few questions",
+      "apetamin",
+      "betamethasone",
+      "betnovate",
+      "bimat",
+      "bimatoprost",
+      "black cialis",
+      "boldebolin",
+      "buy ozempic online",
+      "buy prescription",
+      "careprost",
+      "cialis",
+      "cialis professional",
+      "clindamycin",
+      "clobetasol",
+      "codeine",
+      "compounded medication",
+      "counterfeit drug",
+      "dermovate",
+      "falsified medicine",
+      "filagra",
+      "fill out form",
+      "finpecia",
+      "generic cialis",
+      "generic levitra",
+      "generic viagra",
+      "hormone therapy",
+      "hydroquinone",
+      "international pharmacy",
+      "kamagra",
+      "ketoconazole",
+      "latisse",
+      "levitra",
+      "levitra professional",
+      "medical consultation online",
+      "methocarbamol",
+      "minoxidil",
+      "modafinil",
+      "nandrobolin",
+      "no doctor needed",
+      "no prescription required",
+      "no prescription viagra",
+      "no rx",
+      "no script needed",
+      "online consultation",
+      "online doctor",
+      "online pharmacy",
+      "online questionnaire",
+      "opioid",
+      "order without rx",
+      "orlistat",
+      "ozempic",
+      "pantoprazole",
+      "peptide",
+      "peptide injection",
+      "peptides",
+      "pharmacy",
+      "prescription",
+      "prescription drug",
+      "prescription medication",
+      "prescription not needed",
+      "prescriptions",
+      "quick form",
+      "reductil",
+      "retin-a",
+      "retino-a",
+      "rx drug",
+      "rybelsus",
+      "semaglutide",
+      "semaglutide injection",
+      "ship worldwide",
+      "ships to all countries",
+      "sibutril",
+      "silagra",
+      "sildenafil",
+      "slimex",
+      "tadalafil",
+      "telehealth prescription",
+      "telemedicine",
+      "testobolin",
+      "tirzepatide",
+      "tramadol",
+      "tretinoin",
+      "unapproved drug",
+      "vardenafil",
+      "viagra",
+      "viagra professional",
+      "wegovy",
+      "weight loss injection",
+      "without prescription",
+      "worldwide shipping"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "online pharmacy",
           "buy prescription",
           "prescription drug",
@@ -564,12 +986,63 @@
           "weight loss injection",
           "peptide injection",
           "compounded medication",
-          "telehealth prescription"
+          "telehealth prescription",
+          "no prescription required",
+          "no rx",
+          "without prescription",
+          "prescription not needed",
+          "order without rx",
+          "no doctor needed",
+          "no script needed",
+          "international pharmacy",
+          "worldwide shipping",
+          "kamagra",
+          "silagra",
+          "filagra",
+          "bimat",
+          "careprost",
+          "retino-a",
+          "anazole",
+          "black cialis",
+          "boldebolin",
+          "finpecia",
+          "nandrobolin",
+          "reductil",
+          "sibutril",
+          "slimex",
+          "testobolin",
+          "viagra professional",
+          "cialis professional",
+          "levitra professional",
+          "generic viagra",
+          "generic cialis",
+          "generic levitra",
+          "counterfeit drug",
+          "unapproved drug",
+          "falsified medicine",
+          "sildenafil",
+          "tadalafil",
+          "vardenafil",
+          "wegovy",
+          "rybelsus",
+          "tretinoin",
+          "retin-a",
+          "clobetasol",
+          "dermovate",
+          "bimatoprost",
+          "latisse",
+          "betamethasone",
+          "betnovate",
+          "hydroquinone",
+          "clindamycin",
+          "ketoconazole",
+          "buy ozempic online",
+          "no prescription viagra"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "pharmacy",
           "rx drug",
           "prescription medication",
@@ -579,31 +1052,172 @@
           "semaglutide injection",
           "hormone therapy",
           "medical consultation online",
-          "online doctor"
+          "online doctor",
+          "online questionnaire",
+          "fill out form",
+          "online consultation",
+          "quick form",
+          "answer a few questions",
+          "ship worldwide",
+          "ships to all countries",
+          "codeine",
+          "tramadol",
+          "opioid",
+          "levitra",
+          "orlistat",
+          "pantoprazole",
+          "acyclovir",
+          "apetamin",
+          "methocarbamol",
+          "minoxidil"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "prescription",
           "peptide"
         ]
-      ]
-    ],
-    "index": 14,
-    "p_and_r_ids": [
-      29,
-      47
+      }
     ]
   },
   {
+    "index": 15,
     "category": "Healthcare Products and Services",
     "subcategory": "Nutraceuticals / Weight Loss / Sexual Enhancement",
     "supportability": "restricted",
+    "signal_ids": [
+      "SUPP-001",
+      "SUPP-002",
+      "SUPP-003",
+      "SUPP-004",
+      "SUPP-005",
+      "SUPP-006",
+      "SUPP-007",
+      "CLAIM-001",
+      "CLAIM-002",
+      "CLAIM-003"
+    ],
+    "regulation": "FDCA; 21 CFR 101.93(g); FTC Act; DASCA 2014; USADA; FDA warning letters",
+    "p_and_r_ids": [
+      29,
+      56
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "1,3-dimethylamylamine",
+      "1,3-dmaa",
+      "acacia rigidula",
+      "alternative to adderall",
+      "anabolic steroid",
+      "anadrol",
+      "analgesic",
+      "anavar",
+      "anti-inflammatory",
+      "antibiotic",
+      "antidepressant",
+      "antifungal",
+      "antiviral",
+      "appetite suppressant",
+      "arthritis relief",
+      "as effective as viagra",
+      "auto-ship supplement",
+      "burn fat",
+      "caffeine anhydrous bulk",
+      "caffeine powder",
+      "cancer cure",
+      "cardarine",
+      "chlorine dioxide solution",
+      "cures",
+      "cures anxiety",
+      "cures autism",
+      "cures cancer",
+      "diabetes supplement",
+      "dianabol",
+      "diet pill",
+      "dmaa",
+      "drug-free alternative",
+      "eliminates",
+      "erectile dysfunction",
+      "fat burner",
+      "fights cancer",
+      "geranamine",
+      "gw-501516",
+      "heals",
+      "kills cancer",
+      "libido boost",
+      "like adderall",
+      "like xanax",
+      "male enhancement",
+      "metabolism boost",
+      "methylhexanamine",
+      "miracle mineral solution",
+      "miracle mineral supplement",
+      "mk-2866",
+      "monthly vitamin",
+      "natural alternative to",
+      "opioid alternative",
+      "ostarine",
+      "picamilon",
+      "pikatropin",
+      "prevents",
+      "prevents alzheimer",
+      "pure caffeine",
+      "recurring vitamin",
+      "reverses diabetes",
+      "sarms",
+      "selective androgen receptor modulator",
+      "sexual enhancement",
+      "stanozolol",
+      "supplement subscription",
+      "testosterone booster",
+      "treats",
+      "treats hiv",
+      "trenbolone",
+      "vitamin subscription",
+      "weight loss pill",
+      "weight loss supplement",
+      "winstrol",
+      "yohimbe",
+      "yohimbine"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "dmaa",
+          "1,3-dmaa",
+          "1,3-dimethylamylamine",
+          "geranamine",
+          "methylhexanamine",
+          "miracle mineral solution",
+          "miracle mineral supplement",
+          "chlorine dioxide solution",
+          "ostarine",
+          "mk-2866",
+          "cardarine",
+          "gw-501516",
+          "sarms",
+          "selective androgen receptor modulator",
+          "anabolic steroid",
+          "anadrol",
+          "anavar",
+          "dianabol",
+          "trenbolone",
+          "winstrol",
+          "stanozolol",
+          "cures cancer",
+          "fights cancer",
+          "kills cancer",
+          "reverses diabetes",
+          "treats hiv",
+          "cures autism",
+          "prevents alzheimer",
+          "cures anxiety"
+        ]
+      },
+      {
+        "weight": 50,
+        "keywords": [
           "weight loss pill",
           "fat burner",
           "diet pill",
@@ -614,35 +1228,87 @@
           "erectile dysfunction",
           "male enhancement",
           "vitamin subscription",
-          "supplement subscription"
+          "supplement subscription",
+          "acacia rigidula",
+          "pure caffeine",
+          "caffeine powder",
+          "caffeine anhydrous bulk",
+          "picamilon",
+          "pikatropin",
+          "yohimbine",
+          "yohimbe",
+          "alternative to adderall",
+          "like adderall",
+          "like xanax",
+          "opioid alternative",
+          "natural alternative to",
+          "as effective as viagra",
+          "drug-free alternative",
+          "cancer cure",
+          "arthritis relief",
+          "diabetes supplement"
         ]
-      ],
-      [
-        25,
-        [
+      },
+      {
+        "weight": 25,
+        "keywords": [
           "weight loss supplement",
           "metabolism boost",
           "burn fat",
           "recurring vitamin",
           "monthly vitamin",
-          "auto-ship supplement"
+          "auto-ship supplement",
+          "cures",
+          "treats",
+          "heals",
+          "prevents",
+          "eliminates",
+          "antiviral",
+          "antibiotic",
+          "antidepressant",
+          "antifungal",
+          "anti-inflammatory",
+          "analgesic"
         ]
-      ]
-    ],
-    "index": 15,
-    "p_and_r_ids": [
-      29,
-      56
+      }
     ]
   },
   {
+    "index": 16,
     "category": "Healthcare Products and Services",
     "subcategory": "Telehealth / Medical Marketplace",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      53
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "book a doctor",
+      "connect with doctor",
+      "doctor marketplace",
+      "ehr system",
+      "emr system",
+      "find a doctor",
+      "health advice online",
+      "health clinic online",
+      "healthcare marketplace",
+      "medical advice",
+      "medical marketplace",
+      "medical service marketplace",
+      "patient portal",
+      "physician marketplace",
+      "symptom checker",
+      "symptom navigator",
+      "telehealth",
+      "telehealth platform",
+      "telemedicine platform",
+      "virtual clinic"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "telehealth platform",
           "medical marketplace",
           "doctor marketplace",
@@ -655,10 +1321,10 @@
           "medical advice",
           "health advice online"
         ]
-      ],
-      [
-        30,
-        [
+      },
+      {
+        "weight": 30,
+        "keywords": [
           "telehealth",
           "telemedicine platform",
           "virtual clinic",
@@ -669,21 +1335,57 @@
           "symptom checker",
           "symptom navigator"
         ]
-      ]
-    ],
-    "index": 16,
-    "p_and_r_ids": [
-      53
+      }
     ]
   },
   {
+    "index": 17,
     "category": "Illegal Drugs and Related Products",
     "subcategory": "Illegal Substances / Paraphernalia",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "PARA-001"
+    ],
+    "regulation": "FDCA; DEA CSA; state drug paraphernalia laws",
+    "p_and_r_ids": [
+      63
+    ],
     "keywords": [
-      [
-        90,
-        [
+      "bong",
+      "bong shop",
+      "bongs",
+      "buy cocaine",
+      "buy ecstasy",
+      "buy heroin",
+      "buy lsd",
+      "buy mdma",
+      "cannabis pipe",
+      "chillum",
+      "cocaine freebase kit",
+      "cocaine spoon",
+      "crack pipe",
+      "dab rig",
+      "darknet market",
+      "drug dealer",
+      "drug marketplace",
+      "drug paraphernalia",
+      "drug pipe",
+      "glass pipe",
+      "herb pipe",
+      "kava",
+      "kratom",
+      "marijuana pipe",
+      "psilocybin",
+      "psychedelic shop",
+      "roach clip",
+      "rolling paper shop",
+      "smoking pipe",
+      "water pipe"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 90,
+        "keywords": [
           "buy cocaine",
           "buy heroin",
           "buy lsd",
@@ -693,33 +1395,85 @@
           "drug marketplace",
           "darknet market"
         ]
-      ],
-      [
-        60,
-        [
+      },
+      {
+        "weight": 60,
+        "keywords": [
           "drug paraphernalia",
           "bong shop",
           "rolling paper shop",
           "kratom",
           "kava",
           "psilocybin",
-          "psychedelic shop"
+          "psychedelic shop",
+          "crack pipe",
+          "cocaine spoon",
+          "cocaine freebase kit",
+          "dab rig",
+          "chillum",
+          "roach clip",
+          "drug pipe"
         ]
-      ]
-    ],
-    "index": 17,
-    "p_and_r_ids": [
-      63
+      },
+      {
+        "weight": 30,
+        "keywords": [
+          "bong",
+          "bongs",
+          "glass pipe",
+          "water pipe",
+          "cannabis pipe",
+          "herb pipe",
+          "marijuana pipe",
+          "smoking pipe"
+        ]
+      }
     ]
   },
   {
+    "index": 18,
     "category": "Illegal Products and Services",
     "subcategory": "Counterfeit / Fake IDs / Human Trafficking",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "IPR-001",
+      "IPR-002"
+    ],
+    "regulation": "BRAM; GBPP; Lanham Act; DMCA",
+    "p_and_r_ids": [
+      48,
+      64
+    ],
     "keywords": [
-      [
-        90,
-        [
+      "aaa quality",
+      "brand inspired",
+      "buy followers",
+      "buy likes",
+      "buy subscribers",
+      "child exploitation",
+      "clone website",
+      "counterfeit",
+      "designer inspired",
+      "fake designer",
+      "fake diploma",
+      "fake document",
+      "fake id",
+      "fake passport",
+      "fake reviews",
+      "first copy",
+      "human trafficking",
+      "inspired by",
+      "knock-off",
+      "mirror image",
+      "novelty id",
+      "paid followers",
+      "replica designer",
+      "replica luxury"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 90,
+        "keywords": [
           "fake id",
           "fake passport",
           "fake diploma",
@@ -730,54 +1484,169 @@
           "human trafficking",
           "child exploitation"
         ]
-      ],
-      [
-        50,
-        [
+      },
+      {
+        "weight": 50,
+        "keywords": [
           "fake document",
           "novelty id",
           "clone website",
           "knock-off",
-          "replica designer"
+          "replica designer",
+          "brand inspired",
+          "designer inspired",
+          "fake designer",
+          "first copy",
+          "aaa quality",
+          "mirror image",
+          "inspired by",
+          "buy subscribers",
+          "fake reviews",
+          "paid followers"
         ]
-      ]
-    ],
-    "index": 18,
-    "p_and_r_ids": [
-      48,
-      64
+      }
     ]
   },
   {
+    "index": 19,
     "category": "Illegal Products and Services",
     "subcategory": "Hate Speech Products",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "HATE-001"
+    ],
+    "regulation": "BRAM; GBPP; platform policies; hate crime laws",
+    "p_and_r_ids": [
+      64
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "antisemit",
+      "death to",
+      "ethnic cleansing",
+      "hate group",
+      "hate symbol",
+      "kill all",
+      "nazi merchandise",
+      "neo-nazi",
+      "racial supremacy",
+      "racist merchandise",
+      "supremacist merchandise",
+      "swastika merchandise",
+      "violence against",
+      "white power",
+      "white supremac"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "white supremac",
           "nazi merchandise",
           "hate group",
           "racist merchandise",
           "white power",
-          "antisemit"
+          "antisemit",
+          "neo-nazi",
+          "racial supremacy",
+          "ethnic cleansing",
+          "supremacist merchandise",
+          "swastika merchandise",
+          "hate symbol",
+          "violence against",
+          "death to",
+          "kill all"
         ]
-      ]
-    ],
-    "index": 19,
-    "p_and_r_ids": [
-      64
+      }
     ]
   },
   {
+    "index": 20,
     "category": "Marijuana and Related Businesses",
     "subcategory": "Marijuana / CBD Products",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "CBD-001",
+      "CBD-002"
+    ],
+    "regulation": "FDCA; FDA enforcement; EU Novel Food Regulation; state laws; DEA (THCO)",
+    "p_and_r_ids": [
+      62,
+      63
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "420 friendly",
+      "buy weed",
+      "cannabidiol",
+      "cannabis",
+      "cannabis brand",
+      "cannabis dispensary",
+      "cannabis edible",
+      "cannabis shop",
+      "cannabis store",
+      "cannabis strain",
+      "cbd",
+      "cbd capsules",
+      "cbd cures",
+      "cbd for anxiety",
+      "cbd for pain",
+      "cbd for sleep",
+      "cbd gummies",
+      "cbd heals",
+      "cbd medical",
+      "cbd oil",
+      "cbd supplement",
+      "cbd treats",
+      "cookies strain",
+      "d8",
+      "dank",
+      "delta 8 thc",
+      "delta-8",
+      "delta-8 thco",
+      "delta-9",
+      "delta8",
+      "dispensary",
+      "exotic strain",
+      "exotic weed",
+      "gas strain",
+      "gelato strain",
+      "head shop",
+      "hemp extract",
+      "hemp flower",
+      "hemp oil",
+      "hemp-derived thc",
+      "jungle boys",
+      "kush",
+      "legal thc",
+      "live resin",
+      "loud pack",
+      "marijuana",
+      "marijuana dispensary",
+      "og kush",
+      "packman",
+      "packman cart",
+      "packman disposable",
+      "packman vape",
+      "pre-roll",
+      "runtz strain",
+      "shatter",
+      "smoke shop",
+      "stoner",
+      "thc",
+      "thc acetate",
+      "thc product",
+      "thc-o",
+      "thca flower",
+      "thco",
+      "wax concentrate",
+      "weed",
+      "weed delivery",
+      "weed strain",
+      "zaza"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "marijuana dispensary",
           "cannabis dispensary",
           "buy weed",
@@ -809,12 +1678,27 @@
           "wax concentrate",
           "cannabis brand",
           "cannabis store",
-          "cannabis shop"
+          "cannabis shop",
+          "cbd for anxiety",
+          "cbd for pain",
+          "cbd for sleep",
+          "cbd cures",
+          "cbd heals",
+          "cbd treats",
+          "cbd supplement",
+          "cbd capsules",
+          "cbd medical",
+          "thco",
+          "thc-o",
+          "thc acetate",
+          "delta-8 thco",
+          "legal thc",
+          "hemp-derived thc"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "marijuana",
           "cannabis",
           "cbd",
@@ -827,34 +1711,72 @@
           "loud pack",
           "packman",
           "cookies strain",
-          "jungle boys"
+          "jungle boys",
+          "cannabidiol",
+          "d8",
+          "delta8"
         ]
-      ],
-      [
-        20,
-        [
+      },
+      {
+        "weight": 20,
+        "keywords": [
           "weed",
           "stoner",
           "kush",
           "dank",
           "hemp flower"
         ]
-      ]
-    ],
-    "index": 20,
-    "p_and_r_ids": [
-      62,
-      63
+      }
     ]
   },
   {
+    "index": 21,
     "category": "Weapons, Ammunition, and Related Products",
     "subcategory": "Firearms / Ammunition / Weapon Parts",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "GEN-002"
+    ],
+    "regulation": "Gun Control Act; state firearm laws; ATF regulations",
+    "p_and_r_ids": [
+      70
+    ],
     "keywords": [
-      [
-        80,
-        [
+      "3d printed gun",
+      "80 percent lower",
+      "80% ar lower",
+      "80% lower",
+      "ammo shop",
+      "ammunition",
+      "ammunition store",
+      "ar-15",
+      "bump stock",
+      "buy firearm",
+      "buy gun",
+      "firearm",
+      "ghost gun",
+      "ghost gun kit",
+      "gun dealer",
+      "gun shop",
+      "gun store",
+      "handgun for sale",
+      "holster",
+      "liberator pistol",
+      "no background check",
+      "polymer 80",
+      "rifle for sale",
+      "silencer",
+      "suppressor",
+      "tactical gear",
+      "unfinished receiver",
+      "unserialized firearm",
+      "untraceable firearm",
+      "weapon shop"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
           "gun shop",
           "buy firearm",
           "buy gun",
@@ -868,34 +1790,55 @@
           "suppressor",
           "bump stock",
           "3d printed gun",
-          "ghost gun"
+          "ghost gun",
+          "80% lower",
+          "80 percent lower",
+          "unfinished receiver",
+          "polymer 80",
+          "unserialized firearm",
+          "liberator pistol",
+          "ghost gun kit",
+          "untraceable firearm"
         ]
-      ],
-      [
-        50,
-        [
+      },
+      {
+        "weight": 50,
+        "keywords": [
           "firearm",
           "ammunition",
           "weapon shop",
           "gun store",
           "tactical gear",
-          "holster"
+          "holster",
+          "no background check",
+          "80% ar lower"
         ]
-      ]
-    ],
-    "index": 21,
-    "p_and_r_ids": [
-      70
+      }
     ]
   },
   {
+    "index": 22,
     "category": "Weapons, Ammunition, and Related Products",
     "subcategory": "Knives / Martial Arts Weapons",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      70
+    ],
     "keywords": [
-      [
-        40,
-        [
+      "brass knuckle",
+      "butterfly knife",
+      "combat knife",
+      "machete shop",
+      "nunchaku",
+      "switchblade",
+      "throwing knife"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 40,
+        "keywords": [
           "switchblade",
           "butterfly knife",
           "throwing knife",
@@ -904,21 +1847,65 @@
           "brass knuckle",
           "combat knife"
         ]
-      ]
-    ],
-    "index": 22,
-    "p_and_r_ids": [
-      70
+      }
     ]
   },
   {
+    "index": 23,
     "category": "Tobacco and Nicotine Products",
     "subcategory": "Cigarettes / Vape / E-cigarettes",
     "supportability": "restricted",
+    "signal_ids": [
+      "VAPE-001",
+      "VAPE-002"
+    ],
+    "regulation": "PACT Act; FDA deeming rule; state tobacco laws",
+    "p_and_r_ids": [
+      68
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "atomizer",
+      "cartomizer",
+      "cartridge",
+      "chewing tobacco",
+      "cigarette shop",
+      "clearomizer",
+      "coil",
+      "disposable vape",
+      "drip tip",
+      "e-cig",
+      "e-cigarette",
+      "e-juice",
+      "e-liquid",
+      "ecig",
+      "electronic nicotine delivery",
+      "ends",
+      "flavored vape",
+      "hookah shop",
+      "iqos",
+      "juul",
+      "mod kit",
+      "nic salt",
+      "nicotine",
+      "nicotine delivery",
+      "nicotine pouch",
+      "nicotine salt",
+      "pod system",
+      "snuff",
+      "snus",
+      "sub-ohm",
+      "tobacco shop",
+      "vape",
+      "vape flavor",
+      "vape juice",
+      "vape pen",
+      "vape shop",
+      "vaping"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "vape shop",
           "e-cigarette",
           "cigarette shop",
@@ -926,32 +1913,93 @@
           "nicotine delivery",
           "hookah shop",
           "vape juice",
-          "e-liquid"
+          "e-liquid",
+          "juul",
+          "iqos",
+          "disposable vape",
+          "vape pen",
+          "electronic nicotine delivery",
+          "ends",
+          "pod system",
+          "mod kit",
+          "sub-ohm",
+          "nicotine salt",
+          "nic salt",
+          "nicotine pouch",
+          "snus",
+          "chewing tobacco",
+          "snuff",
+          "flavored vape",
+          "vape flavor"
         ]
-      ],
-      [
-        25,
-        [
+      },
+      {
+        "weight": 25,
+        "keywords": [
           "vape",
           "vaping",
           "e-cig",
-          "nicotine"
+          "nicotine",
+          "e-juice",
+          "ecig",
+          "atomizer",
+          "cartomizer",
+          "clearomizer",
+          "coil",
+          "drip tip",
+          "cartridge"
         ]
-      ]
-    ],
-    "index": 23,
-    "p_and_r_ids": [
-      68
+      }
     ]
   },
   {
+    "index": 24,
     "category": "Unfair, Deceptive, or Abusive Practices",
     "subcategory": "Get Rich Quick / Fake Guarantees / MLM",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "GEN-001",
+      "FRAUD-001"
+    ],
+    "regulation": "FTC Act",
+    "p_and_r_ids": [
+      25,
+      33
+    ],
     "keywords": [
-      [
-        70,
-        [
+      "100% guaranteed",
+      "100% money back guarantee",
+      "as seen on shark tank",
+      "as seen on tv",
+      "autopilot income",
+      "binary option signal",
+      "celebrity endorsed",
+      "crypto giveaway",
+      "double your bitcoin",
+      "exclusive crypto opportunity",
+      "fake cryptocurrency",
+      "forex signal",
+      "get rich quick",
+      "guaranteed crypto returns",
+      "guaranteed income",
+      "guaranteed results",
+      "guaranteed return",
+      "limited crypto offer",
+      "make money fast",
+      "miracle",
+      "mlm opportunity",
+      "money system",
+      "network marketing opportunity",
+      "passive income secret",
+      "pyramid scheme",
+      "risk-free investment",
+      "secret formula",
+      "too good to be true"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 70,
+        "keywords": [
           "get rich quick",
           "guaranteed income",
           "make money fast",
@@ -960,55 +2008,134 @@
           "forex signal",
           "pyramid scheme",
           "mlm opportunity",
-          "network marketing opportunity"
+          "network marketing opportunity",
+          "miracle",
+          "secret formula",
+          "guaranteed results",
+          "100% guaranteed",
+          "too good to be true",
+          "guaranteed crypto returns",
+          "double your bitcoin",
+          "fake cryptocurrency",
+          "crypto giveaway"
         ]
-      ],
-      [
-        40,
-        [
+      },
+      {
+        "weight": 40,
+        "keywords": [
           "passive income secret",
           "money system",
           "autopilot income",
           "100% money back guarantee",
-          "risk-free investment"
+          "risk-free investment",
+          "as seen on shark tank",
+          "as seen on tv",
+          "celebrity endorsed",
+          "limited crypto offer",
+          "exclusive crypto opportunity"
         ]
-      ]
-    ],
-    "index": 24,
-    "p_and_r_ids": [
-      25,
-      33
+      }
     ]
   },
   {
+    "index": 25,
     "category": "Unfair, Deceptive, or Abusive Practices",
     "subcategory": "Negative Option Marketing / Hidden Subscriptions",
     "supportability": "not_supportable",
+    "signal_ids": [
+      "NOB-001",
+      "NOB-002",
+      "NOB-003"
+    ],
+    "regulation": "FTC Negative Option Rule; Restore Online Shoppers' Confidence Act",
+    "p_and_r_ids": [
+      29
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "100% interview rate",
+      "auto-billed",
+      "auto-renewal",
+      "automatic enrollment",
+      "cancel anytime",
+      "continuity marketing",
+      "cv repair",
+      "emotional support animal certificate",
+      "emotional support animal id",
+      "esa certificate online",
+      "esa letter",
+      "executive job placement",
+      "free trial",
+      "free trial auto-renew",
+      "guaranteed job placement",
+      "hidden fee",
+      "hidden subscription",
+      "negative option",
+      "negative option membership",
+      "nutraceutical rebill",
+      "pay to access job listings",
+      "pre-checked subscription",
+      "recurring charge",
+      "subscription trap"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "free trial auto-renew",
           "negative option",
           "hidden subscription",
           "auto-billed",
-          "pre-checked subscription"
+          "pre-checked subscription",
+          "continuity marketing",
+          "nutraceutical rebill",
+          "subscription trap",
+          "automatic enrollment",
+          "negative option membership",
+          "guaranteed job placement",
+          "executive job placement",
+          "100% interview rate",
+          "emotional support animal certificate",
+          "esa certificate online",
+          "esa letter",
+          "emotional support animal id"
         ]
-      ]
-    ],
-    "index": 25,
-    "p_and_r_ids": [
-      29
+      },
+      {
+        "weight": 30,
+        "keywords": [
+          "free trial",
+          "auto-renewal",
+          "cancel anytime",
+          "hidden fee",
+          "recurring charge",
+          "pay to access job listings",
+          "cv repair"
+        ]
+      }
     ]
   },
   {
+    "index": 26,
     "category": "Multi-Level Marketing",
     "subcategory": "MLM / Network Marketing",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      55
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "downline",
+      "mlm",
+      "multi-level marketing",
+      "network marketing",
+      "recruit distributor",
+      "team building opportunity"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 50,
+        "keywords": [
           "multi-level marketing",
           "mlm",
           "network marketing",
@@ -1016,21 +2143,31 @@
           "recruit distributor",
           "team building opportunity"
         ]
-      ]
-    ],
-    "index": 26,
-    "p_and_r_ids": [
-      55
+      }
     ]
   },
   {
+    "index": 27,
     "category": "Insurance",
     "subcategory": "Insurance Products",
     "supportability": "restricted",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      16
+    ],
     "keywords": [
-      [
-        40,
-        [
+      "auto insurance",
+      "buy insurance",
+      "health insurance",
+      "insurance broker",
+      "insurance plan",
+      "life insurance"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 40,
+        "keywords": [
           "insurance plan",
           "insurance broker",
           "buy insurance",
@@ -1038,21 +2175,38 @@
           "life insurance",
           "auto insurance"
         ]
-      ]
-    ],
-    "index": 27,
-    "p_and_r_ids": [
-      16
+      }
     ]
   },
   {
+    "index": 28,
     "category": "Government Products and Services",
     "subcategory": "Unauthorized Government Services / Visa Scams",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      45
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "expedited visa",
+      "government form service",
+      "guaranteed visa",
+      "immigration service",
+      "passport service",
+      "travel visa",
+      "visa agent",
+      "visa application",
+      "visa assist",
+      "visa consultant",
+      "visa path",
+      "visa processing",
+      "visa service"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "visa processing",
           "guaranteed visa",
           "passport service",
@@ -1064,59 +2218,684 @@
           "visa agent",
           "visa consultant"
         ]
-      ],
-      [
-        30,
-        [
+      },
+      {
+        "weight": 30,
+        "keywords": [
           "visa service",
           "immigration service",
           "travel visa"
         ]
-      ]
-    ],
-    "index": 28,
-    "p_and_r_ids": [
-      45
+      }
     ]
   },
   {
+    "index": 29,
     "category": "Identity Related Services",
     "subcategory": "Identity Theft Protection / Monitoring",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      7
+    ],
     "keywords": [
-      [
-        50,
-        [
+      "credit monitoring service",
+      "identity monitoring",
+      "identity recovery",
+      "identity theft protection"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 50,
+        "keywords": [
           "identity theft protection",
           "identity monitoring",
           "credit monitoring service",
           "identity recovery"
         ]
-      ]
-    ],
-    "index": 29,
-    "p_and_r_ids": [
-      7
+      }
     ]
   },
   {
+    "index": 30,
     "category": "Mortgage Consulting",
     "subcategory": "Predatory Mortgage Services",
     "supportability": "not_supportable",
+    "signal_ids": [],
+    "regulation": "",
+    "p_and_r_ids": [
+      30
+    ],
     "keywords": [
-      [
-        60,
-        [
+      "loan modification guaranteed",
+      "mortgage reduction",
+      "mortgage relief",
+      "stop foreclosure"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
           "stop foreclosure",
           "mortgage relief",
           "mortgage reduction",
           "loan modification guaranteed"
         ]
-      ]
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "category": "Cosmetics Crossing Into Drug Territory",
+    "subcategory": "Cosmetics with Drug Claims / Rx Ingredients",
+    "supportability": "restricted",
+    "signal_ids": [
+      "COSM-001",
+      "COSM-002"
     ],
-    "index": 30,
+    "regulation": "FDCA; FDA cosmetic vs drug distinction; EU Cosmetics Regulation",
+    "p_and_r_ids": [
+      29,
+      56
+    ],
+    "keywords": [
+      "anti-wrinkle",
+      "betamethasone cream",
+      "bimatoprost eye drops",
+      "changes skin structure",
+      "civic cream",
+      "clobetasol cream",
+      "cosmetic that cures",
+      "cosmetic that treats",
+      "dermovate",
+      "elopro",
+      "eyelash growth serum",
+      "eyelash lengthener",
+      "eyelash serum",
+      "fda cleared cosmetic",
+      "foreign cosmetic cream",
+      "h20 jours",
+      "imported skin cream",
+      "janet cream",
+      "kloderma",
+      "l'abidjanaise",
+      "medically proven",
+      "repairs dna",
+      "skin bleaching",
+      "skin lightening",
+      "whitening cream"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
+          "anti-wrinkle",
+          "repairs dna",
+          "changes skin structure",
+          "cosmetic that cures",
+          "cosmetic that treats",
+          "medically proven",
+          "clobetasol cream",
+          "betamethasone cream",
+          "dermovate",
+          "bimatoprost eye drops",
+          "eyelash growth serum",
+          "eyelash lengthener",
+          "eyelash serum",
+          "civic cream",
+          "elopro",
+          "janet cream",
+          "kloderma",
+          "h20 jours",
+          "l'abidjanaise"
+        ]
+      },
+      {
+        "weight": 30,
+        "keywords": [
+          "skin lightening",
+          "skin bleaching",
+          "whitening cream",
+          "fda cleared cosmetic",
+          "imported skin cream",
+          "foreign cosmetic cream"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "category": "Psychoactive Substances",
+    "subcategory": "Novel Psychoactive / Synthetic / Ethnobotanical",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "PSY-001",
+      "PSY-002",
+      "PSY-003"
+    ],
+    "regulation": "FDCA; DEA CSA; Synthetic Drug Abuse Prevention Act; Federal Analogue Act; state laws",
+    "p_and_r_ids": [
+      63
+    ],
+    "keywords": [
+      "7-hydroxymitragynine",
+      "ah-7921",
+      "alkyl nitrites",
+      "alpha-pvp",
+      "amanita muscaria",
+      "ayahuasca",
+      "bath salts",
+      "cloud 9",
+      "coca leaf",
+      "craft supplies poppy",
+      "diablo",
+      "dimethyltryptamine",
+      "diviner's sage",
+      "dmt",
+      "ethnobotanical",
+      "etizolam",
+      "flakka",
+      "herbal incense",
+      "iboga",
+      "ibogaine",
+      "k2",
+      "khat",
+      "kratom capsule",
+      "kratom extract",
+      "kratom for opioid",
+      "kratom powder",
+      "kratom tea",
+      "legal high",
+      "maeng da kratom",
+      "magic mushroom spores",
+      "mdpv",
+      "mephedrone",
+      "mescaline",
+      "methylone",
+      "mitragynine",
+      "nitrous oxide",
+      "novel psychoactive",
+      "peyote",
+      "phenibut",
+      "phone screen cleaner",
+      "poppers",
+      "psilocybin spore",
+      "qat",
+      "research chemical",
+      "salvia divinorum",
+      "san pedro cactus",
+      "spice",
+      "synthetic cannabinoid",
+      "synthetic cathinone",
+      "tianeptine"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "bath salts",
+          "synthetic cathinone",
+          "mephedrone",
+          "methylone",
+          "mdpv",
+          "alpha-pvp",
+          "flakka",
+          "cloud 9",
+          "spice",
+          "synthetic cannabinoid",
+          "k2",
+          "diablo",
+          "phenibut",
+          "tianeptine",
+          "etizolam",
+          "ah-7921",
+          "novel psychoactive",
+          "ayahuasca",
+          "ibogaine",
+          "iboga",
+          "salvia divinorum",
+          "diviner's sage",
+          "dimethyltryptamine",
+          "dmt",
+          "san pedro cactus",
+          "peyote",
+          "mescaline",
+          "amanita muscaria",
+          "7-hydroxymitragynine",
+          "mitragynine"
+        ]
+      },
+      {
+        "weight": 50,
+        "keywords": [
+          "kratom capsule",
+          "kratom powder",
+          "kratom extract",
+          "maeng da kratom",
+          "kratom tea",
+          "kratom for opioid",
+          "khat",
+          "qat",
+          "coca leaf",
+          "nitrous oxide",
+          "alkyl nitrites",
+          "poppers",
+          "magic mushroom spores",
+          "psilocybin spore",
+          "ethnobotanical"
+        ]
+      },
+      {
+        "weight": 25,
+        "keywords": [
+          "research chemical",
+          "legal high",
+          "herbal incense",
+          "phone screen cleaner",
+          "craft supplies poppy"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "category": "Transaction Laundering",
+    "subcategory": "Front Websites / Undisclosed Merchants / Factoring",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "TL-001",
+      "TL-002"
+    ],
+    "regulation": "BRAM; GBPP; BSA/AML; 18 USC 1956",
     "p_and_r_ids": [
       30
+    ],
+    "keywords": [
+      "bank page",
+      "factoring transaction",
+      "front website",
+      "ibo scheme",
+      "independent business owner opportunity",
+      "innocuous storefront",
+      "passive income merchant",
+      "payment front",
+      "payment laundering",
+      "shell merchant",
+      "transaction laundering",
+      "undisclosed merchant",
+      "undisclosed sub-merchant"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "transaction laundering",
+          "payment laundering",
+          "shell merchant",
+          "front website",
+          "payment front",
+          "undisclosed merchant",
+          "undisclosed sub-merchant",
+          "factoring transaction"
+        ]
+      },
+      {
+        "weight": 50,
+        "keywords": [
+          "innocuous storefront",
+          "passive income merchant",
+          "ibo scheme",
+          "bank page",
+          "independent business owner opportunity"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 34,
+    "category": "No-Value-Added Services",
+    "subcategory": "Government Form Resellers / Fee Markup",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "NVA-001"
+    ],
+    "regulation": "FTC Act; state consumer protection",
+    "p_and_r_ids": [
+      30
+    ],
+    "keywords": [
+      "business incorporation service",
+      "dmv renewal",
+      "dmv services online",
+      "driver's license renewal service",
+      "esta application",
+      "esta fee",
+      "esta processing",
+      "expedited esta processing",
+      "fishing license service",
+      "government form assistance",
+      "hunting license service",
+      "immigration service fee",
+      "official esta application",
+      "police records",
+      "public records access fee",
+      "travel authorization fee",
+      "visa processing fee",
+      "we submit your application"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
+          "esta application",
+          "esta fee",
+          "esta processing",
+          "dmv renewal",
+          "dmv services online",
+          "driver's license renewal service",
+          "fishing license service",
+          "hunting license service",
+          "travel authorization fee",
+          "visa processing fee",
+          "government form assistance",
+          "immigration service fee",
+          "public records access fee"
+        ]
+      },
+      {
+        "weight": 30,
+        "keywords": [
+          "business incorporation service",
+          "police records",
+          "official esta application",
+          "expedited esta processing",
+          "we submit your application"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 35,
+    "category": "Scam and Fraud",
+    "subcategory": "CPN / Charity Fraud / Crypto Scams",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "FRAUD-001",
+      "FRAUD-002",
+      "FRAUD-003"
+    ],
+    "regulation": "18 USC 1028 (identity fraud); SSA Act; FTC Act; state charity fraud laws",
+    "p_and_r_ids": [
+      30,
+      33
+    ],
+    "keywords": [
+      "charity fraud",
+      "clean credit slate",
+      "click to donate",
+      "covid donation",
+      "cpn",
+      "credit privacy number",
+      "credit profile number",
+      "crypto investment",
+      "disaster relief scam",
+      "donation scam",
+      "emergency donation needed",
+      "fake charity",
+      "fake cryptocurrency",
+      "fake fundraiser",
+      "guaranteed crypto returns",
+      "loan stacking",
+      "new credit file",
+      "official relief fund",
+      "secondary number for credit",
+      "straw borrower"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "cpn",
+          "credit privacy number",
+          "credit profile number",
+          "new credit file",
+          "clean credit slate",
+          "secondary number for credit",
+          "fake charity",
+          "charity fraud",
+          "donation scam",
+          "fake fundraiser",
+          "disaster relief scam"
+        ]
+      },
+      {
+        "weight": 50,
+        "keywords": [
+          "covid donation",
+          "emergency donation needed",
+          "click to donate",
+          "official relief fund",
+          "fake cryptocurrency",
+          "crypto investment",
+          "guaranteed crypto returns",
+          "loan stacking",
+          "straw borrower"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 36,
+    "category": "COVID / PPE Compliance",
+    "subcategory": "Fraudulent COVID Cures / Counterfeit PPE",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "COVID-001"
+    ],
+    "regulation": "FDCA; FTC Act; FDA enforcement",
+    "p_and_r_ids": [
+      30,
+      29
+    ],
+    "keywords": [
+      "#1 covid-19 remedy",
+      "counterfeit mask",
+      "covid cure",
+      "covid supplement cure",
+      "covid treatment",
+      "covid-19 remedy",
+      "cures covid",
+      "fake n95",
+      "fda approved covid cure",
+      "kills coronavirus",
+      "non-certified mask",
+      "prevents covid",
+      "prevents covid-19",
+      "treats coronavirus",
+      "treats covid-19"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "covid cure",
+          "covid treatment",
+          "covid-19 remedy",
+          "kills coronavirus",
+          "treats covid-19",
+          "prevents covid",
+          "covid supplement cure",
+          "fake n95",
+          "counterfeit mask",
+          "non-certified mask"
+        ]
+      },
+      {
+        "weight": 40,
+        "keywords": [
+          "#1 covid-19 remedy",
+          "fda approved covid cure",
+          "cures covid",
+          "treats coronavirus",
+          "prevents covid-19"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 37,
+    "category": "Security / Cloaking",
+    "subcategory": "Website Hijacking / Cloaking / Typosquatting",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "SEC-001"
+    ],
+    "regulation": "ICANN policies; BRAM; GBPP",
+    "p_and_r_ids": [
+      30
+    ],
+    "keywords": [
+      "cloaking",
+      "content injection",
+      "doorway page",
+      "geo-targeting",
+      "hidden redirect",
+      "pharma hack",
+      "typosquatting",
+      "website hijacking"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 60,
+        "keywords": [
+          "cloaking",
+          "typosquatting",
+          "website hijacking",
+          "content injection",
+          "doorway page",
+          "pharma hack",
+          "hidden redirect",
+          "geo-targeting"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 38,
+    "category": "Illegal Wildlife Trade",
+    "subcategory": "Protected Species / CITES Violations",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "WILD-001"
+    ],
+    "regulation": "CITES; Lacey Act; FATF recommendations; BRAM; GBPP",
+    "p_and_r_ids": [
+      64
+    ],
+    "keywords": [
+      "bushmeat",
+      "cites protected",
+      "endangered animal products",
+      "endangered species",
+      "exotic animal",
+      "illegal wildlife",
+      "ivory",
+      "ivory for sale",
+      "poached",
+      "protected species",
+      "rhino horn",
+      "shark fin",
+      "tiger bone",
+      "wildlife trade"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "ivory",
+          "rhino horn",
+          "tiger bone",
+          "shark fin",
+          "endangered species",
+          "cites protected",
+          "illegal wildlife",
+          "poached",
+          "bushmeat"
+        ]
+      },
+      {
+        "weight": 40,
+        "keywords": [
+          "wildlife trade",
+          "exotic animal",
+          "protected species",
+          "ivory for sale",
+          "endangered animal products"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 39,
+    "category": "IP Infringement",
+    "subcategory": "IPTV Piracy / Illegal Streaming",
+    "supportability": "not_supportable",
+    "signal_ids": [
+      "IPR-003",
+      "TL-002"
+    ],
+    "regulation": "DMCA; Copyright Act; EU Copyright Directive; BRAM",
+    "p_and_r_ids": [
+      48
+    ],
+    "keywords": [
+      "100+ channels",
+      "1000+ channels",
+      "all channels included",
+      "all sports channels",
+      "cracked software",
+      "cut cable",
+      "cut the cord",
+      "cyberlocker",
+      "download movies",
+      "download software",
+      "hbo sports included",
+      "internet protocol television",
+      "iptv",
+      "pay-per-view subscription",
+      "premium channels",
+      "premium iptv subscription",
+      "replace cable"
+    ],
+    "keyword_groups": [
+      {
+        "weight": 80,
+        "keywords": [
+          "iptv",
+          "internet protocol television",
+          "1000+ channels",
+          "100+ channels",
+          "all channels included",
+          "premium channels",
+          "all sports channels",
+          "cut the cord",
+          "cut cable",
+          "replace cable",
+          "cracked software",
+          "cyberlocker"
+        ]
+      },
+      {
+        "weight": 40,
+        "keywords": [
+          "pay-per-view subscription",
+          "download movies",
+          "download software",
+          "hbo sports included",
+          "premium iptv subscription"
+        ]
+      }
     ]
   }
 ]

@@ -105,7 +105,7 @@
     "stripe_category": "Healthcare Products and Services",
     "stripe_subcategory": "Prescription Pharmaceuticals",
     "p_and_r_ids": [
-      29,
+      67,
       47
     ]
   },
@@ -223,6 +223,87 @@
     "stripe_subcategory": "Predatory Mortgage Services",
     "p_and_r_ids": [
       30
+    ]
+  },
+  {
+    "stripe_category": "Cosmetics Crossing Into Drug Territory",
+    "stripe_subcategory": "Cosmetics with Drug Claims / Rx Ingredients",
+    "p_and_r_ids": [
+      29,
+      56
+    ]
+  },
+  {
+    "stripe_category": "Psychoactive Substances",
+    "stripe_subcategory": "Novel Psychoactive / Synthetic / Ethnobotanical",
+    "p_and_r_ids": [
+      63
+    ]
+  },
+  {
+    "stripe_category": "Transaction Laundering",
+    "stripe_subcategory": "Front Websites / Undisclosed Merchants / Factoring",
+    "p_and_r_ids": [
+      30
+    ]
+  },
+  {
+    "stripe_category": "No-Value-Added Services",
+    "stripe_subcategory": "Government Form Resellers / Fee Markup",
+    "p_and_r_ids": [
+      30
+    ]
+  },
+  {
+    "stripe_category": "Scam and Fraud",
+    "stripe_subcategory": "CPN / Charity Fraud / Crypto Scams",
+    "p_and_r_ids": [
+      30,
+      33
+    ]
+  },
+  {
+    "stripe_category": "COVID / PPE Compliance",
+    "stripe_subcategory": "Fraudulent COVID Cures / Counterfeit PPE",
+    "p_and_r_ids": [
+      30,
+      29
+    ]
+  },
+  {
+    "stripe_category": "Security / Cloaking",
+    "stripe_subcategory": "Website Hijacking / Cloaking / Typosquatting",
+    "p_and_r_ids": [
+      30
+    ]
+  },
+  {
+    "stripe_category": "Illegal Wildlife Trade",
+    "stripe_subcategory": "Protected Species / CITES Violations",
+    "p_and_r_ids": [
+      64
+    ]
+  },
+  {
+    "stripe_category": "IP Infringement",
+    "stripe_subcategory": "IPTV Piracy / Illegal Streaming",
+    "p_and_r_ids": [
+      48
+    ]
+  },
+  {
+    "stripe_category": "Marketplaces and Aggregators",
+    "stripe_subcategory": "Marketplace / Multi-Vendor Platform",
+    "p_and_r_ids": [
+      76
+    ]
+  },
+  {
+    "stripe_category": "Marketplaces and Aggregators",
+    "stripe_subcategory": "Aggregator / Payment Facilitator",
+    "p_and_r_ids": [
+      75,
+      79
     ]
   }
 ]

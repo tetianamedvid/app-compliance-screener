@@ -172,6 +172,8 @@ def screen(
             "p_and_r_id": m.p_and_r_id,
             "p_and_r_name": m.p_and_r_name,
             "p_and_r_ids": m.p_and_r_ids,
+            "signal_ids": m.signal_ids,
+            "regulation": m.regulation,
         }
         for m in classification.matches
     ]
@@ -470,11 +472,7 @@ def _scrape_full(url: str, result: ScreenResult, deep: bool = False) -> str:
     Scrape real page content using the proven scrape_app_url.
     Returns the full text for the classifier. Also extracts extra signals.
     """
-    import sys
-    from pathlib import Path
-    root = Path(__file__).resolve().parent.parent
-    sys.path.insert(0, str(root))
-    from run_underwriting import scrape_app_url
+    from uw_app.scraper import scrape_app_url
 
     scraped = scrape_app_url(url, timeout_seconds=12, deep=deep) or ""
     if scraped:
