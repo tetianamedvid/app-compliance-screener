@@ -24,7 +24,7 @@ skip_sync = os.environ.get("SKIP_STARTUP_SYNC", "").strip().lower() in ("1", "tr
 if not skip_sync:
     print("Running full sync (validate → fetch profiles → UW for missing)…", flush=True)
     r = subprocess.run(
-        [sys.executable, "-u", str(root / "scripts" / "run_all.py"), "--fetch-profiles", "--uw-missing", "--uw-scrape", "--force"],
+        [sys.executable, "-u", str(root / "scripts" / "old_uw" / "run_all.py"), "--fetch-profiles", "--uw-missing", "--uw-scrape", "--force"],
         cwd=str(root),
         env=env,
     )

@@ -1,0 +1,31 @@
+---
+description: Track classifier accuracy through manual review overrides and maintain regression tests
+globs: uw_app/findings_store.py, uw_app/policy_classifier.py, pages/3_Review.py, scripts/validate_screener.py
+alwaysApply: false
+---
+
+# Classifier accuracy tracking
+
+Manual review overrides are the ground truth for measuring classifier accuracy.
+
+## Review data model
+
+Each finding can have these review fields (set via `pages/3_Review.py`):
+
+- `review_status`: "Pending" | "Reviewed" | "Escalated" | "Approved" | "Declined"
+- `review_note`: free-text analyst note
+- `correct_verdict`: analyst's override verdict (when the screener got it wrong)
+- `review_updated`: ISO timestamp
+
+## Accuracy interpretation
+
+- **Confirmed** = "Approved" or "Reviewed" (analyst agrees with screener verdict)
+- **Disputed** = "Declined" (analyst disagrees — screener got it wrong)
+- **Escalated** = needs further investigation (excluded from accuracy calc)
+
+## Rules
+
+1. **Declined findings are training data.** When a reviewer marks a finding as "Declined" and provides a `correct_verdict`, that signals the classifier got it wrong. Periodically review declined findings to improve keyword weights or add exclusions.
+2. **Accuracy metric** — calculate as: `(approved + reviewed) / (approved + reviewed + declined)` over all reviewed findings. Surfaced in the Review page when enough data exists (>= 5 reviews).
+3. **Regression tests** — `scripts/validate_screener.py` contains known-good test cases (URL + expected verdict). After any rule change, run it to check for regressions.
+4. When adding a test case, include both a **true positive** (correctly flagged) and a **true negative** (correctly clean) for the affected category.

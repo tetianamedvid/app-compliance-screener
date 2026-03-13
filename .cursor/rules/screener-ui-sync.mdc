@@ -1,0 +1,16 @@
+---
+description: Screener UI uses shared helpers from uw_app/ui_helpers.py — keep them in sync
+globs: streamlit_screener.py, uw_app/ui_helpers.py, pages/3_Review.py
+alwaysApply: false
+---
+
+# Screener UI sync
+
+`streamlit_screener.py` is the sole screener entry point. Shared UI logic (icons, table builder, KPIs, filters) lives in `uw_app/ui_helpers.py`.
+
+## Rules
+
+1. **Findings table rendering** (columns, sorting, column config, row selection) is defined in `uw_app/ui_helpers.py`. Do not duplicate it inline.
+2. **Emoji helpers** (`verdict_icon`, `review_icon`) and **constants** (`REVIEW_STATUSES`, `FINDINGS_COLUMN_CONFIG`) live in `ui_helpers.py` — import, never redefine.
+3. The Review page (`pages/3_Review.py`) imports from `ui_helpers` for shared CSS and policy-match rendering. Keep those imports consistent.
+4. `pages/1_Screener.py` was removed — `streamlit_screener.py` is the only screener file now.

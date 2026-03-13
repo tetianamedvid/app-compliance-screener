@@ -1,0 +1,1703 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-03-06",
+    "description": "Compliance signal library extracted from Industry Guidances documents. Used to flag non-compliant Base44 web apps.",
+    "total_signals": 120,
+    "categories": [
+      "Pharmaceuticals / Rogue Internet Pharmacies",
+      "Dietary Supplements - Prohibited Ingredients",
+      "Dietary Supplements - Disease Claims",
+      "Cosmetics Crossing Into Drug Territory",
+      "Psychoactive Substances",
+      "Kratom & Opioid Alternatives",
+      "Drug Paraphernalia",
+      "Tobacco / Vaping / E-cigarettes",
+      "Transaction Laundering",
+      "Negative-Option Billing / Deceptive Marketing",
+      "No-Value-Added Services",
+      "IP Infringement / Counterfeit / IPTV",
+      "Scam & Fraud",
+      "CBD",
+      "Gambling"
+    ]
+  },
+  "signals": [
+    {
+      "signal_id": "RX-001",
+      "category": "Pharmaceuticals / Rogue Internet Pharmacies",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Selling prescription drugs without requiring a valid prescription",
+      "severity": "Critical",
+      "description": "Any site selling prescription-only drugs without requiring an in-person physician examination and valid prescription is operating illegally in virtually every jurisdiction.",
+      "keywords": [
+        "no prescription",
+        "no rx",
+        "no prescription required",
+        "without prescription",
+        "prescription not needed",
+        "order without rx",
+        "no doctor needed",
+        "no script needed"
+      ],
+      "phrases": [
+        "no prescription required",
+        "no prescription needed",
+        "buy without prescription",
+        "order without a prescription",
+        "prescription not required",
+        "no doctor visit needed",
+        "online consultation only"
+      ],
+      "source_files": [
+        "Internet-Pharmacy-Guide-Policy.pdf"
+      ],
+      "source_folder": "Pharmaceuticals",
+      "regulation": "FDCA; ICANN RAA 3.18"
+    },
+    {
+      "signal_id": "RX-002",
+      "category": "Pharmaceuticals / Rogue Internet Pharmacies",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Worldwide / multi-country prescription drug shipping",
+      "severity": "Critical",
+      "description": "Internet pharmacies offering worldwide or multi-country shipping of prescription drugs cannot possibly be legally compliant, as they would need a pharmacy license in every destination jurisdiction.",
+      "keywords": [
+        "worldwide shipping",
+        "international shipping",
+        "ship worldwide",
+        "international pharmacy",
+        "we ship globally",
+        "ships to all countries"
+      ],
+      "phrases": [
+        "worldwide shipping",
+        "ship to any country",
+        "international delivery",
+        "we ship globally",
+        "ships everywhere"
+      ],
+      "source_files": [
+        "Internet-Pharmacy-Guide-Policy.pdf"
+      ],
+      "source_folder": "Pharmaceuticals",
+      "regulation": "FDCA; country-specific pharmacy licensure laws"
+    },
+    {
+      "signal_id": "RX-003",
+      "category": "Pharmaceuticals / Rogue Internet Pharmacies",
+      "signal_type": "prohibited_product",
+      "signal_name": "Unapproved / counterfeit drug products",
+      "severity": "Critical",
+      "description": "Drugs not approved by the FDA or other competent authority, or knockoffs of approved drugs (e.g., Kamagra, Silagra, Filagra, Careprost, Retino-A), sold outside authorized supply chains.",
+      "keywords": [
+        "Kamagra",
+        "Silagra",
+        "Filagra",
+        "Bimat",
+        "Careprost",
+        "Retino-A",
+        "Anazole",
+        "Black Cialis",
+        "Boldebolin",
+        "Finpecia",
+        "Nandrobolin",
+        "Reduce-15mg",
+        "Reductil",
+        "Sibutril",
+        "Slimex",
+        "Testobolin",
+        "Viagra Professional",
+        "Cialis Professional",
+        "Levitra Professional",
+        "generic viagra",
+        "generic cialis",
+        "generic levitra",
+        "counterfeit drug",
+        "unapproved drug",
+        "falsified medicine"
+      ],
+      "phrases": [
+        "generic equivalent",
+        "same active ingredient as Viagra",
+        "same as Cialis",
+        "FDA equivalent",
+        "imported from India"
+      ],
+      "source_files": [
+        "Internet-Pharmacy-Guide-Policy.pdf",
+        "2023___G2___Guide___Drug_Watch_List (1).pdf"
+      ],
+      "source_folder": "Pharmaceuticals",
+      "regulation": "FDCA; BRAM; GBPP"
+    },
+    {
+      "signal_id": "RX-004",
+      "category": "Pharmaceuticals / Rogue Internet Pharmacies",
+      "signal_type": "red_flag",
+      "signal_name": "Online questionnaire as prescription substitute",
+      "severity": "High",
+      "description": "Sites offering prescriptions solely based on filling out an online form, without a prior in-person doctor examination, are operating illegally in almost all jurisdictions.",
+      "keywords": [
+        "fill out form",
+        "online questionnaire",
+        "online consultation",
+        "online form",
+        "quick form",
+        "answer a few questions"
+      ],
+      "phrases": [
+        "fill out a short form to get your medication",
+        "online questionnaire",
+        "doctor reviews your form",
+        "no office visit required",
+        "telemedicine prescription"
+      ],
+      "source_files": [
+        "Internet-Pharmacy-Guide-Policy.pdf"
+      ],
+      "source_folder": "Pharmaceuticals",
+      "regulation": "FDCA; state medical practice laws"
+    },
+    {
+      "signal_id": "RX-005",
+      "category": "Pharmaceuticals / Rogue Internet Pharmacies",
+      "signal_type": "prohibited_product",
+      "signal_name": "Rx-only drugs sold as OTC or cosmetics",
+      "severity": "Critical",
+      "description": "Prescription-only drugs being marketed or sold without prescription requirements, including: sildenafil, tadalafil, vardenafil, semaglutide, tretinoin, clobetasol, bimatoprost, betamethasone, hydroquinone, clindamycin, ketoconazole, minoxidil >5%, orlistat 120mg, pantoprazole, dexamethasone, fluocinolone, triamcinolone (topical), acyclovir, azelaic acid \u226515%, ciclopirox, eflornithine, tazarotene, cromoglicate sodium eye drops, cyproheptadine, sertaconazole, methocarbamol, ibuprofen \u2265400mg.",
+      "keywords": [
+        "sildenafil",
+        "tadalafil",
+        "vardenafil",
+        "semaglutide",
+        "Ozempic",
+        "Wegovy",
+        "Rybelsus",
+        "tretinoin",
+        "Retin-A",
+        "Retino-A",
+        "clobetasol",
+        "Dermovate",
+        "bimatoprost",
+        "Latisse",
+        "betamethasone",
+        "Betnovate",
+        "hydroquinone",
+        "Melalite",
+        "clindamycin",
+        "Clindac",
+        "ketoconazole",
+        "minoxidil",
+        "orlistat",
+        "Xenical",
+        "pantoprazole",
+        "dexamethasone",
+        "fluocinolone",
+        "triamcinolone",
+        "acyclovir",
+        "azelaic acid",
+        "ciclopirox",
+        "eflornithine",
+        "Vaniqa",
+        "tazarotene",
+        "cromoglicate",
+        "cyproheptadine",
+        "Apetamin",
+        "sertaconazole",
+        "methocarbamol",
+        "ibuprofen 400mg",
+        "ibuprofen 600mg",
+        "ibuprofen 800mg",
+        "codeine",
+        "tramadol",
+        "opioid",
+        "Viagra",
+        "Cialis",
+        "Levitra"
+      ],
+      "phrases": [
+        "buy Ozempic online",
+        "order tretinoin without prescription",
+        "sildenafil online",
+        "no prescription Viagra",
+        "slim thick",
+        "weight gain supplement",
+        "eyelash growth serum bimatoprost"
+      ],
+      "source_files": [
+        "2023___G2___Guide___Drug_Watch_List (1).pdf",
+        "Internet-Pharmacy-Guide-Policy.pdf"
+      ],
+      "source_folder": "Pharmaceuticals / Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; DEA CSA; BRAM; GBPP"
+    },
+    {
+      "signal_id": "SUPP-001",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "DMAA (1,3-dimethylamylamine) and synonyms",
+      "severity": "Critical",
+      "description": "DMAA is an amphetamine derivative not approved for any medical use. FDA considers it an unsafe food additive. Multiple warning letters issued.",
+      "keywords": [
+        "DMAA",
+        "1,3-DMAA",
+        "1,3-Dimethylamylamine",
+        "1,3-Dimethylpentylamine",
+        "2-Amino-4-methylhexane",
+        "4-Methyl-2-hexanamine",
+        "4-Methyl-2-hexylamine",
+        "Dimethylamylamine",
+        "Geranamine",
+        "Methylhexanamine",
+        "Methylhexanenamine",
+        "Geranium extract"
+      ],
+      "phrases": [
+        "pre-workout with DMAA",
+        "geranium extract",
+        "methylhexanamine"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; FDA unsafe food additive"
+    },
+    {
+      "signal_id": "SUPP-002",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "Acacia Rigidula and synonyms",
+      "severity": "Critical",
+      "description": "Contains amphetamine-like chemicals. FDA considers products containing Acacia rigidula to be adulterated. New dietary ingredient not meeting conditions for supplements.",
+      "keywords": [
+        "Acacia rigidula",
+        "Vachellia rigidula",
+        "Chaparro Prieto",
+        "Blackbrush"
+      ],
+      "phrases": [
+        "Acacia rigidula",
+        "Vachellia rigidula"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; NDIN requirements"
+    },
+    {
+      "signal_id": "SUPP-003",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "Miracle Mineral Solution (MMS) and synonyms",
+      "severity": "Critical",
+      "description": "Produces industrial bleach (chlorine dioxide) when ingested. Falsely marketed to cure cancer, HIV/AIDS, autism. FDA warns of serious harm.",
+      "keywords": [
+        "Miracle Mineral Solution",
+        "Miracle Mineral Supplement",
+        "Master Mineral Solution",
+        "MMS",
+        "CD Protocol",
+        "Chlorine Dioxide Solution",
+        "sodium chlorite solution"
+      ],
+      "phrases": [
+        "Miracle Mineral Solution",
+        "MMS",
+        "chlorine dioxide",
+        "sodium chlorite",
+        "CD Protocol",
+        "cures autism",
+        "cures HIV"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; FDA warning letters"
+    },
+    {
+      "signal_id": "SUPP-004",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "Pure / highly concentrated caffeine",
+      "severity": "High",
+      "description": "Pure or highly concentrated caffeine powder/liquid is considered adulterated under FDCA. Linked to deaths.",
+      "keywords": [
+        "pure caffeine",
+        "caffeine powder",
+        "highly concentrated caffeine",
+        "caffeine anhydrous bulk"
+      ],
+      "phrases": [
+        "pure caffeine powder",
+        "caffeine anhydrous",
+        "bulk caffeine"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA"
+    },
+    {
+      "signal_id": "SUPP-005",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "SARMs (Ostarine / GW-501516 / Cardarine) and anabolic steroids",
+      "severity": "Critical",
+      "description": "SARMs (e.g., Ostarine/MK-2866, GW-501516/Cardarine/Endurobol) and anabolic steroids (Anadrol, Anavar, Deca-Durbolin, Dianabol, Testosterone, Trenbolone, Winstrol) are not lawfully sold as dietary supplements. Associated with liver toxicity, heart attack, stroke.",
+      "keywords": [
+        "Ostarine",
+        "MK-2866",
+        "GTx-024",
+        "Enobosarm",
+        "GW-501516",
+        "GW1516",
+        "Cardarine",
+        "Endurobol",
+        "SARM",
+        "SARMs",
+        "selective androgen receptor modulator",
+        "Anadrol",
+        "oxymetholone",
+        "Anavar",
+        "oxandrolone",
+        "Deca-Durbolin",
+        "nandrolone",
+        "Dianabol",
+        "methandrostenolone",
+        "metandienone",
+        "testosterone",
+        "Trenbolone",
+        "trenbolone acetate",
+        "Winstrol",
+        "stanozolol",
+        "anabolic steroid",
+        "bodybuilding steroid",
+        "DASCA steroid",
+        "methylstenbolone"
+      ],
+      "phrases": [
+        "SARM supplement",
+        "selective androgen receptor modulator",
+        "Cardarine",
+        "Ostarine",
+        "research chemical bodybuilding",
+        "steroid alternative",
+        "legal steroids"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; DASCA 2014; USADA prohibitions"
+    },
+    {
+      "signal_id": "SUPP-006",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "Picamilon and synonyms",
+      "severity": "High",
+      "description": "Synthetic combination of niacin and GABA. FDA states any dietary supplements containing picamilon are misbranded as it does not meet the statutory definition of a dietary ingredient.",
+      "keywords": [
+        "picamilon",
+        "pikatropin",
+        "pikamilon",
+        "pycamilon",
+        "nicotinyl-gamma-aminobutyric acid",
+        "nicotinyl-GAB"
+      ],
+      "phrases": [
+        "picamilon",
+        "pikatropin"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; FDA warning letters"
+    },
+    {
+      "signal_id": "SUPP-007",
+      "category": "Dietary Supplements - Prohibited Ingredients",
+      "signal_type": "prohibited_ingredient",
+      "signal_name": "Yohimbine - prescription-only in several countries",
+      "severity": "Medium",
+      "description": "Yohimbine is a prescription-only drug in AU, CA, DE, HK, IE, ES, UK, JP, SG, KR, NL. Even where legal, supplements cannot make disease claims about it.",
+      "keywords": [
+        "yohimbine",
+        "yohimbe",
+        "yohimbe extract",
+        "yohimbine HCL"
+      ],
+      "phrases": [
+        "yohimbine",
+        "yohimbe bark",
+        "yohimbine HCL"
+      ],
+      "source_files": [
+        "Top-10-Problematic-Ingredients-Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "Country-specific pharmacy laws; FDCA (claims)"
+    },
+    {
+      "signal_id": "CLAIM-001",
+      "category": "Dietary Supplements - Disease Claims",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Explicit disease treatment/cure/prevention claims",
+      "severity": "Critical",
+      "description": "Dietary supplements making disease claims are treated as unapproved drugs by the FDA. Claims to diagnose, cure, mitigate, treat, or prevent any disease are prohibited.",
+      "keywords": [
+        "cures",
+        "cure",
+        "treats",
+        "treat",
+        "prevents",
+        "prevent",
+        "heals",
+        "heal",
+        "eliminates",
+        "fights cancer",
+        "kills cancer",
+        "reverses diabetes",
+        "treats HIV",
+        "cures autism",
+        "prevents Alzheimer",
+        "treats depression",
+        "cures anxiety",
+        "treats arthritis",
+        "cures cancer",
+        "fights infection",
+        "antiviral",
+        "antibiotic",
+        "antidepressant",
+        "antimicrobial",
+        "antifungal",
+        "analgesic",
+        "anti-inflammatory"
+      ],
+      "phrases": [
+        "protective against the development of cancer",
+        "reduces the pain and stiffness associated with arthritis",
+        "relieves crushing chest pain",
+        "reduces cholesterol",
+        "inhibits platelet aggregation",
+        "supports the body's ability to resist infection",
+        "supports the body's antiviral capabilities",
+        "protects from the damaging effects of chemotherapy",
+        "helps reduce muscle pain",
+        "provides anti-inflammatory effects",
+        "treat pain and inflammation",
+        "broad spectrum antibiotic",
+        "antifungal product",
+        "safe alternative to Adderall",
+        "as effective as Viagra",
+        "alternative to Adderall",
+        "helps with diabetes",
+        "helps with insomnia",
+        "treats depression",
+        "cures colds",
+        "cures acne",
+        "cures cancer",
+        "cures HIV/AIDS",
+        "cures autism",
+        "#1 COVID-19 Remedy",
+        "treats opioid addiction",
+        "herbal supplement to treat anxiety"
+      ],
+      "source_files": [
+        "Verisk_Financial_G2___Nutraceuticals_Claims_Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; 21 CFR \u00a7 101.93(g); FTC Act"
+    },
+    {
+      "signal_id": "CLAIM-002",
+      "category": "Dietary Supplements - Disease Claims",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Implied disease claims (drug substitute language)",
+      "severity": "High",
+      "description": "Claiming a supplement is a substitute for a drug, or uses drug class terminology, constitutes an implied disease claim.",
+      "keywords": [
+        "alternative to",
+        "substitute for",
+        "as effective as",
+        "replaces",
+        "instead of medication",
+        "drug-free alternative",
+        "natural alternative to",
+        "like Adderall",
+        "like Xanax",
+        "EKG",
+        "diseased organ",
+        "opioid alternative",
+        "opiate withdrawal"
+      ],
+      "phrases": [
+        "safe and effective alternative to Adderall",
+        "as close as you can get to taking Viagra",
+        "natural alternative to antidepressants",
+        "opioid alternative",
+        "opiate withdrawal aid",
+        "legal high",
+        "herbal supplement for opioid addiction"
+      ],
+      "source_files": [
+        "Verisk_Financial_G2___Nutraceuticals_Claims_Guide.pdf",
+        "Kratom-FAQ-Guide (1).pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; FTC Act"
+    },
+    {
+      "signal_id": "CLAIM-003",
+      "category": "Dietary Supplements - Disease Claims",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Disease name in product name or meta tags",
+      "severity": "High",
+      "description": "Using disease names (e.g., diabetes, cancer, arthritis) in product names, URLs, or meta tags constitutes a disease claim.",
+      "keywords": [
+        "diabetes supplement",
+        "cancer cure",
+        "arthritis relief",
+        "colitis",
+        "ulcerative colitis",
+        "Crohn's disease",
+        "diverticulitis",
+        "IBS supplement",
+        "GERD supplement",
+        "chronic fatigue",
+        "deep pain relief",
+        "pain relief supplement"
+      ],
+      "phrases": [
+        "Deep Pain Relief",
+        "CancerFighter",
+        "DiabetesControl",
+        "meta tags with disease names",
+        "anti-cancer supplement"
+      ],
+      "source_files": [
+        "Verisk_Financial_G2___Nutraceuticals_Claims_Guide.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; 21 USC \u00a7 321(k),(m)"
+    },
+    {
+      "signal_id": "COSM-001",
+      "category": "Cosmetics Crossing Into Drug Territory",
+      "signal_type": "prohibited_product",
+      "signal_name": "Foreign topical drugs marketed as cosmetics (whitening / anti-wrinkle / eyelash)",
+      "severity": "Critical",
+      "description": "Foreign prescription-only topical drugs containing clobetasol, betamethasone, tretinoin, or bimatoprost marketed as cosmetics (whitening creams, anti-wrinkle creams, eyelash serums) are illegal in the US and trigger BRAM/GBPP violations.",
+      "keywords": [
+        "skin whitening cream",
+        "skin lightening cream",
+        "whitening cream",
+        "lightening cream",
+        "anti-wrinkle",
+        "wrinkle reducer",
+        "eyelash growth",
+        "eyelash serum",
+        "eyelash lengthener",
+        "clobetasol cream",
+        "betamethasone cream",
+        "tretinoin cream",
+        "bimatoprost eye drops",
+        "Janet Cream",
+        "Movate",
+        "Dermovate",
+        "H20 Jours",
+        "L'abidjanaise",
+        "La Dakaroise",
+        "Elopro",
+        "Kloderma",
+        "Civic Cream"
+      ],
+      "phrases": [
+        "skin whitening cream",
+        "skin lightening with clobetasol",
+        "anti-wrinkle with tretinoin",
+        "eyelash growth serum",
+        "bimatoprost eyelash",
+        "whitening under medical control",
+        "foreign cosmetic cream",
+        "imported skin cream"
+      ],
+      "source_files": [
+        "Cosmetics-An-Introduction.pdf",
+        "2023___G2___Guide___Drug_Watch_List (1).pdf"
+      ],
+      "source_folder": "Cosmetics / Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; BRAM; GBPP"
+    },
+    {
+      "signal_id": "COSM-002",
+      "category": "Cosmetics Crossing Into Drug Territory",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Cosmetic products making drug claims",
+      "severity": "High",
+      "description": "Cosmetics making claims to affect the structure or function of the body, or treat diseases, become unapproved drugs.",
+      "keywords": [
+        "repairs skin cells",
+        "regenerates tissue",
+        "stimulates collagen production at cellular level",
+        "treats psoriasis",
+        "treats eczema",
+        "treats acne",
+        "treats rosacea",
+        "FDA cleared cosmetic",
+        "medically proven cosmetic"
+      ],
+      "phrases": [
+        "cosmetic that treats",
+        "cosmetic that cures",
+        "medically proven",
+        "repairs DNA",
+        "changes skin structure"
+      ],
+      "source_files": [
+        "Cosmetics-An-Introduction.pdf"
+      ],
+      "source_folder": "Cosmetics",
+      "regulation": "FDCA; FD&C Act sec. 201(i)"
+    },
+    {
+      "signal_id": "PSY-001",
+      "category": "Psychoactive Substances",
+      "signal_type": "prohibited_product",
+      "signal_name": "Kratom and mitragynine-containing products",
+      "severity": "Critical",
+      "description": "Kratom (Mitragyna speciosa) is a DEA Drug of Concern, subject to FDA import alerts, and controlled in numerous countries and US states. Violates major card brand rules (GBPP).",
+      "keywords": [
+        "kratom",
+        "Mitragyna speciosa",
+        "maeng da",
+        "Red Vein Bali",
+        "Green Malay",
+        "White Borneo",
+        "Red Sumatra",
+        "mitragynine",
+        "7-hydroxymitragynine",
+        "kratom powder",
+        "kratom capsules",
+        "kratom extract",
+        "kratom tea"
+      ],
+      "phrases": [
+        "kratom powder",
+        "kratom capsules",
+        "maeng da kratom",
+        "Red Vein kratom",
+        "kratom for opioid withdrawal",
+        "kratom supplement",
+        "herbal kratom"
+      ],
+      "source_files": [
+        "Kratom-FAQ-Guide (1).pdf",
+        "Top-10-Problematic-Ingredients-Guide.pdf",
+        "2023___G2___Guide___Drug_Watch_List (1).pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "DEA Drug of Concern; FDA import alert; GBPP; country-specific controls"
+    },
+    {
+      "signal_id": "PSY-002",
+      "category": "Psychoactive Substances",
+      "signal_type": "prohibited_product",
+      "signal_name": "Psychedelic plants and substances",
+      "severity": "Critical",
+      "description": "Controlled or restricted psychoactive substances including magic mushrooms (psilocybin), peyote, mescaline-containing cacti, DMT-containing plants, ayahuasca, iboga, Salvia divinorum, GHB, synthetic cannabinoids, synthetic cathinones, synthetic opioids.",
+      "keywords": [
+        "magic mushrooms",
+        "psilocybin",
+        "psilocybe",
+        "psilocin",
+        "shrooms",
+        "magic truffles",
+        "peyote",
+        "Lophophora williamsii",
+        "mescaline",
+        "San Pedro cactus",
+        "Peruvian torch cactus",
+        "Echinopsis",
+        "Trichocereus",
+        "ayahuasca",
+        "yage",
+        "DMT",
+        "dimethyltryptamine",
+        "Mimosa hostilis",
+        "MHRB",
+        "jurema preta",
+        "iboga",
+        "ibogaine",
+        "Tabernanthe iboga",
+        "Salvia divinorum",
+        "diviner's sage",
+        "Salvinorin A",
+        "GHB",
+        "gamma hydroxybutyrate",
+        "liquid ecstasy",
+        "Georgia Home Boy",
+        "K2",
+        "Spice",
+        "Diablo",
+        "synthetic cannabinoid",
+        "herbal incense",
+        "bath salts",
+        "synthetic cathinone",
+        "MDPV",
+        "mephedrone",
+        "methylone",
+        "Cloud 9",
+        "Ivory Wave",
+        "White Dove",
+        "Vanilla Sky",
+        "fentanyl",
+        "synthetic opioid",
+        "furanyl fentanyl",
+        "U-47700",
+        "AH-7921",
+        "Hawaiian baby woodrose",
+        "HB woodrose",
+        "Amanita muscaria",
+        "fly agaric",
+        "muscimol",
+        "THCO",
+        "THC-O",
+        "xylazine",
+        "tranq",
+        "zombie drug",
+        "poppers",
+        "alkyl nitrites",
+        "isoamyl nitrite",
+        "video head cleaner",
+        "leather cleaner",
+        "benzodiazepines",
+        "etizolam",
+        "Etilaam",
+        "Delta-8 THC",
+        "delta-8",
+        "coca leaf",
+        "Erythroxylum coca"
+      ],
+      "phrases": [
+        "magic mushroom spores",
+        "psilocybin mushrooms",
+        "ethnobotanical products",
+        "research chemicals not for human consumption",
+        "for research purposes only",
+        "not for human consumption",
+        "herbal incense",
+        "bath salts jewelry cleaner",
+        "plant food",
+        "phone screen cleaner",
+        "room deodoriser",
+        "iboga retreat",
+        "ayahuasca retreat",
+        "untreated seeds",
+        "unwashed seeds",
+        "poppy pods",
+        "dried flowers poppy",
+        "craft supplies poppy"
+      ],
+      "source_files": [
+        "2023___G2___Guide___Drug_Watch_List (1).pdf",
+        "G2_Psychoactive_Botanicals_Guide.pdf",
+        "Designer-Drugs-FAQ.pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "DEA Schedule I/II; CSA; FDCA; GBPP; country-specific controls"
+    },
+    {
+      "signal_id": "PSY-003",
+      "category": "Psychoactive Substances",
+      "signal_type": "red_flag",
+      "signal_name": "Disguised psychoactive product listings",
+      "severity": "High",
+      "description": "Psychoactive products are often disguised with benign labels. Common disguise patterns include: 'not for human consumption', 'for research purposes only', 'plant food', 'bath salts', 'jewelry cleaner', 'leather cleaner', 'room deodoriser', 'untreated/unwashed seeds', poppy pods sold as 'dried flowers' or 'craft supplies'.",
+      "keywords": [
+        "not for human consumption",
+        "for research purposes only",
+        "research chemical",
+        "plant food",
+        "bath salts",
+        "jewelry cleaner",
+        "leather cleaner",
+        "room deodoriser",
+        "untreated seeds",
+        "unwashed seeds",
+        "dried flowers poppy",
+        "craft supplies poppy",
+        "unwashed poppy seeds",
+        "poppy pods craft"
+      ],
+      "phrases": [
+        "not for human consumption",
+        "for research purposes only",
+        "sold as a dye",
+        "plant food",
+        "bath salts",
+        "leather cleaner",
+        "room deodoriser",
+        "untreated",
+        "unwashed"
+      ],
+      "source_files": [
+        "2023___G2___Guide___Drug_Watch_List (1).pdf"
+      ],
+      "source_folder": "Substances - Drugs - Nutra - Claims",
+      "regulation": "DEA; CSA; FDCA"
+    },
+    {
+      "signal_id": "PARA-001",
+      "category": "Drug Paraphernalia",
+      "signal_type": "prohibited_product",
+      "signal_name": "Drug paraphernalia - items for use with illicit drugs",
+      "severity": "High",
+      "description": "Under US Code Title 21 Section 863, it is unlawful to sell or offer for sale drug paraphernalia. Includes bongs, pipes, roach clips, chillums, miniature spoons, cocaine freebase kits, water pipes.",
+      "keywords": [
+        "bong",
+        "bongs",
+        "water pipe",
+        "roach clip",
+        "chillum",
+        "cocaine spoon",
+        "crack pipe",
+        "glass pipe",
+        "smoking pipe",
+        "cannabis pipe",
+        "marijuana pipe",
+        "cocaine freebase kit",
+        "drug pipe",
+        "dab rig",
+        "herb pipe"
+      ],
+      "phrases": [
+        "for tobacco use only",
+        "sold for tobacco use",
+        "bong",
+        "water pipe",
+        "dab rig",
+        "smoke shop",
+        "head shop"
+      ],
+      "source_files": [
+        "Drug paraphernalia.pdf"
+      ],
+      "source_folder": "Tobacco - vape - paraphernalia",
+      "regulation": "21 USC \u00a7 863 (Federal Analog Act)"
+    },
+    {
+      "signal_id": "VAPE-001",
+      "category": "Tobacco / Vaping / E-cigarettes",
+      "signal_type": "high_risk_product",
+      "signal_name": "E-cigarettes, vaping devices, and ENDS components",
+      "severity": "High",
+      "description": "E-cigarettes and all ENDS components (e-liquids, cartridges, atomizers, batteries, vape juice) are FDA-regulated tobacco products. Many PSPs prohibit card-not-present e-cigarette merchants. High risk for selling to minors and card brand violations.",
+      "keywords": [
+        "e-cigarette",
+        "ecig",
+        "vape",
+        "vaping",
+        "vape juice",
+        "vape oil",
+        "e-liquid",
+        "e-juice",
+        "vape pen",
+        "mod",
+        "tank",
+        "atomizer",
+        "cartridge",
+        "clearomizer",
+        "cartomizer",
+        "ENDS",
+        "electronic nicotine delivery",
+        "nicotine vape",
+        "nic salt",
+        "disposable vape",
+        "JUUL",
+        "pod system",
+        "sub-ohm",
+        "coil",
+        "drip tip"
+      ],
+      "phrases": [
+        "vape shop",
+        "buy vape online",
+        "e-cigarette store",
+        "nicotine vape",
+        "vape delivery",
+        "flavored vape oil",
+        "vape juice flavors"
+      ],
+      "source_files": [
+        "Vaping and E-cigarettes FAQ.pdf",
+        "Deep-Dive-Vaping-April-2023.pdf"
+      ],
+      "source_folder": "Tobacco - vape - paraphernalia",
+      "regulation": "FDCA (ENDS); FDA Final Rule 2016; PACT Act; GBPP"
+    },
+    {
+      "signal_id": "VAPE-002",
+      "category": "Tobacco / Vaping / E-cigarettes",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Vape/CBD products with disease treatment claims",
+      "severity": "Critical",
+      "description": "Vape or CBD products marketed with claims to treat or cure diseases (e.g., anxiety, pain, cancer) are subject to FDA enforcement action.",
+      "keywords": [
+        "CBD vape treats",
+        "vape cures",
+        "vape heals",
+        "therapeutic vape"
+      ],
+      "phrases": [
+        "CBD vape for anxiety",
+        "vape pen for pain relief",
+        "CBD cures",
+        "therapeutic vape"
+      ],
+      "source_files": [
+        "Vaping and E-cigarettes FAQ.pdf"
+      ],
+      "source_folder": "Tobacco - vape - paraphernalia",
+      "regulation": "FDCA; FDA enforcement"
+    },
+    {
+      "signal_id": "TL-001",
+      "category": "Transaction Laundering",
+      "signal_type": "red_flag_business_model",
+      "signal_name": "Classic transaction laundering / bank page indicators",
+      "severity": "Critical",
+      "description": "Transaction laundering occurs when an illicit merchant obtains a merchant account for a seemingly innocuous business and uses it to process payments for prohibited products/services. Red flags: generic template website, sparse product catalog, illogical pricing, lack of social media presence, incongruous products.",
+      "keywords": [
+        "bank page",
+        "front website",
+        "shell merchant",
+        "payment front",
+        "innocuous storefront",
+        "IBO scheme",
+        "Independent Business Owner",
+        "passive income merchant",
+        "stealth account",
+        "synthetic identity"
+      ],
+      "phrases": [
+        "generic web design services",
+        "generic hosting services",
+        "graphic design services",
+        "technical support services",
+        "SEO services",
+        "drop-shipping consumer goods",
+        "earn commissions as IBO",
+        "Independent Business Owner opportunity"
+      ],
+      "source_files": [
+        "LegitScript_Handbook-Chapter1 (Transaction Laundering).pdf",
+        "Transaction-Laundering-Typologies-Methodologies-Guide-Digital.pdf"
+      ],
+      "source_folder": "Transaction launderig",
+      "regulation": "BRAM; GBPP; Mastercard rules; Visa rules; BSA/AML"
+    },
+    {
+      "signal_id": "TL-002",
+      "category": "Transaction Laundering",
+      "signal_type": "red_flag_business_model",
+      "signal_name": "IPTV / streaming services as transaction laundering front",
+      "severity": "High",
+      "description": "Illicit IPTV merchants often use web hosting or VPS services as laundering fronts. Common pattern: subscription to 'web hosting' that actually processes for IPTV piracy.",
+      "keywords": [
+        "IPTV",
+        "internet protocol television",
+        "streaming service",
+        "streaming subscription",
+        "unlimited channels",
+        "premium channels",
+        "pay-per-view subscription",
+        "replace cable",
+        "cut cable",
+        "all channels included"
+      ],
+      "phrases": [
+        "unlimited TV channels",
+        "premium IPTV subscription",
+        "replace your cable",
+        "all channels for",
+        "access premium channels",
+        "pay per view included"
+      ],
+      "source_files": [
+        "LegitScript_Handbook-Chapter1 (Transaction Laundering).pdf",
+        "IP-Infrigement-and-Organized-Crime.pdf"
+      ],
+      "source_folder": "Transaction launderig / IPR",
+      "regulation": "BRAM; GBPP; DMCA; copyright law"
+    },
+    {
+      "signal_id": "NOB-001",
+      "category": "Negative-Option Billing / Deceptive Marketing",
+      "signal_type": "prohibited_business_model",
+      "signal_name": "Negative-option / continuity billing without clear disclosure",
+      "severity": "High",
+      "description": "Merchants enrolling customers in recurring subscriptions via free trials without clear disclosure of terms or easy cancellation. Regulated by FTC, ROSCA, and Mastercard (MCC 5968).",
+      "keywords": [
+        "free trial",
+        "risk-free trial",
+        "just pay shipping",
+        "pay shipping only",
+        "cancel anytime",
+        "auto-renewal",
+        "recurring charge",
+        "monthly subscription",
+        "continuity marketing",
+        "negative option",
+        "hard to cancel",
+        "automatic enrollment"
+      ],
+      "phrases": [
+        "free trial offer",
+        "risk-free trial",
+        "just pay shipping",
+        "cancel within 18 days",
+        "trial membership",
+        "auto-renewal",
+        "you will be charged after trial",
+        "cancel anytime in fine print",
+        "subscription automatically renews"
+      ],
+      "source_files": [
+        "Negative-Option-Billing.pdf",
+        "Deceptive-Marketing-Guide.pdf",
+        "cfpb_unlawful-negative-option-marketing-practices-circular_2023-01.pdf"
+      ],
+      "source_folder": "Deceptive Marketing - NOB",
+      "regulation": "FTC Act; ROSCA (15 USC \u00a7 8403); Mastercard standards; MCC 5968"
+    },
+    {
+      "signal_id": "NOB-002",
+      "category": "Negative-Option Billing / Deceptive Marketing",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Fake job opportunities and resume repair scams",
+      "severity": "High",
+      "description": "Services promising job placement or resume repair with fake guarantees, upfront fees, and false placement rates.",
+      "keywords": [
+        "guaranteed job placement",
+        "100% interview rate",
+        "executive job placement",
+        "unadvertised positions",
+        "highly paid positions",
+        "resume repair",
+        "CV repair",
+        "pay for job access",
+        "pay for job listing"
+      ],
+      "phrases": [
+        "100 percent interview rate",
+        "unadvertised executive positions",
+        "guaranteed job placement",
+        "pay to access job listings",
+        "high-paying positions guaranteed"
+      ],
+      "source_files": [
+        "Deceptive-Marketing-Guide.pdf"
+      ],
+      "source_folder": "Deceptive Marketing - NOB",
+      "regulation": "FTC Act"
+    },
+    {
+      "signal_id": "NOB-003",
+      "category": "Negative-Option Billing / Deceptive Marketing",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Fake emotional support / assistance animal documentation",
+      "severity": "High",
+      "description": "Merchants selling sham ESA/service animal certificates, registrations, or ID cards. These documents convey no legal rights and are not recognized by DOJ or HUD.",
+      "keywords": [
+        "emotional support animal certificate",
+        "ESA letter",
+        "service animal registration",
+        "emotional support animal ID",
+        "ESA certificate online",
+        "pet certification",
+        "avoid pet deposit",
+        "avoid breed restrictions",
+        "no more pet fees"
+      ],
+      "phrases": [
+        "No More Unfair Pet Deposits",
+        "Avoid Breed and Size Restrictions",
+        "No More Unfair Airline Fees",
+        "emotional support animal certificate",
+        "ESA letter online",
+        "register your pet",
+        "service dog ID card"
+      ],
+      "source_files": [
+        "Deceptive-Marketing-Guide.pdf"
+      ],
+      "source_folder": "Deceptive Marketing - NOB",
+      "regulation": "FTC Act; ADA; HUD regulations"
+    },
+    {
+      "signal_id": "NVA-001",
+      "category": "No-Value-Added Services",
+      "signal_type": "prohibited_business_model",
+      "signal_name": "Government form / application resellers charging excessive fees",
+      "severity": "High",
+      "description": "Merchants charging fees to facilitate government applications available for free or low cost directly: ESTA travel authorization, DMV services, fishing/hunting licenses, immigration services, visa processing, birth/marriage certificates.",
+      "keywords": [
+        "ESTA application",
+        "ESTA fee",
+        "ESTA processing",
+        "travel authorization fee",
+        "DMV services online",
+        "DMV renewal",
+        "driver's license renewal service",
+        "immigration service fee",
+        "visa processing fee",
+        "fishing license service",
+        "hunting license service",
+        "government form service",
+        "police records",
+        "public records access fee",
+        "business incorporation service"
+      ],
+      "phrases": [
+        "ESTA travel authorization",
+        "official ESTA application",
+        "expedited ESTA processing",
+        "DMV renewal service",
+        "immigration application service",
+        "government form assistance",
+        "apply for your license",
+        "we submit your application",
+        "official government service"
+      ],
+      "source_files": [
+        "No-Value-Added-Introduction-Digital (1).pdf"
+      ],
+      "source_folder": "Deceptive Marketing - NOB",
+      "regulation": "FTC Act; country-specific immigration law"
+    },
+    {
+      "signal_id": "IPR-001",
+      "category": "IP Infringement / Counterfeit / IPTV",
+      "signal_type": "prohibited_product",
+      "signal_name": "Counterfeit and replica branded goods",
+      "severity": "Critical",
+      "description": "Selling counterfeit, replica, or unauthorized goods using branded designs/logos. High-risk brands: Louis Vuitton, Gucci, Nike, Adidas, Disney, Star Wars, Adobe, Microsoft. Triggers BRAM and GBPP fines.",
+      "keywords": [
+        "replica",
+        "imitation",
+        "our version of",
+        "inspired by",
+        "designer inspired",
+        "fake",
+        "counterfeit",
+        "knockoff",
+        "knock-off",
+        "copy of",
+        "brand inspired",
+        "Louis Vuitton replica",
+        "Gucci replica",
+        "Nike replica",
+        "Adidas replica",
+        "fake designer",
+        "luxury replica",
+        "identical to original"
+      ],
+      "phrases": [
+        "replica",
+        "imitation",
+        "our version",
+        "inspired by brand",
+        "designer inspired",
+        "same quality as original",
+        "AAA quality",
+        "first copy"
+      ],
+      "source_files": [
+        "IP-Infrigement-and-Organized-Crime.pdf",
+        "LegitScript-Merchant-Website-Analysis-Tip-Sheet.pdf"
+      ],
+      "source_folder": "IPR",
+      "regulation": "Lanham Act; BRAM; GBPP; DMCA"
+    },
+    {
+      "signal_id": "IPR-002",
+      "category": "IP Infringement / Counterfeit / IPTV",
+      "signal_type": "prohibited_product",
+      "signal_name": "Illicit IPTV / piracy streaming services",
+      "severity": "High",
+      "description": "IPTV services offering premium/pay-per-view channels, large channel counts, or access to copyrighted content for suspiciously low fees. Violates Visa and Mastercard rules on copyright infringement.",
+      "keywords": [
+        "IPTV subscription",
+        "IPTV service",
+        "unlimited IPTV",
+        "premium IPTV",
+        "live TV streaming",
+        "piracy streaming",
+        "illegal streaming",
+        "free streaming movies",
+        "100+ channels",
+        "1000+ channels",
+        "all sports channels",
+        "HBO included",
+        "no cable needed",
+        "cut the cord"
+      ],
+      "phrases": [
+        "1000 channels",
+        "premium channels included",
+        "pay per view subscription",
+        "replace cable TV",
+        "all channels for low price",
+        "HBO sports included"
+      ],
+      "source_files": [
+        "IP-Infrigement-and-Organized-Crime.pdf"
+      ],
+      "source_folder": "IPR",
+      "regulation": "DMCA; Visa GBPP; Mastercard BRAM"
+    },
+    {
+      "signal_id": "IPR-003",
+      "category": "IP Infringement / Counterfeit / IPTV",
+      "signal_type": "prohibited_product",
+      "signal_name": "Cyberlocker / unauthorized file sharing services",
+      "severity": "Medium",
+      "description": "File-sharing services potentially hiding copyrighted material behind paywalls. Risk indicator: marketing cyberlocker as means to share/distribute copyrighted content.",
+      "keywords": [
+        "cyberlocker",
+        "file sharing service",
+        "unlimited downloads",
+        "piracy hosting",
+        "download movies",
+        "download software",
+        "cracked software",
+        "warez"
+      ],
+      "phrases": [
+        "download unlimited files",
+        "share any file",
+        "premium file host",
+        "unlimited storage downloads"
+      ],
+      "source_files": [
+        "IP-Infrigement-and-Organized-Crime.pdf"
+      ],
+      "source_folder": "IPR",
+      "regulation": "DMCA; BRAM; GBPP"
+    },
+    {
+      "signal_id": "FRAUD-001",
+      "category": "Scam & Fraud",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Crypto scams, rug pulls, and pump-and-dump schemes",
+      "severity": "High",
+      "description": "Fraudulent cryptocurrency projects, fake wallets, pump-and-dump schemes, and rug pulls solicited via social media.",
+      "keywords": [
+        "crypto investment",
+        "guaranteed crypto returns",
+        "pump and dump",
+        "rug pull",
+        "fake cryptocurrency",
+        "ICO scam",
+        "token presale scam",
+        "crypto giveaway"
+      ],
+      "phrases": [
+        "guaranteed returns on crypto",
+        "exclusive crypto opportunity",
+        "crypto giveaway",
+        "double your bitcoin",
+        "token presale",
+        "limited crypto offer"
+      ],
+      "source_files": [
+        "Dangerous-Trends-on-Social-Media-Platforms_digital.pdf"
+      ],
+      "source_folder": "Scam & Fraud",
+      "regulation": "FTC Act; SEC regulations; wire fraud statutes"
+    },
+    {
+      "signal_id": "FRAUD-002",
+      "category": "Scam & Fraud",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Fake charity / fundraising scams",
+      "severity": "High",
+      "description": "Fraudulent fundraising campaigns impersonating legitimate charities or aid organizations, especially exploiting disasters/pandemics.",
+      "keywords": [
+        "fake charity",
+        "donation scam",
+        "fake fundraiser",
+        "impersonating Red Cross",
+        "COVID donation",
+        "disaster relief scam",
+        "charity fraud"
+      ],
+      "phrases": [
+        "donate to help victims",
+        "official relief fund",
+        "support our cause",
+        "emergency donation needed",
+        "click to donate"
+      ],
+      "source_files": [
+        "Dangerous-Trends-on-Social-Media-Platforms_digital.pdf"
+      ],
+      "source_folder": "Scam & Fraud",
+      "regulation": "FTC Act; FBI fraud statutes"
+    },
+    {
+      "signal_id": "FRAUD-003",
+      "category": "Scam & Fraud",
+      "signal_type": "prohibited_practice",
+      "signal_name": "Synthetic Identity Fraud / CPN schemes",
+      "severity": "Critical",
+      "description": "Credit Privacy Numbers (CPNs) are fraudulently marketed as legal replacements for SSNs to avoid bad credit history. This is a federal crime.",
+      "keywords": [
+        "CPN",
+        "Credit Privacy Number",
+        "credit profile number",
+        "secondary credit number",
+        "new credit identity",
+        "fresh start credit",
+        "new credit file",
+        "clean credit slate"
+      ],
+      "phrases": [
+        "Credit Privacy Number",
+        "CPN number",
+        "new credit file",
+        "clean credit slate",
+        "secondary number for credit",
+        "avoid bad credit history"
+      ],
+      "source_files": [
+        "CPNs_ A Crime, Not a Clean Slate.pdf"
+      ],
+      "source_folder": "root",
+      "regulation": "18 USC \u00a7 1028 (identity fraud); SSA Act"
+    },
+    {
+      "signal_id": "CBD-001",
+      "category": "CBD",
+      "signal_type": "high_risk_product",
+      "signal_name": "CBD products with disease claims or interstate shipping complications",
+      "severity": "High",
+      "description": "CBD exists in a complex legal environment. FDA has not approved CBD for use in food/supplements in the US. CBD marketed with disease claims is subject to FDA enforcement. Some US states prohibit CBD sales. In the EU, CBD is classified as a Novel Food requiring pre-market authorization.",
+      "keywords": [
+        "CBD oil",
+        "cannabidiol",
+        "CBD supplement",
+        "hemp extract",
+        "CBD capsules",
+        "CBD gummies",
+        "CBD for anxiety",
+        "CBD for pain",
+        "CBD for sleep",
+        "CBD treats",
+        "CBD heals",
+        "CBD cures",
+        "CBD medical"
+      ],
+      "phrases": [
+        "CBD oil for anxiety",
+        "CBD for pain relief",
+        "CBD cures",
+        "CBD treats epilepsy",
+        "hemp extract supplement",
+        "CBD medical grade"
+      ],
+      "source_files": [
+        "US State CBD Laws You Need to Know About.pdf",
+        "Online-CBD-Sales-Why-It_s-Still-Buyer-Beware.pdf",
+        "CBD Is a Novel Food EU.docx"
+      ],
+      "source_folder": "CBD",
+      "regulation": "FDCA; FDA enforcement; EU Novel Food Regulation; state laws"
+    },
+    {
+      "signal_id": "CBD-002",
+      "category": "CBD",
+      "signal_type": "prohibited_product",
+      "signal_name": "Delta-8 THC and THCO products",
+      "severity": "High",
+      "description": "Delta-8 THC is prohibited in foods and dietary supplements under FDCA and is explicitly prohibited in several US states. THCO is classified as a Schedule I controlled substance by DEA.",
+      "keywords": [
+        "Delta-8 THC",
+        "delta-8",
+        "D8",
+        "delta8",
+        "delta 8 THC",
+        "THCO",
+        "THC-O",
+        "THC acetate",
+        "delta-8 THCO",
+        "delta-9 THCO",
+        "hemp-derived delta",
+        "legal THC"
+      ],
+      "phrases": [
+        "delta-8 THC",
+        "delta 8 gummies",
+        "legal THC",
+        "hemp-derived THC",
+        "THCO vape",
+        "THC-O acetate"
+      ],
+      "source_files": [
+        "2023___G2___Guide___Drug_Watch_List (1).pdf"
+      ],
+      "source_folder": "CBD / Substances - Drugs - Nutra - Claims",
+      "regulation": "FDCA; DEA (THCO); state laws"
+    },
+    {
+      "signal_id": "GAMB-001",
+      "category": "Gambling",
+      "signal_type": "high_risk_product",
+      "signal_name": "Online gambling / betting platforms",
+      "severity": "High",
+      "description": "Online gambling is illegal in many US states and jurisdictions. Merchants are often blocked from accepting credit cards for gambling. E-voucher and cryptocurrency routing are common laundering tactics.",
+      "keywords": [
+        "online casino",
+        "online gambling",
+        "sports betting",
+        "online poker",
+        "slots online",
+        "bet online",
+        "wagering",
+        "online lottery",
+        "gambling site",
+        "e-voucher gambling",
+        "crypto casino",
+        "play for real money"
+      ],
+      "phrases": [
+        "online casino",
+        "sports betting",
+        "play for real money",
+        "online poker",
+        "gambling platform",
+        "bet now",
+        "wager online"
+      ],
+      "source_files": [
+        "Gambling Landscape_.docx"
+      ],
+      "source_folder": "Gambling",
+      "regulation": "UIGEA; state gambling laws; BRAM; GBPP"
+    },
+    {
+      "signal_id": "HATE-001",
+      "category": "Hate / Harm Content",
+      "signal_type": "prohibited_content",
+      "signal_name": "Hate speech / supremacist / harm content",
+      "severity": "Critical",
+      "description": "Content promoting hatred, hostility, or violence towards protected groups based on race, religion, ethnicity, national origin, gender, sexual orientation, disability, or other characteristics. Significant reputational risk and potential BRAM/GBPP violations.",
+      "keywords": [
+        "white supremacy",
+        "hate group",
+        "neo-nazi",
+        "racial supremacy",
+        "ethnic cleansing",
+        "violence against",
+        "kill all",
+        "death to",
+        "supremacist merchandise",
+        "hate symbol",
+        "swastika merchandise"
+      ],
+      "phrases": [
+        "hate content",
+        "supremacist",
+        "violence against group",
+        "ethnic hatred"
+      ],
+      "source_files": [
+        "ADL Hate on Display Printable_0 (1).pdf",
+        "Hate-Harm-FAQ-Guide.pdf"
+      ],
+      "source_folder": "root",
+      "regulation": "BRAM; GBPP; platform policies; hate crime laws"
+    },
+    {
+      "signal_id": "COVID-001",
+      "category": "COVID / PPE Compliance",
+      "signal_type": "prohibited_claim",
+      "signal_name": "Fraudulent COVID-19 cure / treatment claims",
+      "severity": "Critical",
+      "description": "Products falsely claiming to prevent, treat, or cure COVID-19. US sellers making 'FDA Cleared' claims for PPE must ensure accurate certification. EU sellers must ensure CE certification for medical devices.",
+      "keywords": [
+        "COVID cure",
+        "COVID treatment",
+        "prevents COVID",
+        "treats COVID-19",
+        "COVID-19 remedy",
+        "kills coronavirus",
+        "COVID supplement cure",
+        "fake N95",
+        "counterfeit mask",
+        "non-certified mask"
+      ],
+      "phrases": [
+        "#1 COVID-19 Remedy",
+        "prevents COVID-19",
+        "cures COVID",
+        "treats coronavirus",
+        "kills coronavirus",
+        "FDA approved COVID cure"
+      ],
+      "source_files": [
+        "COVID_19_Best_Practices.pdf",
+        "Face_Mask_Merchants_FAQ.pdf"
+      ],
+      "source_folder": "COVID",
+      "regulation": "FDCA; FTC Act; FDA enforcement"
+    },
+    {
+      "signal_id": "SEC-001",
+      "category": "Security / Hijacking",
+      "signal_type": "red_flag",
+      "signal_name": "Website hijacking / cloaking / typosquatting",
+      "severity": "High",
+      "description": "Illicit operators use geo-targeting/cloaking to show legitimate content to investigators while serving illegal content to real users. Typosquatting involves domain names similar to legitimate sites.",
+      "keywords": [
+        "redirect",
+        "cloaking",
+        "geo-targeting",
+        "typosquatting",
+        "website hijacking",
+        "content injection",
+        "doorway page",
+        "hidden redirect",
+        "pharma hack"
+      ],
+      "phrases": [
+        "cloaking technology",
+        "geo-targeted redirect",
+        "content injection",
+        "hidden affiliate redirect"
+      ],
+      "source_files": [
+        "Geo-targeting-Technology-Targeting-and-Cloaking-FAQ-Digital.pdf",
+        "The-Rise-of-Website-Hijacking-Report (1).pdf",
+        "Typosquatting-Guide-Digital.pdf"
+      ],
+      "source_folder": "Security - Highjacking",
+      "regulation": "ICANN policies; BRAM; GBPP"
+    },
+    {
+      "signal_id": "WILD-001",
+      "category": "Illegal Wildlife Trade",
+      "signal_type": "prohibited_product",
+      "signal_name": "Illegal wildlife and wildlife products",
+      "severity": "Critical",
+      "description": "Sale of protected wildlife, wildlife parts, or products derived from endangered species. Linked to money laundering and organized crime per FATF.",
+      "keywords": [
+        "ivory",
+        "rhino horn",
+        "tiger bone",
+        "shark fin",
+        "endangered species",
+        "CITES protected",
+        "wildlife trade",
+        "exotic animal",
+        "protected species",
+        "illegal wildlife",
+        "poached",
+        "bushmeat"
+      ],
+      "phrases": [
+        "ivory for sale",
+        "rhino horn",
+        "exotic wildlife",
+        "CITES species",
+        "endangered animal products"
+      ],
+      "source_files": [
+        "062020 FAFT_Money-laundering-and-illegal-wildlife-trade.pdf"
+      ],
+      "source_folder": "Illegal Wildlife Trade",
+      "regulation": "CITES; Lacey Act; FATF recommendations; BRAM; GBPP"
+    },
+    {
+      "signal_id": "GEN-001",
+      "category": "General Red Flags",
+      "signal_type": "red_flag",
+      "signal_name": "Too-good-to-be-true offers and pressure tactics",
+      "severity": "Medium",
+      "description": "High-pressure sales tactics, implausibly low prices, celebrity endorsements, and urgency language are common across deceptive merchants.",
+      "keywords": [
+        "too good to be true",
+        "limited time",
+        "act now",
+        "today only",
+        "flash sale",
+        "celebrity endorsed",
+        "as seen on TV",
+        "as seen on shark tank",
+        "guaranteed results",
+        "risk free",
+        "100% guaranteed",
+        "no questions asked",
+        "miracle",
+        "secret formula"
+      ],
+      "phrases": [
+        "limited time offer",
+        "act now before it's too late",
+        "celebrity endorsement",
+        "as seen on Shark Tank",
+        "guaranteed results or money back",
+        "secret formula",
+        "miracle cure",
+        "doctor recommended"
+      ],
+      "source_files": [
+        "Deceptive-Marketing-Guide.pdf",
+        "LegitScript-Merchant-Website-Analysis-Tip-Sheet.pdf"
+      ],
+      "source_folder": "Deceptive Marketing - NOB",
+      "regulation": "FTC Act"
+    },
+    {
+      "signal_id": "GEN-002",
+      "category": "General Red Flags",
+      "signal_type": "red_flag",
+      "signal_name": "Ghost gun / unregistered firearm components",
+      "severity": "Critical",
+      "description": "Sale of 80% lower receivers, ghost gun kits, unfinished frames/receivers, or 3D-printed firearm files that circumvent background checks and registration.",
+      "keywords": [
+        "80% lower",
+        "80 percent lower",
+        "ghost gun",
+        "unfinished receiver",
+        "no background check",
+        "untraceable firearm",
+        "80% AR lower",
+        "polymer 80",
+        "3D printed gun",
+        "Liberator pistol",
+        "unserialized firearm"
+      ],
+      "phrases": [
+        "80% lower receiver",
+        "ghost gun kit",
+        "no serial number",
+        "untraceable firearm",
+        "no background check required",
+        "3D printed firearm"
+      ],
+      "source_files": [
+        "Dangerous-Trends-on-Social-Media-Platforms_digital.pdf"
+      ],
+      "source_folder": "Scam & Fraud",
+      "regulation": "Gun Control Act; state firearm laws; ATF regulations"
+    }
+  ]
+}

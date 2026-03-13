@@ -1,0 +1,25 @@
+---
+description: Guidelines for keyword weights in the policy classifier to prevent false positives
+globs: uw_app/policy_classifier.py
+alwaysApply: false
+---
+
+# Keyword weight guidelines
+
+Keyword weights in `_POLICY` control how quickly a category reaches the match threshold. Bad weights cause false positives (hallucinations).
+
+## Weight tiers
+
+| Weight | When to use | Examples |
+|--------|-------------|---------|
+| **60–80** | Unambiguous, category-defining phrases | "pornograph", "child exploitation" |
+| **30–50** | Strong signals, rarely appear outside context | "unlicensed firearm sales", "debt collection agency" |
+| **15–25** | Moderate signals, some ambiguity | "adult content", "vape shop", "sports betting" |
+| **≤ 10** | Ambiguous single words that appear in innocent contexts | "rum", "wine", "token", "bet", "cures" |
+
+## Rules
+
+1. **Single-word keywords ≤ 10 chars** get automatic word-boundary matching (`\b`). This prevents "rum" matching inside "forum", but the word can still match in innocent text (e.g. a recipe blog mentioning "rum cake"). Keep these at weight ≤ 10.
+2. **A single low-weight keyword should never be enough to trigger a verdict.** If one hit at weight 10 can cross the threshold, either raise the threshold or lower the weight.
+3. When the user reports a **false positive**, check which keyword fired and whether its weight is appropriate. Lowering the weight is preferred over removing the keyword.
+4. **Multi-word phrases are safer** than single words — prefer "online casino" over "casino" where possible.
