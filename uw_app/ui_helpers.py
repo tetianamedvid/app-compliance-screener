@@ -176,8 +176,10 @@ _DISABLED_COLS = ["URL", "Name", "Verdict", "Conf", "P&R Index",
 
 
 def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
-                          key: str = "findings_table") -> None:
-    """Render editable findings table. Review dropdown persists changes immediately."""
+                          key: str = "findings_table",
+                          findings: list[dict] | None = None) -> None:
+    """Render editable findings table. Review dropdown persists changes immediately.
+    If findings is provided, page-content expanders are rendered below the table."""
     edited_df = st.data_editor(
         df,
         width="stretch",
@@ -196,6 +198,23 @@ def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
         if new_review != old_review or new_note != old_note:
             url = url_list[idx]
             findings_store.update_review(url, new_review, new_note)
+
+    if findings:
+        sorted_rows = findings_store.sort_findings(findings)
+        has_content = [f for f in sorted_rows if f.get("page_content_summary")]
+        if has_content:
+            st.markdown("#### Page Content")
+            for f in sorted_rows:
+                summary = f.get("page_content_summary") or ""
+                if not summary:
+                    continue
+                name = f.get("app_name") or f.get("url", "—")
+                vrd = f.get("overall_verdict", "")
+                icon = verdict_icon(vrd)
+                clen = f.get("content_length") or len(summary)
+                label = f"{icon} {name} — {clen:,} chars"
+                with st.expander(label, expanded=False):
+                    st.code(summary[:3000], language=None)
 
 
 def _fmt_list(items: list | None, limit: int = 8) -> str:

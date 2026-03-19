@@ -168,7 +168,7 @@ if all_findings:
         render_findings_rows(filtered)
     else:
         df, url_list = build_findings_df(filtered)
-        render_findings_table(df, url_list, key="findings_table")
+        render_findings_table(df, url_list, key="findings_table", findings=filtered)
 
     bc1, bc2 = st.columns(2)
     with bc1:
