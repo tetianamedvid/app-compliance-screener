@@ -175,6 +175,22 @@ _DISABLED_COLS = ["URL", "Name", "Verdict", "Conf", "P&R Index",
                   "Stripe Category", "Subcategory", "Description", "When"]
 
 
+@st.dialog("Page Content", width="large")
+def _show_content_dialog(name: str, url: str, summary: str,
+                         content_length: int, verdict: str, color: str) -> None:
+    color_map = {"red": "#dc3545", "orange": "#fd7e14",
+                 "green": "#28a745", "gray": "#6c757d"}
+    bg = color_map.get(color, "#6c757d")
+    st.markdown(
+        f'**{name}** &nbsp; '
+        f'<span style="padding:3px 8px;border-radius:4px;background:{bg};'
+        f'color:white;font-size:12px;">{verdict}</span>',
+        unsafe_allow_html=True)
+    st.caption(f"{url}  •  {content_length:,} chars scraped")
+    st.divider()
+    st.code(summary[:4000], language=None)
+
+
 def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
                           key: str = "findings_table",
                           findings: list[dict] | None = None) -> None:
@@ -221,18 +237,32 @@ def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
         return
 
     st.markdown("")
-    sel = st.selectbox(
-        "📄 View page content for",
-        options=["— select app —"] + list(options_map.keys()),
-        key=f"{key}_content_sel",
-    )
-    if sel and sel != "— select app —":
+    c_left, c_right = st.columns([3, 1])
+    with c_left:
+        sel = st.selectbox(
+            "📄 View page content for",
+            options=["— select app —"] + list(options_map.keys()),
+            key=f"{key}_content_sel",
+            label_visibility="collapsed",
+            placeholder="📄 Select app to view page content…",
+        )
+    with c_right:
+        show = st.button("View content", key=f"{key}_content_btn",
+                         disabled=(not sel or sel == "— select app —"),
+                         use_container_width=True)
+
+    if show and sel and sel != "— select app —":
         norm_url = options_map[sel]
         f = content_by_url.get(norm_url)
         if f:
-            summary = f.get("page_content_summary") or ""
-            if summary:
-                st.code(summary[:3000], language=None)
+            _show_content_dialog(
+                f.get("app_name") or f.get("url", ""),
+                f.get("url", ""),
+                f.get("page_content_summary") or "",
+                f.get("content_length") or 0,
+                f.get("overall_verdict") or "",
+                f.get("overall_color") or "gray",
+            )
 
 
 def _fmt_list(items: list | None, limit: int = 8) -> str:
