@@ -465,6 +465,17 @@ def _extract_text_from_html(html: str, base_url: str = "", max_chars: int = 1500
 _pw_instance = None
 _pw_browser = None
 _pw_lock = threading.Lock()
+_pw_installed = False
+
+def _ensure_playwright_browsers():
+    """Install Chromium binary if missing (needed on Streamlit Cloud)."""
+    global _pw_installed
+    if _pw_installed:
+        return
+    _pw_installed = True
+    import subprocess, shutil
+    if shutil.which("playwright"):
+        subprocess.run(["playwright", "install", "chromium"], capture_output=True, timeout=120)
 
 def _get_or_create_browser():
     """Singleton Playwright browser — launch once, reuse across calls."""
@@ -479,6 +490,7 @@ def _get_or_create_browser():
                 _pw_instance = None
         try:
             from playwright.sync_api import sync_playwright
+            _ensure_playwright_browsers()
             _pw_instance = sync_playwright().start()
             _pw_browser = _pw_instance.chromium.launch(
                 headless=True,
