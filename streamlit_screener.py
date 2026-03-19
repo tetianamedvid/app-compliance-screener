@@ -51,7 +51,7 @@ with st.form("screen_form", clear_on_submit=False):
     )
     col1, col2 = st.columns([1, 3])
     with col1:
-        deep_mode = st.checkbox("Deep scrape (Playwright)", value=False,
+        deep_mode = st.checkbox("Deep scrape (Playwright)", value=True,
                                 help="Off = fast API-only (~2-3s). On = full browser render (~8-15s).")
     with col2:
         submitted = st.form_submit_button("🔍 Screen", type="primary", use_container_width=True)
