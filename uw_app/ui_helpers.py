@@ -178,43 +178,80 @@ _DISABLED_COLS = ["URL", "Name", "Verdict", "Conf", "P&R Index",
 def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
                           key: str = "findings_table",
                           findings: list[dict] | None = None) -> None:
-    """Render editable findings table. Review dropdown persists changes immediately.
-    If findings is provided, page-content expanders are rendered below the table."""
-    edited_df = st.data_editor(
-        df,
-        width="stretch",
-        height=min(700, 60 + 35 * len(df)),
-        column_config=FINDINGS_COLUMN_CONFIG,
-        disabled=_DISABLED_COLS,
-        hide_index=True,
-        num_rows="fixed",
-        key=key,
-    )
-    for idx in range(len(df)):
-        old_review = str(df.at[idx, "Review"])
-        old_note = str(df.at[idx, "Note"])
-        new_review = str(edited_df.at[idx, "Review"])
-        new_note = str(edited_df.at[idx, "Note"])
-        if new_review != old_review or new_note != old_note:
-            url = url_list[idx]
-            findings_store.update_review(url, new_review, new_note)
+    """Render findings as compact rows with inline page-content expander per row."""
+    if not findings:
+        edited_df = st.data_editor(
+            df,
+            width="stretch",
+            height=min(700, 60 + 35 * len(df)),
+            column_config=FINDINGS_COLUMN_CONFIG,
+            disabled=_DISABLED_COLS,
+            hide_index=True,
+            num_rows="fixed",
+            key=key,
+        )
+        for idx in range(len(df)):
+            old_review = str(df.at[idx, "Review"])
+            old_note = str(df.at[idx, "Note"])
+            new_review = str(edited_df.at[idx, "Review"])
+            new_note = str(edited_df.at[idx, "Note"])
+            if new_review != old_review or new_note != old_note:
+                url = url_list[idx]
+                findings_store.update_review(url, new_review, new_note)
+        return
 
-    if findings:
-        sorted_rows = findings_store.sort_findings(findings)
-        has_content = [f for f in sorted_rows if f.get("page_content_summary")]
-        if has_content:
-            st.markdown("#### Page Content")
-            for f in sorted_rows:
-                summary = f.get("page_content_summary") or ""
-                if not summary:
-                    continue
-                name = f.get("app_name") or f.get("url", "—")
-                vrd = f.get("overall_verdict", "")
-                icon = verdict_icon(vrd)
-                clen = f.get("content_length") or len(summary)
-                label = f"{icon} {name} — {clen:,} chars"
-                with st.expander(label, expanded=False):
-                    st.code(summary[:3000], language=None)
+    sorted_rows = findings_store.sort_findings(findings)
+    for i, f in enumerate(sorted_rows):
+        url = f.get("url", "")
+        name = f.get("app_name") or "—"
+        vrd = f.get("overall_verdict", "")
+        icon = verdict_icon(vrd)
+        conf = f.get("confidence", 0)
+        pr = f.get("top_p_and_r_name") or "—"
+        stripe_cat = f.get("top_category", "—")
+        review_st = f.get("review_status", "Pending")
+        r_icon = review_icon(review_st)
+        summary = f.get("page_content_summary") or ""
+        clen = f.get("content_length") or 0
+
+        c1, c2, c3, c4, c5 = st.columns([2.5, 2, 1, 1.5, 1])
+        with c1:
+            st.markdown(f"**{icon} {name}**")
+            st.caption(url)
+        with c2:
+            st.caption(f"{stripe_cat}")
+            st.caption(f"{pr}")
+        with c3:
+            color_map = {"red": "#dc3545", "orange": "#fd7e14",
+                         "green": "#28a745", "gray": "#6c757d"}
+            bg = color_map.get(f.get("overall_color", "gray"), "#6c757d")
+            st.markdown(
+                f'<span style="padding:4px 10px;border-radius:5px;'
+                f'background:{bg};color:white;font-size:12px;font-weight:bold;">'
+                f'{vrd}</span>',
+                unsafe_allow_html=True)
+            st.caption(f"{conf}%")
+        with c4:
+            new_status = st.selectbox(
+                "Review", REVIEW_STATUSES,
+                index=(list(REVIEW_STATUSES).index(review_st)
+                       if review_st in REVIEW_STATUSES else 0),
+                key=f"{key}_rev_{i}",
+                label_visibility="collapsed",
+            )
+            if new_status != review_st:
+                findings_store.update_review(url, new_status,
+                                             f.get("review_note", ""))
+                st.rerun()
+        with c5:
+            if summary:
+                st.caption(f"{clen:,} chars")
+
+        if summary:
+            with st.expander(f"📄 Page content — {name}", expanded=False):
+                st.code(summary[:3000], language=None)
+
+        st.divider()
 
 
 def _fmt_list(items: list | None, limit: int = 8) -> str:
