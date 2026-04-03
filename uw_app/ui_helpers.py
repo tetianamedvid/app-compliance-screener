@@ -81,8 +81,10 @@ def render_kpis(all_findings: list[dict]) -> None:
 
 def render_filters(all_findings: list[dict],
                    key_prefix: str = "ft") -> list[dict]:
-    """Render verdict / review-status / search filters. Returns filtered list."""
-    fc1, fc2, fc3 = st.columns(3)
+    """Render verdict / review-status / date / search filters. Returns filtered list."""
+    from datetime import date as _date
+
+    fc1, fc2, fc3, fc4 = st.columns(4)
     with fc1:
         verdict_options = ["All"] + sorted(
             set(f.get("overall_verdict", "") for f in all_findings))
@@ -93,6 +95,19 @@ def render_filters(all_findings: list[dict],
         review_filter = st.selectbox("Review Status", review_options,
                                      key=f"{key_prefix}_review")
     with fc3:
+        raw_dates = [f.get("screened_at", "")[:10] for f in all_findings
+                     if f.get("screened_at")]
+        if raw_dates:
+            parsed = sorted({_date.fromisoformat(d) for d in raw_dates})
+            min_d, max_d = parsed[0], parsed[-1]
+            date_range = st.date_input(
+                "Date of scan", value=(min_d, max_d),
+                min_value=min_d, max_value=max_d,
+                key=f"{key_prefix}_date",
+            )
+        else:
+            date_range = ()
+    with fc4:
         search = st.text_input("Search",
                                 placeholder="app name, URL, description…",
                                 key=f"{key_prefix}_search")
@@ -104,6 +119,11 @@ def render_filters(all_findings: list[dict],
     if review_filter != "All":
         filtered = [f for f in filtered
                     if f.get("review_status", "Pending") == review_filter]
+    if isinstance(date_range, (list, tuple)) and len(date_range) == 2:
+        d_start, d_end = date_range
+        filtered = [f for f in filtered
+                    if f.get("screened_at") and
+                    d_start <= _date.fromisoformat(f["screened_at"][:10]) <= d_end]
     if search.strip():
         q = search.strip().lower()
         filtered = [f for f in filtered if
