@@ -144,6 +144,49 @@ def _rewrite(rows: list[dict]) -> None:
         with open(STORE_PATH, "w", encoding="utf-8") as f:
             for row in rows:
                 f.write(json.dumps(row, default=str) + "\n")
+    _sync_to_github()
+
+
+def _sync_to_github() -> None:
+    """Push findings.jsonl to GitHub so data survives Streamlit Cloud reboots."""
+    import os, base64, urllib.request, urllib.error
+
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if not token:
+        try:
+            import streamlit as st
+            token = st.secrets.get("GITHUB_TOKEN", "")
+        except Exception:
+            pass
+    if not token:
+        return
+
+    repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
+    path = "data/findings.jsonl"
+    api_url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "uw-app",
+    }
+
+    try:
+        content = STORE_PATH.read_bytes()
+        encoded = base64.b64encode(content).decode()
+
+        req = urllib.request.Request(api_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            sha = json.loads(resp.read()).get("sha", "")
+
+        body = json.dumps({
+            "message": "Auto-save findings from live app",
+            "content": encoded,
+            "sha": sha,
+        }).encode()
+        req = urllib.request.Request(api_url, data=body, headers=headers, method="PUT")
+        urllib.request.urlopen(req, timeout=15)
+    except Exception:
+        pass
 
 
 def export_csv(path: Optional[Path] = None) -> Path:
