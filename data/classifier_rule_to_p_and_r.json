@@ -353,14 +353,14 @@
     "stripe_category": "Gambling and Games of Skill",
     "stripe_subcategory": "Virtual Casino / Loot Box / Cash Prize Games",
     "p_and_r_ids": [
-      36
+      65
     ]
   },
   {
     "stripe_category": "Gambling and Games of Skill",
     "stripe_subcategory": "Lottery / Raffle / Giveaway with Purchase",
     "p_and_r_ids": [
-      37
+      65
     ]
   },
   {
