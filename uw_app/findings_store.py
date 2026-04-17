@@ -13,6 +13,51 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STORE_PATH = PROJECT_ROOT / "data" / "findings.jsonl"
 
 _lock = threading.Lock()
+_pulled = False
+
+
+def _pull_from_github_once() -> None:
+    """On first load, pull findings.jsonl from GitHub so deploys get the latest data."""
+    global _pulled
+    if _pulled:
+        return
+    _pulled = True
+
+    import os, base64, urllib.request, urllib.error
+
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if not token:
+        try:
+            import streamlit as st
+            token = st.secrets.get("GITHUB_TOKEN", "")
+        except Exception:
+            pass
+    if not token:
+        return
+
+    repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
+    path = "data/findings.jsonl"
+    api_url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "uw-app",
+    }
+
+    try:
+        req = urllib.request.Request(api_url, headers=headers)
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+        content = base64.b64decode(data.get("content", ""))
+        remote_lines = [l for l in content.decode("utf-8").splitlines() if l.strip()]
+        local_lines = []
+        if STORE_PATH.exists():
+            local_lines = [l for l in STORE_PATH.read_text("utf-8").splitlines() if l.strip()]
+        if len(remote_lines) > len(local_lines):
+            STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            STORE_PATH.write_bytes(content)
+    except Exception:
+        pass
 
 
 def _normalize_url(url: str) -> str:
@@ -43,6 +88,7 @@ def append(result_dict: dict) -> None:
 
 def load_all() -> list[dict]:
     """Load all findings from disk, deduplicated by URL (latest wins)."""
+    _pull_from_github_once()
     if not STORE_PATH.exists():
         return []
     raw: list[dict] = []
