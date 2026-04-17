@@ -135,7 +135,6 @@
     "stripe_category": "Illegal Products and Services",
     "stripe_subcategory": "Counterfeit / Fake IDs / Human Trafficking",
     "p_and_r_ids": [
-      48,
       64
     ]
   },
@@ -288,7 +287,7 @@
     "stripe_category": "IP Infringement",
     "stripe_subcategory": "IPTV Piracy / Illegal Streaming",
     "p_and_r_ids": [
-      48
+      24
     ]
   },
   {

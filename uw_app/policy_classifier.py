@@ -152,9 +152,12 @@ _POLICY: list[dict] = [
             (70, ["debt collection", "debt relief", "debt settlement", "debt consolidation",
                    "credit repair", "credit monitoring", "wipe out your debt",
                    "stop foreclosure", "debt reduction", "collect debt", "credi collect",
-                   "credit collect"]),
+                   "credit collect", "credit disputes", "dispute letter",
+                   "credit wellness", "credit bureau dispute"]),
             (40, ["debt collector", "past due receivable", "credit score fix",
-                   "consolidate your bills", "collect now", "collection agency"]),
+                   "consolidate your bills", "collect now", "collection agency",
+                   "negative inquiries", "challenge inquiries",
+                   "automate dispute", "credit improvement"]),
         ],
     },
     # ── Financial Services (Not enabled for Wix) ──────────────────────────
@@ -218,7 +221,8 @@ _POLICY: list[dict] = [
             (50, ["casino", "betting", "wager", "jackpot", "slot", "lottery",
                    "odds", "sportsbook", "place a bet", "speculating on",
                    "wagering", "slots online", "bet online"]),
-            (10, ["poker", "roulette", "blackjack", "baccarat", "bet"]),
+            (25, ["poker", "roulette", "blackjack", "baccarat"]),
+            (10, ["bet"]),
         ],
     },
     {
@@ -262,6 +266,8 @@ _POLICY: list[dict] = [
                    "viagra", "cialis", "semaglutide", "ozempic", "modafinil",
                    "tirzepatide", "weight loss injection", "peptide injection",
                    "compounded medication", "telehealth prescription",
+                   "selling pharmaceutical", "pharmaceutical product",
+                   "pharmaceutical sales",
                    # from RX-001: no-prescription practices
                    "no prescription required", "no rx", "without prescription",
                    "prescription not needed", "order without rx", "no doctor needed",
@@ -832,6 +838,235 @@ _POLICY: list[dict] = [
                   "premium iptv subscription"]),
         ],
     },
+    # ── Psychic / Spiritual / Occult Services ─────────────────────────────
+    {
+        "category": "Unfair, Deceptive, or Abusive Practices",
+        "subcategory": "Psychic / Spiritual / Occult Services",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "FTC Act; state consumer protection",
+        "keywords": [
+            (60, ["psychic reading", "tarot reading", "fortune telling",
+                   "spell casting", "love spell", "money spell", "protection spell",
+                   "spiritual healer", "voodoo", "hoodoo", "rootwork",
+                   "curse removal", "hex removal", "black magic",
+                   "palm reading", "clairvoyant", "medium reading",
+                   "astrology reading", "natal chart reading",
+                   "spiritual consultation", "energy healing",
+                   "botanica", "spiritual shop", "occult shop",
+                   "witchcraft supplies", "ritual candle", "spell kit"]),
+            (25, ["tarot", "psychic", "spell", "divination", "astrology",
+                   "horoscope", "numerology", "crystal healing",
+                   "chakra healing", "reiki session", "aura reading"]),
+            (10, ["spiritual", "mystic", "oracle"]),
+        ],
+    },
+    # ── Investment / Trading Signals ──────────────────────────────────────
+    {
+        "category": "Financial Services",
+        "subcategory": "Trading Signals / Investment Advice",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (60, ["trading signal", "forex signal", "stock signal",
+                   "stock picks", "trade alert", "trading bot",
+                   "copy trading", "social trading", "trading community",
+                   "stock tip service", "insider tips", "market signal"]),
+            (30, ["trading course", "learn to trade", "trading mentor",
+                   "day trading", "swing trading", "options trading",
+                   "trading education", "trading academy"]),
+        ],
+    },
+    # ── Digital Banking / Money Services (from confirmed violations) ──────
+    {
+        "category": "Financial Services",
+        "subcategory": "Digital Banking / Money Services / P2P Payments",
+        "supportability": "not_enabled",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (70, ["digital banking", "neobank", "digital bank",
+                   "peer-to-peer payment", "p2p payment", "send money",
+                   "money transfer", "instant transfer", "global transfer",
+                   "payment platform", "payment gateway",
+                   "financial management", "card management",
+                   "personal banking", "banking platform"]),
+            (50, ["peer-to-peer", "tipping platform", "digital tipping",
+                   "seamless payment", "instant payment", "pay friends",
+                   "fintech", "financial dashboard"]),
+            (15, ["bank", "transfer", "payout", "wallet"]),
+        ],
+    },
+    # ── Games of Skill / Virtual Economies (from confirmed violations) ────
+    {
+        "category": "Gambling and Games of Skill",
+        "subcategory": "Virtual Casino / Loot Box / Cash Prize Games",
+        "supportability": "not_supportable",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (70, ["virtual casino", "virtual token", "virtual chip",
+                   "earn cash", "cash prize", "win prizes",
+                   "real-money challenge", "play for real money",
+                   "buy coins", "purchase coin", "coin package",
+                   "in-game currency purchase", "top up balance",
+                   "loot box", "pack opening", "gacha",
+                   "fantasy football", "fantasy baseball",
+                   "fantasy sports", "dynasty fantasy",
+                   "daily fantasy", "picks feed"]),
+            (40, ["minigame", "leaderboard cash", "coin shop",
+                   "virtual currency", "game token", "play to earn",
+                   "high-stakes", "bet settlement",
+                   "auction intelligence", "pick em",
+                   "sports pick"]),
+        ],
+    },
+    # ── Lottery / Raffle / Giveaway ───────────────────────────────────────
+    {
+        "category": "Gambling and Games of Skill",
+        "subcategory": "Lottery / Raffle / Giveaway with Purchase",
+        "supportability": "not_supportable",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (70, ["raffle platform", "raffle ticket", "luxury raffle",
+                   "giveaway platform", "ticket purchasing",
+                   "luxury giveaway", "premium giveaway",
+                   "win a prize", "prize draw", "lucky draw"]),
+            (30, ["raffle", "giveaway", "sweepstakes", "ticket draw"]),
+        ],
+    },
+    # ── Sexually Oriented Dating (expanded from confirmed violations) ─────
+    {
+        "category": "Adult Content, Products, and Services",
+        "subcategory": "Dating Apps / Matchmaking / Companionship",
+        "supportability": "not_supportable",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (70, ["dating app", "dating platform", "dating experience",
+                   "matchmaking", "meet singles", "find matches",
+                   "dating service", "companionship", "paid companion",
+                   "companion connect", "provocative connection",
+                   "adult dating", "gay dating", "hookup",
+                   "tinder like", "swipe match"]),
+            (40, ["discover matches", "dating", "connection app",
+                   "meet people", "singles app", "match app",
+                   "spark match", "speed dating"]),
+        ],
+    },
+    # ── Charitable Donations (restricted — needs KYC) ─────────────────────
+    {
+        "category": "Fundraising",
+        "subcategory": "Standalone Donations / Charity Platform",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (50, ["donation app", "donation platform", "fundraiser platform",
+                   "online donation", "accept donations", "give back",
+                   "fundraising platform", "charity app",
+                   "easiest fundraiser", "payments for donations",
+                   "collect donations"]),
+            (25, ["fundraiser", "fundraising", "raise funds",
+                   "donation page", "give now", "donations"]),
+        ],
+    },
+    # ── Dark Web / Hacking Tools ──────────────────────────────────────────
+    {
+        "category": "Illegal Products and Services",
+        "subcategory": "Dark Web Tools / Hacking Services",
+        "supportability": "not_supportable",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (80, ["darkweb", "dark web", "darknet", "hacking tool",
+                   "exploit kit", "malware", "ransomware",
+                   "keylogger", "phishing kit", "ddos service",
+                   "stolen data", "data breach", "carding"]),
+        ],
+    },
+    # ── IPR / Luxury Dropshipping ─────────────────────────────────────────
+    {
+        "category": "Illegal Products and Services",
+        "subcategory": "Luxury Dropshipping / IPR Risk",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "Lanham Act; DMCA",
+        "keywords": [
+            (50, ["luxury dropshipping", "designer dropship",
+                   "premium designer", "designer footwear",
+                   "replica luxury", "inspired by designer",
+                   "luxury e-commerce"]),
+            (25, ["dropshipping store", "dropship store",
+                   "high-end electronics", "brand electronics"]),
+        ],
+    },
+    # ── Security Brokers / Investment Funds ────────────────────────────────
+    {
+        "category": "Financial Services",
+        "subcategory": "Investment Fund / Security Broker",
+        "supportability": "not_enabled",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (60, ["investment fund", "invest money into",
+                   "investor stake", "property acquisition fund",
+                   "capital operations", "real estate investor fund",
+                   "profit distribution", "security broker"]),
+            (30, ["investment platform", "fund manager", "stake percentage",
+                   "profit sharing", "investor portal", "funding portal"]),
+        ],
+    },
+    # ── Financial Advisory / Consulting ───────────────────────────────────
+    {
+        "category": "Financial Services",
+        "subcategory": "Financial Consulting / Advisory",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (50, ["financial consulting", "financial advisor",
+                   "financial advisory", "wealth management",
+                   "build credit", "secure funding",
+                   "protect your wealth", "protect their wealth",
+                   "financial strategy", "wealth building"]),
+            (25, ["financial solutions", "financial planning",
+                   "wealth hub", "mastering wealth"]),
+        ],
+    },
+    # ── Freight / Shipping Brokers ────────────────────────────────────────
+    {
+        "category": "Shipping and Logistics",
+        "subcategory": "Freight Broker / Shipping Intermediary",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "",
+        "keywords": [
+            (50, ["freight broker", "freight brokerage", "load management",
+                   "freight matching", "carrier matching",
+                   "shipping broker", "logistics broker"]),
+        ],
+    },
+    # ── Research Peptides (pharmaceutical evasion pattern) ────────────────
+    {
+        "category": "Healthcare Products and Services",
+        "subcategory": "Research Peptides / Pharmaceutical Evasion",
+        "supportability": "restricted",
+        "signal_ids": [],
+        "regulation": "FDCA; FDA",
+        "keywords": [
+            (60, ["research peptide", "research compound",
+                   "laboratory-grade peptide", "pharmaceutical-grade peptide",
+                   "high-purity peptide", "peptide store",
+                   "peptide shop", "peptide lab", "peptide platform",
+                   "scientific research compound",
+                   "precision peptide", "peptide therapies"]),
+            (30, ["peptide e-commerce", "peptide checkout",
+                   "research chemical store", "lab supply store"]),
+        ],
+    },
 ]
 
 
@@ -962,7 +1197,7 @@ def classify(
     else:
         result.overall_verdict = "Likely Supportable"
         result.overall_color = "green"
-        result.confidence = 70  # no flags found — moderate confidence
+        result.confidence = 40  # no keyword flags — low-moderate; needs richer signals
 
     return result
 

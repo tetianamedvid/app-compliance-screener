@@ -68,6 +68,20 @@ class ScreenResult:
         return d
 
 
+_INTERNAL_URL_PATTERNS = [
+    "/editor/preview",
+    "/editor/",
+    "app.base44.com/apps/",
+    "/admin/",
+]
+
+
+def _is_internal_url(url: str) -> bool:
+    """Reject internal/editor/admin URLs that should never be screened."""
+    lower = url.lower()
+    return any(p in lower for p in _INTERNAL_URL_PATTERNS)
+
+
 # ── Main entry points ──────────────────────────────────────────────────────────
 
 def screen(
@@ -90,6 +104,15 @@ def screen(
     url = (url or "").strip()
     if not url.startswith("http"):
         url = "https://" + url
+
+    if _is_internal_url(url):
+        result.url = url
+        result.overall_verdict = "Error"
+        result.overall_color = "gray"
+        result.error = "Internal/editor URL rejected — use the public app URL instead"
+        result.elapsed_seconds = round(time.time() - t0, 1)
+        return result
+
     result.url = url
 
     full_content = ""
@@ -184,21 +207,31 @@ def screen(
         result.top_p_and_r_id = top.p_and_r_id
         result.top_p_and_r_name = top.p_and_r_name
 
-    # Override: if there's truly no content and no description, "Likely Supportable"
-    # is misleading — we just don't know. Use "Insufficient Data" instead.
-    # Exception: if Trino context was provided, we had something to classify against.
-    has_real_content = (
-        result.content_length > 50
-        or bool(result.app_description)
-        or bool(result.meta_description)
-        or bool(result.meta_title)
-        or bool(conversation_summary)
-        or bool(trino_description)
-    )
-    if not has_real_content and not result.policy_matches:
-        result.overall_verdict = "Insufficient Data"
-        result.overall_color = "gray"
-        result.confidence = 0
+    has_description = bool(result.app_description) or bool(result.meta_description)
+    has_trino = bool(conversation_summary) or bool(trino_description)
+    has_meaningful_content = _has_meaningful_content(full_content, result)
+
+    if not result.policy_matches and result.overall_verdict == "Likely Supportable":
+        if not has_meaningful_content and not has_description and not has_trino:
+            result.overall_verdict = "Insufficient Data"
+            result.overall_color = "gray"
+            result.confidence = 0
+        else:
+            llm_result = _try_llm_classify(result, full_content,
+                                            conversation_summary, trino_description)
+            if llm_result:
+                verdict, color, conf = llm_result
+                result.overall_verdict = verdict
+                result.overall_color = color
+                result.confidence = conf
+            elif not has_meaningful_content and not has_trino:
+                result.overall_verdict = "Needs Review"
+                result.overall_color = "orange"
+                result.confidence = 30
+            elif not has_trino and not has_description:
+                result.confidence = max(result.confidence, 40)
+            elif not has_trino:
+                result.confidence = max(result.confidence, 50)
 
     result.elapsed_seconds = round(time.time() - t0, 1)
     return result
@@ -518,6 +551,75 @@ def _extract_identity_from_scrape(scraped: str, result: ScreenResult) -> None:
             result.app_description = m.group(1).strip()[:500]
 
 
+# ── Content quality checks ─────────────────────────────────────────────────────
+
+def _try_llm_classify(
+    result: ScreenResult,
+    full_content: str,
+    conversation_summary: str,
+    trino_description: str,
+) -> Optional[tuple[str, str, int]]:
+    """Try LLM classification. Returns (verdict, color, confidence) or None if LLM unavailable."""
+    try:
+        from .llm_classifier import llm_classify, map_llm_to_screener
+    except ImportError:
+        return None
+    llm_out = llm_classify(
+        app_name=result.app_name or "",
+        app_url=result.url,
+        app_description=result.app_description or result.meta_description or "",
+        conversation_summary=conversation_summary or trino_description or "",
+        scraped_content=full_content[:4000] if full_content else "",
+    )
+    if not llm_out:
+        return None
+    result.policy_matches.append({
+        "category": llm_out.get("llm_category", "LLM Analysis"),
+        "subcategory": "LLM-based classification",
+        "verdict": llm_out.get("llm_verdict", "Unknown"),
+        "color": "orange" if llm_out.get("llm_verdict") in ("Restricted", "Not-allowed") else "green",
+        "confidence": 50,
+        "keywords": [],
+        "p_and_r_id": None,
+        "p_and_r_name": None,
+        "p_and_r_ids": [],
+        "signal_ids": ["LLM"],
+        "regulation": "",
+        "llm_reasoning": llm_out.get("llm_reasoning", ""),
+    })
+    return map_llm_to_screener(llm_out)
+
+
+_BOILERPLATE_MARKERS = [
+    "SDK backend:", "Apps domain:", "Anti-bot:", "Cloudflare Turnstile",
+    "Integration: Fiverr", "Auth: Google login", "auth_config",
+    "enable_username_password", "enable_google_login", "sso_provider_name",
+]
+
+
+def _has_meaningful_content(full_content: str, result: "ScreenResult") -> bool:
+    """True if the scraped content goes beyond boilerplate config/auth data."""
+    if not full_content or len(full_content) < 200:
+        return False
+
+    stripped = full_content
+    for marker in _BOILERPLATE_MARKERS:
+        stripped = stripped.replace(marker, "")
+    stripped = re.sub(r"\s+", " ", stripped).strip()
+    stripped = re.sub(r"\[Platform config\].*?(?=\[|$)", "", stripped)
+    stripped = re.sub(r'"enable_\w+":\s*(true|false)', "", stripped)
+    stripped = re.sub(r"[{}\[\]:,\"']", "", stripped)
+    stripped = re.sub(r"\s+", " ", stripped).strip()
+
+    has_entities = bool(result.entity_types)
+    has_payments = bool(result.payment_signals)
+
+    if len(stripped) < 100 and not has_entities and not has_payments:
+        return False
+
+    return True
+
+
 # ── Content processing ─────────────────────────────────────────────────────────
 
 def _summarize_content(full_content: str) -> str:
@@ -566,6 +668,30 @@ def _summarize_content(full_content: str) -> str:
     return "\n\n".join(sections)[:2500]
 
 
+_RISKY_SUBWORDS = sorted([
+    "casino", "poker", "betting", "gamble", "gambling", "lottery",
+    "weed", "cannabis", "dispensary", "vape",
+    "escort", "porn", "adult",
+    "loan", "credit", "debt", "forex", "crypto",
+    "tarot", "psychic", "spell", "pharma",
+], key=len, reverse=True)
+
+
+def _expand_slug(slug: str) -> str:
+    """Insert spaces around known risky subwords in concatenated slugs.
+    E.g. 'imperialcasino' -> 'imperial casino', 'pokerbloom' -> 'poker bloom'."""
+    lower = slug.lower()
+    for rw in _RISKY_SUBWORDS:
+        idx = lower.find(rw)
+        if idx >= 0:
+            before = slug[:idx]
+            word = slug[idx:idx + len(rw)]
+            after = slug[idx + len(rw):]
+            parts = [p for p in (before, word, after) if p]
+            return " ".join(parts)
+    return slug
+
+
 def _build_classifier_input(result: ScreenResult, full_content: str) -> str:
     """Build text for the policy classifier — uses ALL available content."""
     parts = []
@@ -575,6 +701,11 @@ def _build_classifier_input(result: ScreenResult, full_content: str) -> str:
         host = urlparse(result.url).netloc.split(":")[0]
         slug = host.split(".")[0]  # e.g. "loan-pay-easy"
         slug_words = slug.replace("-", " ").replace("_", " ")
+        # camelCase: "PokerBloom" → "Poker Bloom"
+        slug_words = re.sub(r"([a-z])([A-Z])", r"\1 \2", slug_words)
+        # Concatenated words: "imperialcasino" → "imperial casino"
+        expanded_words = [_expand_slug(w) for w in slug_words.split()]
+        slug_words = " ".join(expanded_words)
         parts.append(slug_words)
     except Exception:
         pass

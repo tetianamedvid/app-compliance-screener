@@ -120,6 +120,7 @@ _VERDICT_RANK = {
     "Likely Not Supportable — Review": 1,
     "Not Enabled for Wix": 2,
     "Restricted — Review": 3,
+    "Needs Review": 3,
     "Likely Supportable": 4,
     "Insufficient Data": 5,
 }
@@ -190,7 +191,7 @@ def _sync_to_github() -> None:
 
 
 def export_csv(path: Optional[Path] = None) -> Path:
-    """Export findings to CSV."""
+    """Export findings to CSV file on disk."""
     import csv
     path = path or (PROJECT_ROOT / "output" / "findings_export.csv")
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -198,13 +199,31 @@ def export_csv(path: Optional[Path] = None) -> Path:
     if not rows:
         path.write_text("No findings yet.\n")
         return path
-    fields = ["url", "app_id", "app_name", "overall_verdict", "overall_color",
-              "confidence", "top_category", "top_subcategory", "app_description",
-              "screened_at", "elapsed_seconds",
-              "review_status", "review_note", "correct_verdict"]
+    fields = _CSV_FIELDS
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         w.writeheader()
         for row in rows:
             w.writerow(row)
     return path
+
+
+_CSV_FIELDS = [
+    "url", "app_id", "app_name", "overall_verdict", "overall_color",
+    "confidence", "top_category", "top_subcategory", "top_p_and_r_name",
+    "app_description", "screened_at", "elapsed_seconds",
+    "review_status", "review_note", "correct_verdict",
+]
+
+
+def export_csv_bytes() -> bytes:
+    """Return findings as CSV bytes for st.download_button."""
+    import csv
+    import io
+    rows = sort_findings(load_all())
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=_CSV_FIELDS, extrasaction="ignore")
+    w.writeheader()
+    for row in rows:
+        w.writerow(row)
+    return buf.getvalue().encode("utf-8")

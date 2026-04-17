@@ -37,6 +37,35 @@ st.set_page_config(
 )
 st.markdown(SCREENER_CSS, unsafe_allow_html=True)
 
+
+@st.cache_data(ttl=600)
+def _load_trino_context() -> dict[str, dict]:
+    """Load Trino population data and build a URL -> context lookup."""
+    p = ROOT / "data" / "trino_full_population.json"
+    if not p.exists():
+        return {}
+    import json
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    lookup: dict[str, dict] = {}
+    for row in data:
+        url = (row.get("app_url") or "").strip().rstrip("/").lower()
+        if url:
+            lookup[url] = {
+                "conversation_summary": row.get("conversation_summary") or "",
+                "trino_description": row.get("trino_description") or "",
+                "app_name_hint": row.get("trino_app_name") or "",
+            }
+    return lookup
+
+
+def _get_trino_ctx(url: str) -> dict:
+    ctx = _load_trino_context()
+    key = (url or "").strip().rstrip("/").lower()
+    return ctx.get(key, {})
+
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.title("🛡️ App Compliance Screener")
 st.caption("Paste any app URL → instant scrape + policy classification → verdict. All results saved to findings table.")
@@ -68,12 +97,19 @@ if submitted:
             urls.append(u)
 
         if len(urls) == 1:
+            ctx = _get_trino_ctx(urls[0])
             with st.spinner(f"Screening {urls[0]}…"):
-                result = screen(urls[0], deep=deep_mode)
+                result = screen(urls[0], deep=deep_mode, **ctx)
             st.session_state["last_results"] = [result]
         else:
+            trino_rows = []
+            for u in urls:
+                ctx = _get_trino_ctx(u)
+                if ctx:
+                    trino_rows.append({"url": u, **ctx})
             with st.spinner(f"Screening {len(urls)} URLs in parallel…"):
-                results = screen_batch(urls, deep=deep_mode)
+                results = screen_batch(urls, deep=deep_mode,
+                                       trino_rows=trino_rows if trino_rows else None)
             st.session_state["last_results"] = results
 
         for r in st.session_state["last_results"]:
@@ -172,9 +208,14 @@ if all_findings:
 
     bc1, bc2 = st.columns(2)
     with bc1:
-        if st.button("📥 Export findings to CSV", key="export_btn"):
-            p = findings_store.export_csv()
-            st.success(f"Exported to `{p}`")
+        csv_data = findings_store.export_csv_bytes()
+        st.download_button(
+            label="📥 Export findings to CSV",
+            data=csv_data,
+            file_name="findings_export.csv",
+            mime="text/csv",
+            key="export_btn",
+        )
     with bc2:
         if st.button("🗑️ Clear last results", key="clear_btn"):
             if "last_results" in st.session_state:
