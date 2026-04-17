@@ -17,7 +17,7 @@ _pulled = False
 
 
 def _pull_from_github_once() -> None:
-    """On first load, pull findings.jsonl from GitHub so deploys get the latest data."""
+    """On first load, pull findings.jsonl from GitHub via git blob API (handles >1MB files)."""
     global _pulled
     if _pulled:
         return
@@ -36,8 +36,7 @@ def _pull_from_github_once() -> None:
         return
 
     repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
-    path = "data/findings.jsonl"
-    api_url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    file_path = "data/findings.jsonl"
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json",
@@ -45,15 +44,31 @@ def _pull_from_github_once() -> None:
     }
 
     try:
+        # Step 1: get file sha and size via Contents API
+        api_url = f"https://api.github.com/repos/{repo}/contents/{file_path}"
         req = urllib.request.Request(api_url, headers=headers)
         with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read())
-        content = base64.b64decode(data.get("content", ""))
-        remote_lines = [l for l in content.decode("utf-8").splitlines() if l.strip()]
-        local_lines = []
-        if STORE_PATH.exists():
-            local_lines = [l for l in STORE_PATH.read_text("utf-8").splitlines() if l.strip()]
-        if len(remote_lines) > len(local_lines):
+            meta = json.loads(resp.read())
+
+        remote_size = meta.get("size", 0)
+        local_size = STORE_PATH.stat().st_size if STORE_PATH.exists() else 0
+
+        if remote_size <= local_size:
+            return
+
+        # Step 2: for files >1MB, fetch via blob API
+        content_b64 = meta.get("content")
+        if content_b64:
+            content = base64.b64decode(content_b64)
+        else:
+            blob_sha = meta.get("sha", "")
+            blob_url = f"https://api.github.com/repos/{repo}/git/blobs/{blob_sha}"
+            req2 = urllib.request.Request(blob_url, headers=headers)
+            with urllib.request.urlopen(req2, timeout=30) as resp2:
+                blob = json.loads(resp2.read())
+            content = base64.b64decode(blob.get("content", ""))
+
+        if content:
             STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
             STORE_PATH.write_bytes(content)
     except Exception:
