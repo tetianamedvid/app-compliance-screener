@@ -304,5 +304,98 @@
       75,
       79
     ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Digital Banking / Money Services / P2P Payments",
+    "p_and_r_ids": [
+      12,
+      17
+    ]
+  },
+  {
+    "stripe_category": "Fundraising",
+    "stripe_subcategory": "Standalone Donations / Charity Platform",
+    "p_and_r_ids": [
+      34
+    ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Trading Signals / Investment Advice",
+    "p_and_r_ids": [
+      73,
+      74
+    ]
+  },
+  {
+    "stripe_category": "Unfair, Deceptive, or Abusive Practices",
+    "stripe_subcategory": "Psychic / Spiritual / Occult Services",
+    "p_and_r_ids": [
+      25
+    ]
+  },
+  {
+    "stripe_category": "Adult Content, Products, and Services",
+    "stripe_subcategory": "Dating Apps / Matchmaking / Companionship",
+    "p_and_r_ids": [
+      4
+    ]
+  },
+  {
+    "stripe_category": "Illegal Products and Services",
+    "stripe_subcategory": "Luxury Dropshipping / IPR Risk",
+    "p_and_r_ids": [
+      22
+    ]
+  },
+  {
+    "stripe_category": "Gambling and Games of Skill",
+    "stripe_subcategory": "Virtual Casino / Loot Box / Cash Prize Games",
+    "p_and_r_ids": [
+      36
+    ]
+  },
+  {
+    "stripe_category": "Gambling and Games of Skill",
+    "stripe_subcategory": "Lottery / Raffle / Giveaway with Purchase",
+    "p_and_r_ids": [
+      37
+    ]
+  },
+  {
+    "stripe_category": "Illegal Products and Services",
+    "stripe_subcategory": "Dark Web Tools / Hacking Services",
+    "p_and_r_ids": [
+      64
+    ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Investment Fund / Security Broker",
+    "p_and_r_ids": [
+      74
+    ]
+  },
+  {
+    "stripe_category": "Financial Services",
+    "stripe_subcategory": "Financial Consulting / Advisory",
+    "p_and_r_ids": [
+      15
+    ]
+  },
+  {
+    "stripe_category": "Shipping and Logistics",
+    "stripe_subcategory": "Freight Broker / Shipping Intermediary",
+    "p_and_r_ids": [
+      14
+    ]
+  },
+  {
+    "stripe_category": "Healthcare Products and Services",
+    "stripe_subcategory": "Research Peptides / Pharmaceutical Evasion",
+    "p_and_r_ids": [
+      66
+    ]
   }
 ]
