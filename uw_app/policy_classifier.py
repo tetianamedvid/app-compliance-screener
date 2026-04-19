@@ -187,7 +187,7 @@ _POLICY: list[dict] = [
         "keywords": [
             (60, ["dropshipping course", "reselling course", "how to dropship",
                    "dropship consulting", "amazon fba course", "resale profit"]),
-            (30, ["dropshipping", "reselling guide", "make money reselling"]),
+            (10, ["dropshipping", "reselling guide", "make money reselling"]),
         ],
     },
     # ── Fundraising ───────────────────────────────────────────────────────
@@ -212,16 +212,17 @@ _POLICY: list[dict] = [
         "regulation": "UIGEA; state gambling laws; BRAM; GBPP",
         "keywords": [
             (80, ["online casino", "sports betting", "place bet", "slot machine",
-                   "poker online", "blackjack", "roulette", "lottery ticket",
+                   "poker online", "lottery ticket",
                    "fantasy sports betting", "fanduel", "draftkings", "betting odds",
                    "gamble", "gambling site", "bingo online", "trend bet",
                    # from GAMB-001
                    "online gambling", "crypto casino", "e-voucher gambling",
                    "play for real money", "online lottery"]),
-            (50, ["casino", "betting", "wager", "jackpot", "slot", "lottery",
+            (50, ["casino", "betting", "wager", "jackpot", "lottery",
                    "odds", "sportsbook", "place a bet", "speculating on",
                    "wagering", "slots online", "bet online"]),
-            (25, ["poker", "roulette", "blackjack", "baccarat"]),
+            (25, ["slot"]),
+            (15, ["poker", "roulette", "blackjack", "baccarat"]),
             (10, ["bet"]),
         ],
     },
@@ -395,11 +396,10 @@ _POLICY: list[dict] = [
                    "human trafficking", "child exploitation"]),
             (50, ["fake document", "novelty id", "clone website",
                    "knock-off", "replica designer",
-                   # from IPR-001/002: counterfeit goods
                    "brand inspired", "designer inspired", "fake designer",
-                   "first copy", "aaa quality", "mirror image", "inspired by",
-                   # from IPR-002: fake social
+                   "first copy", "aaa quality", "mirror image",
                    "buy subscribers", "fake reviews", "paid followers"]),
+            (10, ["inspired by"]),
         ],
     },
     {
@@ -889,13 +889,11 @@ _POLICY: list[dict] = [
             (70, ["digital banking", "neobank", "digital bank",
                    "peer-to-peer payment", "p2p payment", "send money",
                    "money transfer", "instant transfer", "global transfer",
-                   "payment platform", "payment gateway",
-                   "financial management", "card management",
                    "personal banking", "banking platform"]),
             (50, ["peer-to-peer", "tipping platform", "digital tipping",
                    "seamless payment", "instant payment", "pay friends",
-                   "fintech", "financial dashboard"]),
-            (15, ["bank", "transfer", "payout", "wallet"]),
+                   "fintech"]),
+            (15, ["transfer", "payout"]),
         ],
     },
     # ── Games of Skill / Virtual Economies (from confirmed violations) ────
@@ -934,7 +932,7 @@ _POLICY: list[dict] = [
                    "giveaway platform", "ticket purchasing",
                    "luxury giveaway", "premium giveaway",
                    "win a prize", "prize draw", "lucky draw"]),
-            (30, ["raffle", "giveaway", "sweepstakes", "ticket draw"]),
+            (15, ["raffle", "giveaway", "sweepstakes", "ticket draw"]),
         ],
     },
     # ── Sexually Oriented Dating (expanded from confirmed violations) ─────
@@ -969,7 +967,7 @@ _POLICY: list[dict] = [
                    "fundraising platform", "charity app",
                    "easiest fundraiser", "payments for donations",
                    "collect donations"]),
-            (25, ["fundraiser", "fundraising", "raise funds",
+            (15, ["fundraiser", "fundraising", "raise funds",
                    "donation page", "give now", "donations"]),
         ],
     },
@@ -1031,8 +1029,8 @@ _POLICY: list[dict] = [
                    "financial advisory", "wealth management",
                    "build credit", "secure funding",
                    "protect your wealth", "protect their wealth",
-                   "financial strategy", "wealth building"]),
-            (25, ["financial solutions", "financial planning",
+                   "financial strategy"]),
+            (25, ["financial solutions",
                    "wealth hub", "mastering wealth"]),
         ],
     },
@@ -1067,7 +1065,100 @@ _POLICY: list[dict] = [
                    "research chemical store", "lab supply store"]),
         ],
     },
+    # ── Counterfeit Brands / Unauthorized Merchandise (from Stripe IPR Agent Guide) ──
+    {
+        "category": "Illegal Products and Services",
+        "subcategory": "Counterfeit / Fake IDs / Human Trafficking",
+        "supportability": "not_supportable",
+        "signal_ids": ["IPR-BRANDS"],
+        "regulation": "BRAM; GBPP; Lanham Act; DMCA",
+        "keywords": [
+            (90, ["replica", "knock-off", "imitation", "faux designer",
+                   "mirror image product", "first copy", "aaa quality replica"]),
+            (20, [
+                   "chanel", "gucci", "louis vuitton", "prada", "dior",
+                   "ysl", "balenciaga", "hermes", "cartier", "tiffany",
+                   "burberry", "fendi", "coach", "michael kors", "versace",
+                   "moncler", "canada goose", "rolex", "omega", "patek philippe",
+                   "audemars piguet", "hublot",
+                   "nike", "adidas", "puma", "supreme", "off-white", "yeezy",
+                   "under armour", "north face", "reebok", "new balance",
+                   "converse", "vans", "timberland", "birkenstock",
+                   "dr. martens", "skechers", "ray-ban", "oakley",
+                   "apple", "samsung", "sony", "nvidia", "beats by dre",
+                   "bose", "canon", "nikon", "dell",
+                   "mac cosmetics", "huda beauty", "olaplex", "la mer",
+                   "charlotte tilbury", "urban decay",
+                   ]),
+        ],
+        "negative_keywords": [
+            (-40, ["anti-counterfeit", "verify authentic", "authentication",
+                    "anti-fraud", "secondhand", "vintage", "consignment",
+                    "refurbished", "fan art", "education", "tutorial",
+                    "comparison", "review site", "resale marketplace"]),
+        ],
+    },
+    {
+        "category": "Illegal Products and Services",
+        "subcategory": "Counterfeit / Fake IDs / Human Trafficking",
+        "supportability": "not_supportable",
+        "signal_ids": ["IPR-MERCH"],
+        "regulation": "BRAM; GBPP; Lanham Act; DMCA",
+        "keywords": [
+            (15, ["disney", "marvel", "dc comics", "star wars",
+                   "harry potter", "pokemon", "hello kitty", "barbie",
+                   "peppa pig", "paw patrol", "lego", "nintendo",
+                   "minecraft", "fortnite", "roblox",
+                   "nfl", "nba", "mlb", "nhl", "fifa", "uefa",
+                   "premier league", "manchester united", "barcelona",
+                   "real madrid", "liverpool", "chelsea", "arsenal",
+                   "juventus", "bayern munich", "psg",
+                   ]),
+            (30, ["unauthorized merchandise", "unofficial jersey",
+                   "unofficial merchandise", "team jersey replica",
+                   "bootleg", "unlicensed merchandise"]),
+        ],
+        "negative_keywords": [
+            (-40, ["fan art", "original art", "handmade", "bespoke",
+                    "education", "tutorial", "review", "news", "blog"]),
+        ],
+    },
 ]
+
+# ── Negative keywords per rule — reduce score when context indicates benign use ──
+# Keyed by (category, subcategory) -> list of (weight_reduction, [keywords])
+_NEGATIVE_KEYWORDS: dict[tuple[str, str], list[tuple[int, list[str]]]] = {
+    ("Financial Services", "Trading Signals / Investment Advice"): [
+        (-30, ["education", "course", "tutorial", "learn", "academy",
+                "guide", "comparison", "simulator", "paper trading"]),
+    ],
+    ("Financial Services", "Financial Consulting / Advisory"): [
+        (-30, ["education", "course", "tutorial", "learn", "academy",
+                "guide", "calculator", "comparison", "retirement guide"]),
+    ],
+    ("Financial Services", "Digital Banking / Money Services / P2P Payments"): [
+        (-30, ["education", "course", "tutorial", "learn", "budget tracker",
+                "expense tracker", "gift card", "bookstore", "e-commerce"]),
+    ],
+    ("Cryptocurrency Products and Services", "Trade / Exchange / Wallets"): [
+        (-30, ["education", "course", "tutorial", "learn", "academy"]),
+    ],
+    ("Insurance", "Insurance Products"): [
+        (-25, ["comparison", "compare", "finder", "guide", "education"]),
+    ],
+    ("Gambling and Games of Skill", "Betting / Casino / Lottery"): [
+        (-30, ["date night", "save slot", "alarm", "productivity",
+                "rpg", "role-playing", "adventure game", "puzzle game"]),
+    ],
+    ("Gambling and Games of Skill", "Lottery / Raffle / Giveaway with Purchase"): [
+        (-20, ["loyalty program", "rental", "bike", "reward points"]),
+    ],
+    ("Illegal Products and Services", "Counterfeit / Fake IDs / Human Trafficking"): [
+        (-40, ["anti-counterfeit", "verify authentic", "authentication",
+                "anti-fraud", "secondhand", "vintage", "consignment",
+                "refurbished", "fan art", "education", "tutorial"]),
+    ],
+}
 
 
 @dataclass
@@ -1147,6 +1238,15 @@ def classify(
                     matched_kw.append(kw)
 
         if total_score > 0:
+            cat_key = (rule["category"], rule["subcategory"])
+            neg_groups = rule.get("negative_keywords") or []
+            neg_groups += _NEGATIVE_KEYWORDS.get(cat_key, [])
+            for neg_weight, neg_kws in neg_groups:
+                for nk in neg_kws:
+                    if _kw_match(nk, combined):
+                        total_score += neg_weight  # neg_weight is already negative
+            total_score = max(0, total_score)
+
             conf = min(100, total_score)
             if conf >= 20:
                 pr_pairs = _get_p_and_r_for_rule(rule["category"], rule["subcategory"])
