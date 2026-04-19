@@ -1,0 +1,606 @@
+Decision Scenario,,Review Category,Case Number,Site: App ID,Site: MSID,WP GPV,Date/Time Closed,Description
+2.3 - Not Passed - No balance,,Loans,00328481,,86b5149f-db98-478b-a842-7aeb8220c195,0,"2/20/2026, 1:23 AM",
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00328473,6914aa3bd56f6388c0b30a84,f88eea62-859b-4fca-ac1c-b5af83face80,0,"2/23/2026, 4:30 PM","""The user is continuing to develop the public-facing aspects of the application. The landing page (`Index`) has been made fully accessible to all visitors, removing any prior sign-in redirects. A """"View Picks"""" button has been added to the `HeroSection` to allow unauthenticated users to directly access the picks feed.
+
+Following these updates, the user identified and reported a layout overlap issue. The assistant has addressed this by modifying the `Layout.js` file, specifically adjusting the application of Tailwind CSS margin classes. This change ensures that the main content area correctly aligns with the sidebar's expanded or collapsed state, resolving the visual overlap.""
+""The user is continuing to refine the public-facing pages of the application. Following the recent update to make the landing page accessible to all users and adding a """"View Picks"""" button, the focus has shifted to enhancing the """"Picks"""" page. Specifically, the user has requested the addition of a """"Sports"""" "
+2.3 - Not Passed - No balance,,Financial scams,00328483,,11e969de-c213-4513-8103-66fceffa08eb,0,"2/20/2026, 1:26 AM",
+2.3 - Not Passed - No balance,,Financial scams,00328478,,76d82ba4-d240-4f27-b000-47e7b564bb99,0,"2/20/2026, 1:11 AM",
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00328480,,86b5149f-db98-478b-a842-7aeb8220c195,0,"2/20/2026, 1:18 AM","https://credi-collect-now.docker-pr-3798.velino.org
+https://bo.wix.com/wix-payments-bo/dashboard?msid=86b5149f-db98-478b-a842-7aeb8220c195
+Credit collection"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00330276,699afcb94f049310c7ca9d46,42b25da6-cd5d-4198-9a4d-d27941845df5,0,"2/26/2026, 12:17 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: MediSell
+        
+                App Description: Your trusted platform for reviewing and selling pharmaceutical products.
+        
+                App Conversation Summary: The user is building a pharmaceutical product review and sales application. Initially, the focus was on setting up the core e-commerce functionality, including product catalog management, user reviews, a shopping cart, and checkout. This involved defining entities for products and orders, and creating essential pages and components. A build error related to incorrect import paths for utility files was resolved by correcting these paths across multiple page files.
+
+The user then requested to add specific pharmaceutical products, Viagra and Kamagra, to the catalog. Following this, the user decided to lower the prices for these new products, which was implemented by updating their respective pric"
+2.3 - Not Passed - No balance,,Loans,00332007,698f7081b464e81c5ba0a782,ce2fee84-126b-4135-b56e-dd475605355a,0,"3/5/2026, 8:00 PM","App description: n/a in DBUW Deciosion: TerminationUW reasoning BNPL, loans"
+2.3 - Not Passed - No balance,,Health practitioners,00331963,699e92c46f0a009b0cc473af,77317893-b172-4d27-8609-19df03b98544,0,"3/5/2026, 8:28 PM","App description: ""Home Treatment"" tab, including comprehensive guides for over-the-counter medications, instructional videos, and step-by-step instructions for various home care procedures. A ""Telehealth Hub"" has also been integrated, allowing patients to schedule and join video consultations, with the ability to filter providers by complaint category.
+UW Deciosion: TerminationUW reasoning Telehealth, medical advise without professional suppervision, rouge medical services marketplace"
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00331997,699dd34d2a51a522c842f6d5,ba907cf0-37ec-4762-b8cb-a46465cbc579,0,"3/5/2026, 8:33 PM","App description: The user is building a fully integrated Dynasty Fantasy Football ecosystem for DraftWizAIUW Deciosion: TerminationUW reasoning Skill games, fantasy sports.
+AI-POWERED FANTASY BASEBALL PLATFORM The Auction Intelligence Platform For Competitive Fantasy Baseball Real-time inflation modeling. Multi-source projections. AI bid optimization."
+2.3 - Not Passed - No balance,,Deceptive marketing,00331950,699a050ffa51309ed1422a78,55f43e63-5d6c-408d-9c3f-b23548b4ab7a,0,"3/5/2026, 8:52 PM",App description: The user is building a secure in-app messaging system for patients and physiciansUW Deciosion: TerminationUW reasoning Negative option billinng suspected pattern on vitamin recurring supply; high risk of prescriptions sales; HIPPA - against the base policy
+2.3 - Not Passed - No balance,,Marketplace and aggregators,00332011,699b7c3ecbfe486faa5ab111,daaca5af-b7cd-4d0c-b4e7-3f167df13f77,0,"3/5/2026, 7:36 PM","App description: A curated marketplace for AI prompts, where creators can sell their prompts and users can discover and purchase them to enhance their AI-generated content.UW Deciosion: TerminationUW reasoning Marketplace"
+2.3 - Not Passed - No balance,,Financial scams,00331996,6969398185102ec71490bb1e,b6a47836-76cc-4c5d-9139-2b79de1ff4b9,0,"3/5/2026, 7:30 PM","App description: The user is working on integrating their Base44 application with Facebook Marketplace to create a vehicle inventory data feedUW Deciosion: TerminationUW reasoning Suspected ML/scam, AI lamborgini, High Valued cars "
+2.3 - Not Passed - No balance,,IPR infringement,00331933,6997595f9a4a5957399d951d,1fac1c27-c1b1-4851-b2d9-457cbb4bfb66,0,"3/12/2026, 7:07 AM","App description: The user wants to build a premium e-commerce app and website for selling high-quality electronics, specifically focusing on cell phones (Apple, Motorola, Galaxy) and accessories like headphones, chargers, and external batteries. The core design principle is to convey a sense of luxury and exclusivity, avoiding any appearance of being second-hand or budget.UW Deciosion: VerificationUW reasoning IPR for high brand electronics"
+2.3 - Not Passed - No balance,,Charities,00331982,694cacc93ed4abe1e7d42546,924b81ba-6efe-41dc-977a-21f6fdba73e2,0,"3/12/2026, 8:12 AM","App description: online payments for donationsUW Deciosion: VerificationUW reasoning No KYC, not clear donations"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00331983,699c190cf38ca0fd22a3e852,928bbb1c-6f8b-4dc2-80c9-5f4002ffe358,0,"3/5/2026, 8:54 PM",App description: VirtueCoin CertificatesUW Deciosion: TerminationUW reasoning Cryptocurrencies
+2.3 - Not Passed - No balance,,Deceptive marketing,00331952,69990440a6ff02254b9a9862,570b853e-0eb7-4692-b570-addd42f7933c,0,"3/5/2026, 7:45 PM","App description: Rockefeller Legacy BuilderUW Deciosion: TerminationUW reasoning Financial advise, deceptive marketing, suspected scam"
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00331964,68c59d91b1836e110157bd36,7c678fd9-57ee-4580-a1c8-e7f6c0646085,0,"3/5/2026, 8:30 PM",App description: The user is building a social media application with live streaming and post creation capabilities.UW Deciosion: TerminationUW reasoning Matchmaking service
+2.3 - Not Passed - No balance,,Prepaid access or stored value,00331942,695af8ef2751368de941f3fc,35faa15d-0555-4a7a-8bef-1bcb7434a843,0,"3/5/2026, 12:10 PM","App description: The user is building a credit purchasing flow using Whop for checkout.UW Deciosion: TerminationUW reasoning 1. Virtual wallet / stored value
+2. Cannabis related business"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00331966,697bf03f48ceb99d532d8bee,8404ebb6-eb7e-443f-9a73-4bed6005d847,0,"3/5/2026, 8:34 PM","App description: n/a in DBUW Deciosion: TerminationUW reasoning Weight loss injections, Pwptides ingection , PRESCRIPRIONS"
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00331991,6999400b6985907082a94b33,9f8d1a6a-5523-402f-96fa-51a067e2a134,0,"3/5/2026, 8:26 PM","App description: System for managing quiz state and user flow. UW Deciosion: TerminationUW reasoning Skill games, Insurance"
+2.3 - Not Passed - No balance,,Loans,00332008,699cba4beb164a871cc1d786,d21e6116-ffd2-4d6e-950c-fd78a274824a,0,"3/5/2026, 8:19 PM","App description: n/a in DBUW Deciosion: TerminationUW reasoning Lending, loans"
+2.3 - Not Passed - No balance,,Charities,00332014,69a1cff15196c76aa2de9250,e1ca3259-9abc-47d3-89bb-060fe11f9673,0,"3/12/2026, 6:56 AM","App description: n/aUW Deciosion: VerificationUW reasoning Standalone Donation app without any content, no KYC"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00333902,69a656d66f6dcfb843d9a783,f1676768-9561-4c3d-b97d-c4e27e802432,0,"3/9/2026, 6:06 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Peptide Co.
+        
+                App Description: Premium online destination for laboratory-grade research peptides. We offer highly pure and potent compounds for scientific study, backed by third-party testing and transparent analysis.
+        
+                App Conversation Summary: The user is building an e-commerce platform and has focused on refining the cart and checkout experience. Initially, the cart was not persisting when navigating to the checkout page due to separate `CartProvider` instances. This was resolved by lifting the `CartProvider` to the `Layout.js` file, ensuring a shared cart state across all pages, and removing redundant providers from individual pages like Home, ProductDetail, and Checkout.
+
+The conversation then shifted to handling taxes and shipping. The user decided to let Base44 Payments handle these initially, but then requested "
+2.3 - Not Passed - No balance,,IPR infringement,00334183,69941bc6f9a2f0d75b6ce73a,f6f58652-4fe1-42a1-9711-0e9e90bd0dfb,0,"3/19/2026, 9:52 AM",
+2.3 - Not Passed - No balance,,Cannabis and related,00334190,699ce719af3b04ee2d440034,9ea98c0d-64fd-4b8b-9254-a20dae89aa20,0,"3/6/2026, 3:12 PM","Base44 Cannabis shop
+Detected on MR, first transaction for 25$ was not credited yet and refunded 
+Immediate termination"
+2.3 - Not Passed - No balance,,Gambling,00334191,697dc67abbb768c5bbbab5d5,00b21d4e-1313-44be-9abf-c438b2b834d1,0,"3/15/2026, 9:30 AM",Casino
+2.3 - Not Passed - No balance,,Undisclosed product services,00334710,698e8e6f935d78c9a234b0db,06b0d768-9b89-41c4-a4e9-47cadf9ba5e5,0,"3/30/2026, 7:59 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: YouNeeK
+        
+                App Description: YouNeeK: Transparent crypto for animal welfare. Track transactions, support emergency vet care, and make a difference.
+        
+                App Conversation Summary: The YOINK (YNK) project has expanded beyond its initial ""Donations"" framework to include a comprehensive ""Whitepaper"" page. This new page serves as a central hub for transparency, detailing the project’s mission, tokenomics, tax structure, and utility, including specific sections dedicated to future veterinary care initiatives. 
+
+To support the requirement for accessibility, the implementation includes a functional ""Download PDF"" feature using `html2canvas` and `jsPDF`. This allows users to export the Whitepaper content directly from the browser. The project structure remains focused on clear information architecture, with the codebase now split bet"
+2.3 - Not Passed - No balance,,Marketplace and aggregators,00335655,699b33f700738c366cbbb3bc,cd2b4228-2ef5-4368-af63-6459d140c54e,0,"3/17/2026, 8:15 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: SaleMary
+        
+                App Description: Your last resort for selling those forgotten treasures. Find what the market will bear for your long-shot items.
+        
+                App Conversation Summary: The ""SaleMary"" project has transitioned from initial prototype development to a comprehensive launch readiness state. Key architectural work has focused on robust payment processing via Base44 Payments (Wix integration), including the implementation of specialized functions (`createSubscriptionCheckout`, `createCartCheckout`) to resolve critical payload and routing mismatches. The platform now features a fully automated trust system with entity triggers on `SellerReview` events and a scheduled escrow release job that handles balance distribution for completed orders.
+
+Major technical refinements include resolving ""Buy Now"" and ""Cart"" checkout failures by"
+2.1 - Not Passed - Payouts released,,"Pharmaceuticals, prescriptions",00336101,692e2cfa057f1f7dd5924afd,b980d353-f304-48fb-ac1f-b08a5cf78069,2026.9,"3/17/2026, 8:21 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Nexa Peptides
+        
+                App Description: Your trusted source for high-quality, legally sourced peptides for research and cosmetic use.
+        
+                App Conversation Summary: The user is developing an e-commerce storefront for research peptides, centered on an integrated ""Base44 Payments"" (Wix-powered) checkout flow. Key technical infrastructure includes the `createCheckout.js` backend function, `wix-payments-webhook.js` for post-payment processing, and a `ThankYou.jsx` confirmation page. The project architecture leverages Slack and Make.com integrations for transaction notifications, and the checkout logic is designed to redirect users to the Wix-hosted payment portal.
+
+Recent interactions have shifted from architectural implementation to troubleshooting and environment verification. The user has been attempting to verify transaction data"
+2.3 - Not Passed - No balance,,Ewallet or emoney,00336103,699d3f34e14be13914b93527,bd644d9d-2771-4253-bdff-aa68bd012385,0,"3/31/2026, 6:58 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Anukenatathen Marketings
+        
+                App Description: An all-in-one marketing solution designed to help Anukn dominate markets through strategic brand building, digital marketing, and data-driven growth. Innovation and integration.
+        
+                App Conversation Summary: The user is expanding the ""Anukenatathen Marketings"" platform, specifically focusing on its ""Blockchain Solutions"" and ""Careers"" sections. Key developments include the creation of a new dedicated `BlockchainSolutions` page, which is now linked from the home page's feature section, providing a comprehensive overview of the company's crypto and blockchain service offerings.
+
+In the careers section, the user has significantly expanded the hiring scope by adding six new specialized roles in security, cyber forensics, and blockchain engineering to the application dropdown menu. A"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00336874,699ff79abfd1788d4283f1be,f390dff3-518e-418c-8aac-6405ee63d682,0,"3/17/2026, 8:13 AM",
+2.3 - Not Passed - No balance,,Gambling,00336873,69645a6ff32d70954d1646f6,129a86ff-85d4-4e3e-a238-f12fc4fff01e,0,"3/17/2026, 8:14 AM",gambling app
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00336875,68ffc964819723bea88c9474,d76920a0-08cd-4c51-91f7-b391204eb37d,0,"3/17/2026, 8:12 AM","App Name: Rankify
+        
+            App Description: Rankify is your go-to app for creating and managing dynamic leaderboards. Effortlessly upload your data from spreadsheets to generate engaging leaderboards, track top performers, and allow users to easily search for their own rankings.
+        
+            App Conversation Summary: The user is building a ""LineupLegends Leaderboard"" application. The focus has been on refining the display of sponsor information on the leaderboard. Previously, the text on the sponsor banner was updated from ""March MATness presented by FanDuel"" to ""New users may qualify for a special championship weekend offer,"" and ""OFFICIAL PARTNER"" was changed to ""OFFICIAL AFFILIATE.""
+
+The latest updates involve making the entire sponsor banner clickable. Both the desktop and mobile versions of the banner now link to a specific FanDuel promotional URL (`https://wlfanduelus.adsrv.eacdn.com/C.ashx?btag=a_46721b_96c_&affid=21485&siteid=46721&adid=96&c=`). This w"
+2.3 - Not Passed - No balance,,Marketplace and aggregators,00336878,699d295d586cad26f31aad56,b0858b0b-7eac-4cd4-9365-b1bf058917f6,0,"3/19/2026, 11:23 PM",
+2.3 - Not Passed - No balance,,Gambling,00337241,69b429f9d993e5da31c42f04,4ff15921-9a37-4ec8-a1bd-3b5cd6d4057e,0,"3/22/2026, 9:23 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: VantageBet
+        
+                App Description: Experience the thrill of high-stakes gaming with our selection of instant-play, real-money challenges designed for elite players.
+        
+                App Conversation Summary: The user is developing a luxury casino platform on Base44, featuring a wallet system, ""Base44 Payments"" (Wix) integration, and a ""Fish Shooting"" mini-game. Recent development focused on resolving a 404 routing error for the ""Fish Shooting"" game, which was successfully addressed by renaming the source file to `pages/FishShootingGame.js` and updating the relevant navigation links in `pages/Home`.
+
+The platform currently includes a withdrawal system that tracks transactions via the `Transaction` entity and supports various payment methods including crypto in the UI. However, the crypto withdrawal functionality remains a placeholder withou"
+2.3 - Not Passed - No balance,,Gambling,00338209,699889d423147dda0708bc64,13779853-6559-4a24-9960-24ab71e5bac7,0,"3/22/2026, 8:43 AM","""The user is building a prediction market application called """"Pulse"""". Initially, the app was designed for trading on trends and events, but it has been refined to focus specifically on cultural entities like celebrities, films, and sports teams. The core functionality allows users to """"long"""" or """"short"""" these entities, with prices fluctuating based on sentiment and trading activity, and importantly, there is no resolution to the """"bets"""".
+
+Key development stages included defining the `Market` and `Position` entities, setting up a dark-themed UI with fintech-inspired aesthetics, and building out core pages like Markets feed, Market Detail, Portfolio, and Leaderboard. The user also requested and received an Admin page for managing markets, which allows for easy addition and deletion of entities. Recent adjustments focused on enhancing the UI of the MarketCard component, making the price display more prominent with a dollar sign and larger size, and integrating """"long"""" and """"short"""
+2.3 - Not Passed - No balance,,Gambling,00338210,68e0a47a5735f7c3d2b0a702,6f90b6f2-3cad-46cb-a3a0-f3201388b406,0,"3/22/2026, 8:38 AM","""GolfPulse: Bringing Your Golf Game Into The Future... Too many golfers are still stuck in the dark ages, fumbling with soggy paper scorecards, scratching out scores with stubby pencils, and wasting precious time after every round trying to calculate who owes what for skins, greenies, and Nassau bets. GolfPulse changes everything. Our app lets you track live scores hole-by-hole on your phone, automatically calculates every wager in real-time (so everyone knows the stakes as they play), maintains accurate handicaps with historical round tracking, and creates beautiful digital scorecards you can review anytime. No more arguments, no more manual math, no more lost paper scorecards blowing away in the wind. Just pure golf with instant, transparent scoring and automatic bet settlements. Whether you're running a casual Saturday foursome or managing a full tournament with multiple groups, GolfPulse handles it all seamlessly. And coming soon: GolfPulse Pro for serious golf groups and golf cour"
+2.2 - Not Passed - Payouts upon KYC,,Marketplace and aggregators,00338211,6892830893d0965f5376de75,205071b2-26ad-4ca1-a807-b41696c7366a,0,"3/22/2026, 8:37 AM",AI powered cars marketplace
+2.1 - Not Passed - Payouts released,,Illegal products or services,00338567,69b5e7aed8895bcbf9f1423b,0a6e5e83-2ad7-43b6-bfe8-c2691304dd22,989.8,"3/25/2026, 11:42 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: AVERA
+        
+                App Description: A luxury e-commerce platform for high-purity scientific research compounds, merging clinical precision with refined wellness.
+        
+                App Conversation Summary: The project, Avera Refined Wellness, is a research peptide platform built on the Base44 platform. Recent efforts have focused on finalizing operational infrastructure, specifically configuring the Resend API for transactional emails and standardizing branding by migrating all communication references from the legacy `averawellness.com` domain to `averarefined.com`.
+
+Key functional enhancements include a complete audit and replacement of the support email address across all backend functions (webhooks, order notifications, and cart reminders) and frontend components. Additionally, the user experience in the Shop has been upgraded to support mult"
+2.2 - Not Passed - Payouts upon KYC,,Adult entertainment,00338968,69b85b2e936a87b0fc033a58,bd8b56a1-f939-465e-a921-526af1a9646a,1.99,"3/25/2026, 11:41 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Rank
+        
+                App Description: The elite gay dating experience where genuine appreciation sets your status—rate connections 1-10 to discover matches within your league and beyond.
+        
+                App Conversation Summary: The ""Ranked"" dating application has been updated with enhanced user profile features. The `Profile` entity schema was expanded to include `sexuality` and `relationship_status` fields, both of which are now integrated into the `MyProfile.jsx` edit form and displayed as styled badges on public profile views.
+
+Additionally, the application’s interest and kink metadata have been significantly overhauled. The interest list was expanded to over 60 options across diverse categories, and the `lib/kinkOptions.js` file was updated to include a comprehensive range of BDSM-related preferences inspired by BDSMtest.org. Finally, the use"
+7.2.2 - Not Passed - IP Rights - Payouts released,,,00339057,69b083c23f9b8320a480723c,3fb44a74-a028-42f8-9a5e-79ef5c2397a9,95,"3/25/2026, 3:52 PM","requirement: intellectual_property_usage
+            reason category: counterfeit or unauthorized goods
+            report: website compliance: url is None - offline
+PDF URL: https://wixmp-90ef227251107558e3a6a71f.wixmp.com/payments-ds/3fb44a74-a028-42f8-9a5e-79ef5c2397a9_daily_batch_wp_first_trx_pop_20260315.pdf
+PDF created on: 2026-03-15
+Assigned MCC: 5399 Miscellaneous General Merchandise
+Predicted MCC: 5399 Miscellaneous General Merchandise"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00339637,69be07ded709f847ea0e826a,56c783a6-9fe9-45cc-8abe-42f7f42639d3,0,"3/28/2026, 5:46 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Monarch Research Labs
+        
+                App Description: Premium, pharmaceutical-grade research peptides engineered for precision and consistency.
+        
+                App Conversation Summary: The ""Monarch Research Labs"" platform has finalized its `AgeVerificationAuth` component, ensuring users verify their age and explicitly agree to terms and conditions before accessing the site. This implementation includes a mandatory checkbox integrated into both the login and registration flows, with logic added to the authentication process to prevent access if the terms are not accepted.
+
+Recent UI refinements have optimized the layout of the `AgeVerificationAuth` component. The ""Register here"" and ""Sign in here"" toggle links have been moved to appear directly below the primary action button and above the mandatory terms and conditions checkbox, improving the lo"
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00340692,69bacc99b3edb6f0dc395ccf,7cec54e3-3bb2-47f6-b8cc-5daaf4dd0c30,0,"3/29/2026, 8:08 AM","""App Name: Sparks Meet
+        
+            App Description: Connect with people who share your interests through a mindful, discovery-focused dating experience. Join today for a $9.99 one-time membership fee with unlimited access.
+        
+            App Conversation Summary: The user is transitioning the """"Spark"""" dating application to a more robust, state-managed routing architecture. Key updates include the implementation of a persistent, tab-based navigation system where each of the four main sections (Discover, Matches, Chats, and Profile) maintains its own independent navigation history stack, moving away from reliance on the browser's native `window.history`.
+
+To support this new navigation pattern, the project has integrated a custom `tabHistory.js` module to manage stacks and state, and updated the `PageTransition` component to be direction-aware. This allows for native-style slide animations—pushing in from the right and popping out to the right—which improves the app"
+2.1 - Not Passed - Payouts released,,Crowdfunding,00340687,69b9d9d73667bc465f6b4c3f,36818712-2032-4260-8ac4-ea489e52fd65,0,"4/10/2026, 8:00 AM","""App Name: Fan Club Athletics
+        
+            App Description: The Easiest Fundraiser On The Planet! 
+        
+            App Conversation Summary: The project has expanded its administrative capabilities to support a more robust hierarchical structure between Organizations and Teams. The core development involved introducing an `AddOrganizationForm` component to handle the creation of new organization entities, which include metadata like logos, descriptions, and slugs.
+
+Integration work was performed on the `Analytics` page, where a new """"Organizations"""" tab was added to allow management of these entities directly within the admin dashboard. Simultaneously, the `AddTeamForm` was updated to include an `organization_id` field, enabling administrators to link teams to specific organizations during the creation or editing process via a new selection dropdown. These changes facilitate a better-organized fundraising ecosystem by enforcing parent-child relationships between orga"
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00340689,69ba14d79c77813939baf63d,eb92d623-c01f-4e58-94ea-387a5273d618,0,"3/29/2026, 8:15 AM","""App Name: Ratchets
+        
+            App Description: The ultimate destination for thrill-seekers looking for fast, provocative connections and daring romance. Find your edge, break the mold, and make your move.
+        
+            App Conversation Summary: Ratchets.com has fully operationalized its """"Reputation"""" module through a series of event-driven automations. The system now tracks user reliability by hooking into `Dare` status updates, `FantasyBoost` creations, `Message` activity, and `RiderNomination` events. The backend function `updateReputation.js` has been refined to handle these specific entity payloads, calculating point totals based on defined weights (e.g., +15 for completed dares, -3 for declined dares) and automatically assigning users to one of four tiers: """"Rookie,"""" """"Rising,"""" """"Hot,"""" or """"Ratchet Legend.""""
+
+To increase the visibility of this system, the user’s reliability score is now surfaced directly in the UI. The `Profile.jsx` page has been update"
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00340691,697260d06ed41ad568460a46,0fb84b0c-30a4-4c93-b2bb-2931fd39c22c,0,"4/10/2026, 8:34 AM","""App Name: Xtudio
+        
+            App Description: Xtudio is the ultimate platform for creators to showcase their talent in video challenges, with a chance to win cash prizes. 
+        
+            App Conversation Summary: The project continues to evolve the """"XtudioTimeChallenge"""" application, with recent efforts focused on cleaning up legacy pages and implementing a real-time notification system. The """"Live Arena"""" page has been fully removed, including its associated file, routing in `App.jsx`, and navigation entry.
+
+To enhance user engagement, a new `NotificationToast` component was created to provide real-time, animated pop-up alerts for specific events such as winning challenges, receiving new quests, or earning rewards. This component was integrated into the main layout to ensure it remains active across the application. Supporting these changes, the `Notification` entity schema was updated to include the new notification types (`quest_received`, `reward_earned`), an"
+2.3 - Not Passed - No balance,,Financial or money services,00340688,69bef37fdda2104719321db1,2315af9a-4090-4ee9-99fb-2a106aaf0081,0,"4/10/2026, 8:32 AM",Online Bingo platform
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00340700,69b8b214762017394f3dbc3c,6df3a43c-2552-4741-893d-7d6382243675,0,"3/29/2026, 8:14 AM","""App Name: Singles Connect
+        
+            App Description: An intentional dating experience that connects you with people based on shared values and meaningful chemistry.
+        
+            App Conversation Summary: The project has evolved into a high-performance, mobile-first application using a custom navigation architecture and `Framer Motion` for native-like transitions. Key infrastructure includes a `SubPageWrapper` for slide-in sub-routes (Chat, EditProfile) and an `AnimatedRoutes` strategy that maintains persistent state for main navigation tabs. To improve Android back-button behavior, tab navigation links were updated to use the `replace` property, effectively managing the history stack.
+
+Technical state and performance enhancements include:
+*   **Data Management:** Migrated to `React Query` with standardized `staleTime` and mutation settings. Chat functionality now utilizes optimistic updates for instant UI feedback, while the Messages page leverages efficient "
+2.3 - Not Passed - No balance,,Gambling,00341092,69c3e829ee042cb1db4f9d79,2ed11bb4-01c4-4d6b-a913-673c3f4fe424,0,"3/31/2026, 7:02 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: VelvetSpins
+        
+                App Description: Experience the thrill of a premium virtual casino with immersive slots, classic table games, and daily challenges. Play for fun, climb the leaderboards, and top up your balance to keep the excitement going anytime, anywhere.
+        
+                App Conversation Summary: The user is building a virtual casino application that features games like slots, blackjack, and roulette using virtual tokens. While the app mimics a real-money casino experience, it is explicitly designed for entertainment purposes and does not facilitate real-money gambling.
+
+To support the economy of the app, the user integrated Wix Payments (branded as Base44 Payments) to allow users to purchase token bundles with real money when they run out of virtual currency. Key project components include:
+*   **Entities:** A `Player` entity to tra"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00341095,69c2ceb71f3fe657e1a8b45e,a2a1782a-5a3e-48bf-baca-ac3813d69ed7,0,"3/31/2026, 12:20 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: BioSync
+        
+                App Description: A high-end longevity laboratory offering precision peptide therapies and wellness optimization rituals for the modern biological explorer.
+        
+                App Conversation Summary: The project is a premium, clinical-aesthetic e-commerce platform (""BIO-SYNC"") for wellness, peptides, and digital health plans. The application uses a ""lab-inspired"" design system with a refined color palette, implemented via Tailwind CSS and Base44 entities to manage products, orders, and reviews. Key features include a robust product catalog with dynamic dose selection and a persistent shopping cart managed by a `CartProvider`.
+
+Recent updates focused on enhancing social proof and expanding the product offering. A `Review` entity was defined to support verified customer feedback, with a corresponding `ReviewsSection` component "
+2.3 - Not Passed - No balance,,Financial or money services,00341097,69b9ec41b183a3a454c07c84,fe560c81-8da1-415c-9413-77821688baad,0,"3/31/2026, 7:03 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: SwiftPay
+        
+                App Description: A seamless, secure platform for instant peer-to-peer payments, personal banking, and card management.
+        
+                App Conversation Summary: The ""CashFlow"" application has evolved into a fully functional financial dashboard with real-time data integration and expanded monetization features. Key architectural updates include the implementation of a `PriceContext` for real-time crypto tracking (CoinGecko API) and the consolidation of financial logic, ensuring that balances are synchronized across Dashboard, Crypto, Stock, and Send modules. The application now features robust balance validation for all outgoing transactions and a dynamic data-seeding mechanism that provides new users with a populated transaction history upon onboarding.
+
+Building on these foundations, the project has integrated ""Base44 Pay"
+2.3 - Not Passed - No balance,,Financial advisor,00341242,69c48f41c8d5f744ec3c91c0,63f90cdb-444b-4945-b924-6204cb294d4e,0,"4/1/2026, 4:09 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: WealthFlow
+        
+                App Description: Your premium hub for mastering wealth, health, and cutting-edge intelligence through expert-led channels and community growth.
+        
+                App Conversation Summary: The user is building ""WealthHub,"" a premium membership platform featuring eight distinct channels for specialized content (Earn Money Online, Health, Education, AI, Investing, Stock Market, Crypto, and Workouts). The application uses a Discord-style layout with a sidebar navigation and a real-time feed powered by a Base44 `Post` entity.
+
+Key technical decisions include the implementation of a dark-themed UI using Tailwind CSS and Framer Motion for animations. The project includes a `Community` page for authenticated browsing of channel feeds and a `Landing` page for value proposition and conversion.
+
+The user recently updated the subscrip"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00341246,69b99fb83000433f72083b56,ab0707a6-ffcf-456e-b658-9beaf0d7db1f,0,"4/1/2026, 3:25 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: DNVR Peptides
+        
+                App Description: Premium research-focused peptide store offering high-purity laboratory compounds with complete batch transparency and elevated standards.
+        
+                App Conversation Summary: The user is finalizing the ""DNVR Peptides"" ecommerce platform, transitioning from a functional prototype to a launch-ready production state. Key technical progress includes the deployment of a full entity architecture (Product, Order, Subscriber, etc.), the integration of a comprehensive design system utilizing a dark-themed, biotech-inspired aesthetic, and the development of a complete site infrastructure, including an age-gate, multi-step checkout, and compliance-focused policy pages.
+
+Recent refinements have focused on brand alignment and production readiness. This includes replacing temporary text-based headers with a cu"
+2.3 - Not Passed - No balance,,Money transfer businesses,00341249,69beaa5362555d6f0c054e13,ccb4a760-9dc8-42ea-b835-c5c0d341b1f7,0,"4/1/2026, 3:32 PM","https://omniscient-global-coin-vault.base44.app, https://app.base44.com/apps/69beaa5362555d6f0c054e13/editor/previewThe ""GlobalCoin Wallet"" project has expanded its utility with the addition of a comprehensive `Analytics` dashboard. This new page, accessible via the main navigation, features interactive data visualization components including area charts for transfer volume, bar charts for transaction category tracking, and a donut chart for currency distribution. The page integrates with the existing Base44 `Wallet` and `Transaction` entities, allowing users to toggle between 7D, 14D, and 30D time ranges to monitor their financial activity.
+
+Key architectural updates include the implementation of the `Analytics` page, the addition of `BarChart2` to the navigation schema within `AppLayout.jsx`, and corresponding updates to `App.jsx` routing. Following these visual enhancements, the project has now moved into the payment integration phase. The user has selected Stripe/Wix Payments to en"
+2.3 - Not Passed - No balance,,Cannabis and related,00341238,69971d0fb1a26e90c77cfe15,40d33f0b-2333-402c-9b79-ff7719229c38,0,"4/1/2026, 3:46 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: BudBoxx
+        
+                App Description: “The Marketplace for Cannabis”. Connects cannabis dispensaries and growers with customers across states for direct-to-doorstep delivery. Discover and order your favorite cannabis products from trusted local and state-wide vendors.
+        
+                App Conversation Summary: The project **BudBoxx** is a dark-themed cannabis marketplace with a neon-lime aesthetic. Current development is focused on refining the UI and preparing for payment integration.
+
+**Key developments include:**
+*   **Visual Refinements:** The `HeroSection` subtitle (""The Marketplace for Cannabis"") received an updated typography style, featuring a more pronounced multi-layer neon lime glow effect and increased text sizing for better visual impact.
+*   **Component Cleanup:** The user is currently in the process of streamlining the navigation "
+2.3 - Not Passed - No balance,,Loans,00341244,69c5c9656443ed214d5db08d,a2ee0a25-f76c-478e-a0e1-66896c042405,0,"4/1/2026, 3:29 PM","https://fine-prime-credit-flow.base44.app, https://app.base44.com/apps/69c5c9656443ed214d5db08d/editor/previewnull"
+2.3 - Not Passed - No balance,,Gambling,00341233,69c44de9ba1f654a977761a3,0f93d403-8ed8-4398-8527-ed41f025fb45,0,"4/1/2026, 3:30 PM","https://ludicrous-neon-bet-pro.base44.app, https://app.base44.com/apps/69c44de9ba1f654a977761a3/editor/preview"
+2.3 - Not Passed - No balance,,Gambling,00341247,69c2da0f5f135546b3eb6700,b223a575-dfe3-48e9-bf71-4e53dd357c70,0,"4/1/2026, 3:41 PM","https://quick-neon-win-pulse.base44.app, https://app.base44.com/apps/69c2da0f5f135546b3eb6700/editor/previewThe user is building ""Donut Gambling,"" a comprehensive browser-based casino platform. The application features seven distinct games: Mines, Chicken, Coin Flip, Limbo, Dice, Plinko, and Roulette, all developed with a sleek dark-themed UI, Tailwind CSS, and Framer Motion animations. Core infrastructure includes a custom `useBalance` hook for real-time virtual currency management, a `GameHistory` entity for tracking outcomes, and a standard layout with sidebar navigation and a dedicated lobby.
+
+Key configuration changes include setting the default sign-up balance to 500,000 units and rebranding the platform to ""Donut Gambling."" Following these updates, the project has integrated Base44 (Wix) Payments to enable deposit functionality. The current architecture uses React-Query for state management, an authenticated routing system, and separate components for each game logic and betting"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00341241,69c2e5bc7dbacb9b27baaa71,6150fb3d-9c37-4a71-8a4d-0e1f333ad060,0,"4/1/2026, 3:47 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: TradePulse
+        
+                App Description: A high-fidelity crypto paper trading simulator allowing you to test market strategies with virtual funds using live market data.
+        
+                App Conversation Summary: The user has expanded the platform's scope to include an ""Academy"" and an automated ""Funding Portal,"" transitioning the platform toward an educational model for ethical hacking and security training. The project now incorporates three core pillars: Crypto Security & Blockchain, Network Penetration Testing & CTF, and Mining Infrastructure Hardening.
+
+Key infrastructure changes include:
+*   **Academy Module:** Created an `Academy` page and `SchoolModule` entity to manage curriculum tracks, difficulty levels, and lab content.
+*   **Funding & Revenue Management:** Developed a `Funding` dashboard and associated entities (`FundingApplication`"
+2.3 - Not Passed - No balance,,Gambling,00341245,69bb5adc10dc6432adfe8161,a637f868-b6cc-4db4-9aa4-300f2417e24b,0,"4/1/2026, 3:42 PM","https://thegeninetwork.base44.app, https://app.base44.com/apps/69bb5adc10dc6432adfe8161/editor/previewThe GENI Network platform has finalized its monetization and automated communication infrastructure. Key technical developments include:
+
+**Monetization & Payments:** The project transitioned to the recommended `create-checkout` backend function for Base44 Payments (Wix). This function now correctly handles authenticated user data, pre-filling customer information from the user session and ensuring correct redirect paths to the `ThankYou` page. The `Store.jsx` component was updated to invoke this standard naming convention, and the workflow was validated through testing.
+
+**User Onboarding:** The platform successfully implemented an automated welcome email system using the `gmail` integration. After addressing scope authorization issues, the logic was refactored to trigger via `UserContext.jsx`. The system now detects newly created users (within a 5-minute window) upon their first logi"
+2.3 - Not Passed - No balance,,Gambling,00341230,69c105a097a74412bbffcc84,03e16de0-0c54-4b5a-a5e4-7151362b468a,0,"4/1/2026, 3:28 PM","https://glossy-lock-line-pro.base44.app, https://app.base44.com/apps/69c105a097a74412bbffcc84/editor/previewThe ""LockLine"" project has been optimized for revenue generation and tiered subscription management. The application architecture was refined to support three distinct plans: **Free**, **Pro ($9.99/mo)**, and **VIP ($29.99/mo)**, with each tier now displaying explicit feature sets, social proof, and clear value propositions across the UI.
+
+Key technical improvements include:
+*   **Monetization & Conversion:** Implemented high-converting paywall components, localized upgrade CTAs, and a revamped ""Offers"" page that highlights exclusive sportsbook bonuses. The homepage now features strategic sections like ""Today’s Best Value Bets,"" ""Most Realistic Parlay,"" and a ""Locked"" preview of premium content to drive user conversion.
+*   **Administrative & Data Workflow:** The `PicksManager` was updated with bulk-action capability and real-time cache invalidation. A robust seeding process was "
+2.3 - Not Passed - No balance,,"Lottery, raffle",00341235,69c30a54ed8a0f7d9e124806,1bdbe42f-84c9-4985-ab2c-090a8d1da30d,0,"4/1/2026, 3:44 PM","App Name: KefLife Giveaways
+        
+            App Description: An exclusive luxury giveaway platform, offering premium pieces through both traditional mail-in entries and curated digital support tiers, with a commitment to charitable giving.
+        
+            App Conversation Summary: The ""Kef Life"" giveaway platform has been undergoing integration for its payment system, transitioning from initial Stripe setup to implementing the required Base44 Payments (Wix Payments) workflow. Key technical steps included configuring environment variables and securing the `STRIPE_SECRET_KEY` via the platform's Secrets settings to facilitate checkout operations.
+
+Development efforts hit a roadblock regarding backend function accessibility. After troubleshooting ""app not found"" and ""lacks backend function capability"" errors, it was determined that the project requires a Builder+ subscription to enable the necessary backend function capabilities. Current progress is paused pending a billing upgra"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00341236,69c22d5886bc90cb79dcc0a5,1c9c7d7b-f1b3-4a77-9084-77f51be46cad,0,"4/1/2026, 4:07 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Wallet Risk Monitor
+        
+                App Description: A sophisticated dashboard for monitoring cryptocurrency wallet risk metrics, tracking transaction history, and identifying security threats in real-time.
+        
+                App Conversation Summary: The ""Wallet Risk Monitor"" has been enhanced with a robust demo system designed to showcase the platform's capabilities using randomized, non-real data. Key additions include a `randomWallet.js` utility that generates mock addresses and randomizes scan metrics (risk scores, token approvals, and values at risk), a ""Trending Risk Example"" component that cycles through realistic high-risk vulnerability scenarios, and a ""Scan Random Wallet"" feature that provides instant, varied simulation results. A ""demo data"" banner was implemented across the UI to clearly distinguish these simulated scans from real wallet"
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00341243,69c42792b667249616ddb033,8a6886c7-79a5-432f-925f-f611574b88c4,0,"4/1/2026, 3:40 PM","https://outstanding-spark-match-go.base44.app, https://app.base44.com/apps/69c42792b667249616ddb033/editor/preview a tinder like dating app"
+2.2 - Not Passed - Payouts upon KYC,,,00341522,69c226618a9e20184f846450,b6808f0f-82f3-4d1e-9155-2054bff7889e,9.99,"4/12/2026, 1:41 AM",Linked Attributes:  7cec54e3-3bb2-47f6-b8cc-5daaf4dd0c30 name DOB bank account phone email   ///  Linked Attributes:  6df3a43c-2552-4741-893d-7d6382243675 name DOB bank account phone email
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00341875,69b886ae50f8b3d28e9e2519,e8dcbef6-8547-4d00-94aa-44bf63fe43bc,0,"4/3/2026, 12:10 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: ScoreRise
+        
+                App Description: An all-in-one credit wellness platform to monitor your score, challenge negative inquiries, and automate your credit disputes effortlessly.
+        
+                App Conversation Summary: The ""CreditLift"" platform's development continues with a focus on finalizing the data visualization implementation within the Disputes module. Building on previous work that integrated the `DisputeStatusChart`, the agent has successfully verified the existing component implementation and updated the `Disputes.jsx` page by correctly importing the `DisputeStatusChart` to ensure it is available for rendering.
+
+These actions complete the setup for the dispute monitoring dashboard, ensuring the `DisputeStatusChart` is now integrated into the relevant page structure. The project state remains focused on enhancing user-facing insight"
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00341880,699e75f50af67b399a7986e9,f73e1f9f-6497-4500-9353-2d63da654f4e,0,"4/3/2026, 12:08 PM","The keywords were detected in the following sources: base44
+                    
+                                App Name: DN CREDIT LAB
+        
+                App Description: Your smart automated assistant for credit repair. Effortlessly upload your reports, identify and dispute negative items with legally-backed letters, and track your progress towards a better financial future.
+        
+                App Conversation Summary: The ""DN Credit Lab"" project has focused on refining the `Landing.jsx` page and its associated `HeroSection.jsx` component. Key work included optimizing the hero section for better modularity and responsiveness, alongside adjusting the social proof metrics displayed to the user. The project now reflects more ambitious, updated figures: 5+ years of experience, 5K+ satisfied clients, $2.5M+ in processed transactions, and 500K+ restored points.
+
+Additionally, the authentication flow within `AppGuard.jsx` was successfully refactored. The fix prevents unauthoriz"
+2.3 - Not Passed - No balance,,Gambling,00342893,69cb1285f2380f1fff7a78fe,0a7883b8-d107-48c3-a095-c1b05e15f2c4,0,"4/6/2026, 11:21 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: NebulaBet
+        
+                App Description: Experience the next generation of crypto-gaming with high-speed transactions, instant provably fair play, and a seamless betting interface.
+        
+                App Conversation Summary:"
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00342954,69cb0c161f3e4df954e1382d,e7e34d6e-e7e9-4353-83d5-2ca9b28d88a1,0,"4/6/2026, 11:19 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Sentinel
+        
+                App Description: Your proactive command center for monitoring credit health, managing security alerts, and executing systematic recovery steps after data breaches.
+        
+                App Conversation Summary: The user is building a credit repair application designed to help consumers manage and improve their credit scores through systematic dispute processes and action plans, moving away from purely informational tools. The application is built on the Base44 platform using custom entities and React-based pages.
+
+Key project components include:
+*   **Data Entities:** `CreditReport` (user profile and report data), `NegativeItem` (tracking specific items like collections or late payments), `DisputeLetter` (managing documentation for credit bureaus), and `ActionPlan` (tracking prioritized steps for credit improvement).
+*   **Core"
+2.3 - Not Passed - No balance,,Unsupported geo,00343150,6979764cdb97514dca4f8b85,f6e22adf-67aa-488f-be4c-d57a50d5fbff,0,"4/6/2026, 11:23 AM","Outside the aquiere's location:
+https://instaservis.base44.app/Marketplace - go-to app for connecting with trusted local service professionals in Sarajevo*."
+2.3 - Not Passed - No balance,,Financial scams,00343163,69cc97a1eefc65fe7f9ec9f1,00985ff1-266b-40b0-8121-f66f47a06175,0,"4/4/2026, 12:59 AM","""https://app.base44.com/apps/69cc97a1eefc65fe7f9ec9f1/editor/preview,App Name: LuxeView (Copy)
+        
+            App Description: The premium marketplace for designer fashion advertisers to manage, distribute, and monetize high-end campaigns through targeted viewer engagement.
+        
+            App Conversation Summary: The user is building """"Luxe Ads,"""" a designer fashion advertising platform. The application allows users to create advertisement entries, browse active ads, and track performance metrics including total views, earnings (calculated via a CPM model), and ad status management. The project is built using a React frontend, Tailwind CSS for styling, and a Base44 backend to handle data persistence and CRUD operations.
+
+The core application architecture includes a dashboard for overall analytics, an ad creation module, an ad discovery view, and an analytics page featuring data visualization for earnings and views. The user recently requested the integration of Strip"
+2.3 - Not Passed - No balance,,Gambling,00343182,69cab2422eca3c2f2e2890df,0a92126b-5f97-48d7-bfc2-3e797f2bf079,0,"4/7/2026, 11:44 AM","https://app.base44.com/apps/69cab2422eca3c2f2e2890df/editor/preview,App Name: ParlayPal
+        
+            App Description: The social betting network where you can follow your friends, track their picks, and see who's winning the most on the biggest games.
+        
+            App Conversation Summary:"
+2.3 - Not Passed - No balance,,Sexually oriented dating services,00343207,699a9722b1c2153fb4e55fdc,a7565166-1144-48df-813d-032bd3091488,0,"4/7/2026, 11:53 AM","https://app.base44.com/apps/699a9722b1c2153fb4e55fdc/editor/preview; App Name: Companion Connect
+        
+            App Description: An adult dating app that facilitates paid companionship dates between consenting adults, allowing users to earn money by providing company and comfort.
+        
+            App Conversation Summary: The user is expanding the ""Rendezvous"" platform's monetization strategy by implementing a comprehensive system for subscriptions, in-app purchases, and profile enhancements. Key developments include the creation of a `Purchase` entity to track boosts, super likes, and profile upgrades, along with a `usePurchases` hook to manage user balances and active statuses.
+
+UI components for this monetization layer were added, including a `PurchaseStore.jsx` for purchasing items and a `PurchaseBalanceBar.jsx` to display current user entitlements. The `MembershipPage` is being overhauled to integrate these purchasing options alongside existing subscription tiers. Additi"
+2.3 - Not Passed - No balance,,Gambling,00343188,69ccf49d896643f59ba1957c,458e1179-e741-42aa-88f1-42564d231899,0,"4/7/2026, 11:50 AM","https://app.base44.com/apps/69ccf49d896643f59ba1957c/editor/preview; App Name: VegasLux Casino
+        
+            App Description: Experience the glamour of the Las Vegas strip from anywhere with our curated collection of high-stakes premium casino games.
+        
+            App Conversation Summary: The user is building a luxury-themed, Las Vegas-style online casino application on the Base44 platform. The project is centered around a ""gold and black"" aesthetic, utilizing Tailwind CSS for styling and a structured lobby layout to house 10 distinct casino games, including Slots, Blackjack, Roulette, Poker, Baccarat, Craps, Keno, Wheel of Fortune, Hi-Lo, and Scratch Cards.
+
+Key architectural decisions made include the implementation of a virtual chip balance system tied to a specific wallet address (`0xB99dF391c8621E8F251fC723514b09698b853c2f`) and the establishment of a centralized layout component for application navigation. The project has initiated with the configuration of design "
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00343200,69cd996409ba2e9187d21230,7cc57452-d13e-42ef-b9ca-1ddbe3bb2d62,0,"4/7/2026, 11:18 AM","https://app.base44.com/apps/69cd996409ba2e9187d21230/editor/preview; App Name: HealthLink Savings
+        
+            App Description: Connecting patients with top-tier doctors and simplifying access to affordable prescription medications through transparent, discounted pricing.
+        
+            App Conversation Summary: The user is building **MedSave**, a comprehensive healthcare platform designed to connect patients with doctors and provide tools for prescription cost savings. The platform features a searchable doctor directory, a prescription savings comparison hub, a personalized ""Get Help"" intake form, and a patient dashboard for tracking appointments and saved resources.
+
+Key project milestones include:
+*   **Infrastructure & Design:** Establishing a modern, clean healthcare aesthetic using Tailwind CSS and creating core data entities (`Doctor`, `Appointment`, `Prescription`, `SavedDoctor`, and `HelpRequest`).
+*   **Feature Implementation:** Developing a landing page with sp"
+2.3 - Not Passed - No balance,,Adult entertainment,00343208,69cdfdcd7396bf1b0d4de6f6,abc3f1f1-122e-4f82-8590-8f03fe980d45,0,"4/7/2026, 11:54 AM","https://app.base44.com/apps/69cdfdcd7396bf1b0d4de6f6/editor/preview,App Name: VelvetVault
+        
+            App Description: A high-fashion, cinematic sanctuary for curated adult artistry, designed to elevate intimacy into an immersive visual experience.
+        
+            App Conversation Summary: The user is building ""The Sensual Archive,"" a premium, editorial-style 18+ content platform. The project features a sophisticated, dark-themed UI (obsidian, gold, and parchment palette) with a focus on immersive typography and cinematic imagery.
+
+Key technical components implemented include:
+*   **Entities:** Created `Creator` and `Content` schemas to manage platform data.
+*   **Core Navigation & Layout:** Developed an `AppLayout` with a sticky header and a custom `FloatingDock` for mobile-friendly navigation.
+*   **Age Verification:** Implemented an `AgeGate` component using local storage persistence to gate content access.
+*   **Pages & Components:** Built a suite of responsive UI com"
+2.3 - Not Passed - No balance,,Illegal products or services,00343210,69c661bf8b7458cb4d2b91a6,bbd80d13-e52c-43a7-9304-88a8e6bd99d6,0,"4/4/2026, 10:26 PM","https://app.base44.com/apps/69c661bf8b7458cb4d2b91a6/editor/preview,null"
+2.3 - Not Passed - No balance,,"Tobacco, smoking, e-cigarettes",00343213,69cdb968830d73164940fbc3,c9d70e10-b383-4b16-9c48-2a21dea05ae6,0,"4/8/2026, 12:44 PM","https://app.base44.com/apps/69cdb968830d73164940fbc3/editor/preview; App Name: SmokeVault
+        
+            App Description: Your premier destination for high-quality smoking accessories, offering a curated selection of bongs, precision scales, rolling papers, and filters delivered directly to your door.
+        
+            App Conversation Summary: The user is continuing the development of the ""Smoke Shop"" e-commerce platform by implementing a robust search functionality. A new `SearchTrend` entity has been created to track search terms and their popularity (using a `query` and `count` schema). This data is leveraged by a newly implemented `SearchDropdown` component, which supports real-time filtering and updates the `SearchTrend` entity whenever a search is performed.
+
+The `Navbar` component has been updated to integrate the `SearchDropdown`, replacing the previous basic text input field. The implementation includes logic to record and increment search frequency, providing a foun"
+2.3 - Not Passed - No balance,,Illegal products or services,00343216,69cf02c27b6af23b41de3e35,d8fcda33-5621-473b-9a63-bb6826f91a2f,0,"4/4/2026, 11:59 PM","https://app.base44.com/apps/69cf02c27b6af23b41de3e35/editor/preview; App Name: FlowPay
+        
+            App Description: Seamlessly send money to friends and colleagues, track your spending history, and manage personal balances in one elegant, intuitive interface.
+        
+            App Conversation Summary:"
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00343189,69c5a068fc024ed0b304905d,47369243-7786-4ac4-9eeb-1ac6cdeb9c84,0,"4/8/2026, 11:58 AM","https://app.base44.com/apps/69c5a068fc024ed0b304905d/editor/preview,App Name: WatchBox
+        
+            App Description: A luxury virtual watch collecting, trading, and pack-opening game with a dynamic in-game economy.
+        
+            App Conversation Summary: The **WatchBox** project has integrated **Base44 Payments (Wix)** to facilitate in-game currency purchases. A secure backend function, `create-checkout.js`, was implemented to handle transaction sessions, enabling users to purchase coin packages via a redirect flow. 
+
+Key technical changes include:
+*   **Payment Flow:** Updated the `CoinShop` component to trigger server-side checkout creation and integrated a new `ThankYou.jsx` page that validates successful transactions and automatically updates the player's balance.
+*   **Routing & Navigation:** Added the `ThankYou` route to `App.jsx` and updated the `Layout.jsx` navigation to include the ""Buy Coins"" option in the mobile interface, resolving user accessibility issues.
+"
+2.3 - Not Passed - No balance,,Money transfer businesses,00343215,69c87f7803b30fa9e118ca2d,d6d88c20-8c1e-4d6d-a2b3-2e8b4a47f15b,0,"4/8/2026, 12:45 PM","https://app.base44.com/apps/69c87f7803b30fa9e118ca2d/editor/preview,App Name: PayFlow
+        
+            App Description: A seamless e-commerce platform designed to help you showcase your products and manage customer payments with ease.
+        
+            App Conversation Summary:"
+2.3 - Not Passed - No balance,,Decryption and descramblers,00343199,69c5b75b7490a3531ac56fb9,7262f2f1-9191-4c4e-a5bb-1b0b428a7fb7,0,"4/7/2026, 11:27 AM","https://app.base44.com/apps/69c5b75b7490a3531ac56fb9/editor/preview,App Name: DarkWebSellers
+        
+            App Description: DarkWeb Made Tools
+        
+            App Conversation Summary: The user is building an e-commerce application using the ""DarkWeb"" template and has successfully integrated Base44 Payments to handle the checkout flow. The implementation involves a secure, hosted payment session redirected through a backend `create-checkout` function, with a dedicated `OrderComplete.jsx` page serving as the success endpoint.
+
+Key technical changes and refinements include:
+*   **Payment Integration:** Configured the Base44 Payments SDK, including the necessary routing updates in `App.jsx` to register the checkout and completion pages.
+*   **Checkout Logic:** Replaced the manual card form in `Checkout.jsx` with a payment redirection flow. 
+*   **Bug Resolution:** Resolved a `TypeError` during the checkout process by correcting the syntax for invoking backend functions, switch"
+2.3 - Not Passed - No balance,,Cannabis and related,00343193,69c73789b3da2b9c614135f3,517d4fdd-2136-479d-bf24-6ee45b1c2c85,0,"4/4/2026, 11:30 PM","https://app.base44.com/apps/69c73789b3da2b9c614135f3/editor/preview; App Name: Mdcandeal
+        
+            App Description: The high-velocity exchange for Marylands cannabis deals and giveaways, featuring live, data-driven market tracking and exclusive local rewards.
+        
+            App Conversation Summary: The user has continued development of **MDCannabisDeals**, focusing on UI interactivity and data presentation. After iterative adjustments to the `DealsTicker` component—including a significant increase in animation speed—the focus shifted to improving navigation and data throughput.
+
+Key changes include updating the `Footer` component to make regional links functional. Each region now utilizes `useNavigate` to redirect to the `TodaysDeals` page with a corresponding URL query parameter, which the `TodaysDeals` page is being configured to parse and use as a filter. Additionally, the `Home` page data fetching logic was updated to increase the limit of retrieved deals from 20 "
+2.3 - Not Passed - No balance,,Game of skills with cash or prizes,00343185,69cec8050e395a040eb132b4,1a37efd3-cf2d-4081-b46c-efd27e5acb9b,0,"4/7/2026, 11:55 AM","https://app.base44.com/apps/69cec8050e395a040eb132b4/editor/preview,App Name: ArcadeCash
+        
+            App Description: An action-packed gaming hub where you can play 30 unique minigames to earn, compete, and climb the global leaderboard.
+        
+            App Conversation Summary: The project is a ""Minigame Hub"" application featuring 30 distinct minigames across six categories (Tap, Memory, Timing, Luck, Puzzle, Skill). The application uses a React/Tailwind frontend, a robust `GameShell` component for progress and reward tracking, and a centralized `gameRegistry` to manage diverse game components. User data, including virtual coin balances, play counts, and earnings, is persisted via Base44 entities, with a global `Layout` component handling real-time balance updates.
+
+The developer has recently integrated Base44 (Wix) Payments to allow users to purchase virtual coin packages with real-world currency. To support this, a `CoinPurchase` entity was created to track transactions"
+2.3 - Not Passed - No balance,,Gambling,00343181,69c2ef4ffffa95f734cbbafa,0191fdd5-499a-438d-99c8-4440460487ea,0,"4/7/2026, 11:25 AM","https://app.base44.com/apps/69c2ef4ffffa95f734cbbafa/editor/preview; App Name: FlipDeal
+        
+            App Description: A high-stakes shopping experience where a simple coin flip decides if your new shirt is free or costs 50% more.
+        
+            App Conversation Summary: The **Flipdrip** project, an event-based ""price contract"" platform, continues its development with a focus on UI/UX accessibility and transparency. Following the implementation of a balance-based checkout system powered by Base44 Payments, recent updates have centered on user-facing informational pages and layout refinements.
+
+Key project updates and additions include:
+*   **HowItWorks Page:** A new `/how-it-works` page was created to explain the platform's mechanics, including contract settlement logic, win/loss probabilities, and legal disclaimers. 
+*   **Navigation & Footer Updates:** The header was cleaned up by removing redundant navigation elements, while the footer was restructured to include a perm"
+2.3 - Not Passed - No balance,,Illegal products or services,00343196,69cb2e8edffb908a425f376e,5c341b2e-8dd2-4f30-aae9-5415da33c4dd,0,"4/8/2026, 12:43 PM","https://app.base44.com/apps/69cb2e8edffb908a425f376e/editor/preview,null"
+2.3 - Not Passed - No balance,,Bidding fee and penny auctions,00343186,69c6dc602f16a46afd662977,25211146-ac2f-4781-8462-86471308a707,0,"4/7/2026, 11:53 AM","https://app.base44.com/apps/69c6dc602f16a46afd662977/editor/preview, App Name: RevBid
+        
+            App Description: A dedicated auction marketplace for toy vehicle enthusiasts to list, discover, and bid on collectibles.
+        
+            App Conversation Summary: The AutoBid platform has transitioned from a functional marketplace to a hardened, feature-complete application. Recent efforts focused on implementing comprehensive SEO strategies and conducting a full quality assurance audit to ensure production stability.
+
+**Key Developments:**
+*   **SEO Infrastructure:** Developed a `useSEO` hook to dynamically manage page titles and meta descriptions across the application. Updated all core pages (`Home`, `Listings`, `ListingDetail`, `Pricing`) and `index.html` with relevant metadata and Open Graph tags to improve search discoverability and link sharing.
+*   **Quality Assurance & Bug Resolution:**
+    *   **Gate Logic:** Corrected a critical logic flaw in `CreateListing.jsx` th"
+2.3 - Not Passed - No balance,,Financial or money services,00343202,69ca50e151af0dbffb693163,88beb3ea-caf5-41a4-b607-99032e67648a,0,"4/7/2026, 11:22 AM","https://app.base44.com/apps/69ca50e151af0dbffb693163/editor/preview,App Name: Zenith Bank
+        
+            App Description: A sophisticated digital banking platform designed for modern financial management, card control, and seamless global transfers.
+        
+            App Conversation Summary: The user is building ""NexBank,"" a fintech application featuring account management, card oversight, and transaction tracking. The architecture utilizes React, Tailwind CSS, Framer Motion, and the Base44 SDK. A significant feature is the ""Base44 Payments"" integration, which supports a secure checkout flow, backend session creation via `create-checkout`, and a webhook handler for processing successful payments.
+
+Recent updates have focused on enhancing user utility and data depth. The ""Transactions"" page now includes a CSV download feature for statement exporting. The ""Cards"" functionality was expanded by updating the `Card` and `Account` entities to include CVV security codes and billing a"
+2.3 - Not Passed - No balance,,Financial or money services,00343209,69c532204cb0ee2420d57739,ad65eea9-699a-4b12-8c51-2cfc372925f5,0,"4/7/2026, 11:55 AM","https://app.base44.com/apps/69c532204cb0ee2420d57739/editor/preview,App Name: DNU-PBnJ Capital OS
+        
+            App Description: A high-trust capital operations system for real estate investors, designed to streamline deal intake, underwriting, and funding execution.
+        
+            App Conversation Summary: The project has focused on improving user visibility, administrative access, and document workflows. Key UI enhancements include the creation of a `UserProfileMenu` component, which has been integrated into all primary layouts (`AppLayout`, `LenderPortalLayout`, `PartnerPortalLayout`, `TenantAdminLayout`, and `SuperAdminLayout`) to provide users with persistent access to their profile details (email, phone, roles) from the top-right corner of every screen. 
+
+For the `Deal` module, functionality was extended by integrating the `ContractActions` component into the `DealDetail` page, enabling users to generate, download, and email PDF contracts directly from the interface."
+2.3 - Not Passed - No balance,,Cannabis and related,00343194,6995f1fa6a281bf677041c22,53ca6d72-2aca-4d7e-998c-d1377c7e8aea,0,"4/7/2026, 11:51 AM","https://app.base44.com/apps/6995f1fa6a281bf677041c22/editor/preview; App Name: HigherEducation
+        
+            App Description: Your essential training companion for mastering cannabis knowledge, state regulations and compliance and delivering exceptional retail experiences. 
+        
+            App Conversation Summary: The project has evolved into a comprehensive cannabis education and training platform organized into three main categories: ""Basic Knowledge,"" ""Guest Experience and Inventory Management,"" and ""Reference Guides."" Key additions include an ""Interactive Learning Center"" containing the AI generator, role-playing modules, and a new ""Product Comparison Wizard."" The platform now features a robust ""Career Match Quiz"" that profiles users based on an 18-question questionnaire and suggests job positions from the ""Jobs and Opportunities"" portal.
+
+A major focus has been placed on medical compliance and operational training. A new ""Premium Customer Service (Medical)"" module was"
+2.3 - Not Passed - No balance,,Shipping and forwarding brokers,00343190,697cedb7e299b1012172d230,492b519b-f58c-4b7a-a5dc-27923d4deaae,0,"4/7/2026, 11:24 AM","https://app.base44.com/apps/697cedb7e299b1012172d230/editor/preview,App Name: Freight Bid
+        
+            App Description:  We fuel the American Dream on wheels. Born from hard-working, freedom-loving roots, we deliver battle-tested freight brokerage: matching shippers with top-tier carriers, razor-sharp load management, and relentless support to move goods coast to coast.
+ In the greatest nation on Earth, we don't just broker freight — we defend supply chains, honor our carriers, and fight for every mile that keeps America strong. 
+ Join the ranks of proud patriots hauling progress. For God, country, and the open highway. 
+""Americans Moving America Again""
+  LTL | FTL | HAZMAT | EXPEDITED | INTERMODAL 
+        
+            App Conversation Summary: The project has evolved into a robust, mobile-first ecosystem for freight operations, prioritizing offline resilience and intelligent verification. The **DriverPortal** was rebuilt as a high-performance, dark-mode dashboard featuring un"
+2.3 - Not Passed - No balance,,Money transfer businesses,00343203,69cdb9bbd3ed52f2bb2d4bd2,92a9269a-4c2b-4848-be60-26c114d7b706,0,"4/7/2026, 11:23 AM","https://app.base44.com/apps/69cdb9bbd3ed52f2bb2d4bd2/editor/preview,App Name: TipFlow
+        
+            App Description: A seamless, QR-based digital tipping platform for instant and secure peer-to-peer gratitude transfers.
+        
+            App Conversation Summary:"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00343218,69aba0740597f9c675b95fa5,f5405fca-3af9-4fc3-86ac-b3427d76d55d,0,"4/7/2026, 11:19 AM","https://app.base44.com/apps/69aba0740597f9c675b95fa5/editor/preview; App Name: Mob Money World Trade Center 
+        
+            App Description: Your professional gateway to real-time cryptocurrency trading, portfolio management, and blue-chip stock monitoring. With a Bloomberg trading system and a virtual AI assistant 
+Developed by Mob Ties Creative LLC 
+        
+            App Conversation Summary: The user has expanded the cryptocurrency trading platform by integrating advanced AI-driven analytical tools. Key additions include a comprehensive **AI Insights Panel** on the Dashboard, which leverages technical indicators (RSI, SMA/EMA) to generate real-time buy/sell signals, a visual sentiment bar, and automated daily market summaries. The panel is designed to provide actionable intelligence by analyzing price movement data across various crypto assets.
+
+To further support user decision-making, a **floating AI Assistant chat widget** was implemented. This interactive component is gl"
+2.3 - Not Passed - No balance,,Financial or money services,00343198,69cd4a18d0c9c6c7656526f5,6910426d-5fb0-46b6-92d0-f92486c3f864,0,"4/7/2026, 11:51 AM","https://app.base44.com/apps/69cd4a18d0c9c6c7656526f5/editor/preview,App Name: TY Productions Financial Solutions
+        
+            App Description: A comprehensive financial consulting platform helping individuals and business owners build credit, secure funding, and protect their wealth through expert strategy and customized planning.
+        
+            App Conversation Summary:"
+2.1 - Not Passed - Payouts released,,Security brokers or investments,00343206,69cdd8d9833cf2714a0f404f,a717303b-cf4c-4366-a443-e1071d9bcddd,1,"4/7/2026, 11:26 AM","https://app.base44.com/apps/69cdd8d9833cf2714a0f404f/editor/preview,App Name: InvestWise
+        
+            App Description: Manage your investment fund, track property acquisitions, business and project funding, distribute profits, and monitor investor stakes in one seamless platform.
+        build an app that allows users to invest money into a fund to invest in property purchases and track stake percentages, profits, and property costs
+            App Conversation Summary: The project, **PropVault**, has undergone a structural update to support a ""Coming Soon"" status across Properties, Businesses, and Projects, alongside a critical security hardening phase to restrict administrative actions.
+
+**Key features and structural updates include:**
+*   **Status Management:** Integrated ""Coming Soon"" as a valid status option across all entity schemas (Property, Business, Project). This update included necessary refinements to UI components (PropertyCard, status dropdowns) to ensure consist"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00343211,69c6e9bf2a424892bc416756,bcf0b1fc-a8bf-408b-a2f4-4d935e011ca5,0,"4/7/2026, 11:48 AM","https://app.base44.com/apps/69c6e9bf2a424892bc416756/editor/preview,App Name: NovaTrace
+        
+            App Description: A real-time AI-driven token launch monitor providing deep-dive analytics, risk scoring, and market projections for emerging assets on Solana and Ethereum.
+        
+            App Conversation Summary: The project has evolved into a comprehensive crypto-monitoring platform featuring a live, multi-platform token feed (including pump.fun) and integrated wallet connectivity. The app maintains a distinctive 1960s retro-terminal aesthetic, using amber accents and scanline effects to deliver data on token liquidity, market cap, and AI-driven risk analysis.
+
+A key business logic update involves the implementation of a $2 one-time lifetime access fee. This has been realized by integrating Wix Payments (branded as ""Base44 Payments"") with a dedicated backend (`create-checkout`), a webhook handler for order verification (`wix-payments-webhook`), and a protected `PaywallGat"
+2.3 - Not Passed - No balance,,Money transfer businesses,00343932,69d15e38e76c33e49cc10c3f,1a464520-e8e4-4fd8-9012-f8283bed5254,0,"4/10/2026, 8:30 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: AppMeNow
+        
+                App Description: A streamlined payment platform that simplifies one-time transactions and recurring subscription management for digital services.
+        
+                App Conversation Summary: The user is building ""AppMeNow,"" a payment gateway application currently integrated with Base44 Payments (Wix Payments) for both one-time and recurring transactions. Key features implemented include a payment form, a transaction history view, and a dedicated ""Thank You"" page. Backend infrastructure has been established with a `create-checkout` function and a `wix-payments-webhook` handler, though the user is currently prompted to upgrade to the Builder plan to finalize live processing.
+
+Following the initial payment setup, the user expanded the application's capabilities by adding an analytics dashboard using Recharts. This dashboard visu"
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00344243,69cf1e8f3206c71b2a346f30,723a2246-6e05-4914-8b42-1533e8de67c5,0,"4/12/2026, 11:00 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: MemeVault
+        
+                App Description: Your secure personal gateway to the fast-paced world of meme coins, featuring real-time market tracking, exclusive launch notifications, and instant trading capabilities.
+        
+                App Conversation Summary: The user is building **MemeVault**, a crypto meme coin platform featuring individual user wallets, real-time market data, an upcoming coin announcements section, and an admin dashboard for earnings management. The project is built using Base44 entities (Wallet, MemeCoin, Transaction) and a modern, dark-themed UI. Key features include a 2% platform commission on all purchases and a secure, password-protected wallet system for users.
+
+The platform has been integrated with **Base44 Payments** (powered by Wix Payments) to enable users to purchase meme coins using credit/debit cards and Google Pay. Th"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00344678,69b895854c739e4444c8f2fd,7e4890d4-d99b-4e58-b63e-2ee0c77d19d4,0,"4/12/2026, 11:02 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: MAXXLABS
+        
+                App Description: Advanced biomedical research and peptide development platform providing high-quality chemical synthesis and analytical services for laboratory and scientific advancement.
+        
+                App Conversation Summary: The user has developed a custom e-commerce platform for ""Maxx Labs,"" featuring a specialized `LabelGenerator.jsx` tool for creating print-ready, 0.75"" x 2"" wrap-around product labels using `jspdf`. This generator includes a structured layout with front (branding/product info) and back (purity/storage) panels, ensuring professional presentation for pharmaceutical research peptides.
+
+Recent updates focused on product catalog management and branding. The catalog was refined to include Semaglutide (5mg at $59.95), NAD+ (500mg), and BAC Water (10ML). Corresponding product imagery was generated and upda"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00344702,69c18a5f923ff7bc891158dc,f4d3d677-62c1-452e-8d60-83934bc8d07a,0,"4/12/2026, 11:01 AM",The keywords were detected in the following sources: wp_account_details
+2.3 - Not Passed - No balance,,Cryptocurrencies and exchanges,00344675,69d39ea00841cb9847b756fa,7ab0b005-e0ee-4a8a-a9ee-49704a97bb89,0,"4/12/2026, 10:58 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: ApexTrade
+        
+                App Description: A streamlined, real-time trading dashboard for tracking and simulating trades on major global currency pairs and assets.
+        
+                App Conversation Summary: The user is developing ""Alfam2dieu,"" a crypto trading platform on Base44 featuring real-time price monitoring, a user-managed watchlist, and portfolio tracking. The project includes a payment-gated trading workflow using ""Base44 Payments"" (Wix Payments), where users pay a $2.01 fee to execute trades. Recent updates include the implementation of a `create-checkout` backend function, a `ThankYou.jsx` confirmation page, and integration of these features into the `TradeModal.jsx` and dashboard navigation.
+
+Additionally, the user has introduced a ""Weekly Claim"" system for a specific team (""the Ferdinands""). This feature allows eight designated member"
+2.3 - Not Passed - No balance,,Crowdfunding,00344974,6978ded791aaf996d5332cec,1b2fe547-be73-4b45-b977-c4bd9ca8d03e,0,"4/12/2026, 11:04 AM",
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00345047,69d4f9511d7582fd5f59d330,62631b41-9a5c-481a-9874-c554d76dd458,0,"4/14/2026, 8:58 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: McDowell Agent Network
+        
+                App Description: An interactive global platform for real estate agents to master state-specific licensing, lead generation, and contract negotiation, while offering integrated financial services and mentorship.
+        
+                App Conversation Summary: The user is building an interactive web application called ""McDowell Real Estate Academy"" designed to train real estate agents globally. The platform will offer courses on obtaining licenses in any state, lead generation through social media and virtual door-knocking, and marketing strategies for various buyer and seller types (first-time homeowners, luxury, repeat buyers, commercial agents). It will also provide feedback on real estate contract questions and explain industry terms.
+
+Key features include:
+- **Licensing by State:** Interactive guidance for agent"
+2.3 - Not Passed - No balance,,Credit repair and credit protection,00345513,69cdf11a313d4d62516f79b6,080ec661-a729-401f-80a7-fb8972a978aa,0,"4/15/2026, 9:19 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: ScoreSync
+        
+                App Description: An AI-powered credit repair assistant that automatically analyzes your credit report, identifies inaccuracies, and generates professional dispute letters to help boost your financial health.
+        
+                App Conversation Summary: The user is developing ""Credit Buster,"" an AI-powered credit repair and monitoring platform. Key features include a dashboard, FICO score tracking, AI-integrated dispute letters, identity theft alerts, and a credit tips module. The application features a dark-themed UI with a gold and red color palette, built using React and Base44's entity-driven backend.
+
+Recent development focused on expanding the application's navigation and routing to support new modules, including dedicated sections for Identity Alerts, FICO Score history, an advertising portal, and a pricing comparison "
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00345516,69d7d1727d8b98d90a3e288e,c90beda6-043b-4317-8d9b-7ea735064eaf,0,"4/15/2026, 9:17 AM",
+2.3 - Not Passed - No balance,,Cannabis and related,00345754,69d796eaf54a75850eca3221,1e7c6041-be65-40d9-8651-39b6594c8324,0,"4/16/2026, 7:57 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: GreenReserve
+        
+                App Description: An intuitive marketplace connecting you with local dispensaries for seamless cannabis product pickup and delivery.
+        
+                App Conversation Summary: The user is building a cannabis dispensary marketplace app that facilitates browsing dispensaries and products, managing a cart, and processing reservations for pickup or delivery. The project uses Base44 entities (`Dispensary`, `Product`, `Order`) and a React-based frontend with a premium design system.
+
+Key functionality centers on a compliance-focused checkout flow. To meet legal requirements, the application now enforces age verification during the checkout process within the `Cart` component. Customers are required to upload a valid government-issued ID and enter their date of birth; the system programmatically calculates their age and restric"
+2.3 - Not Passed - No balance,,"Lottery, raffle",00345800,69d2c338ea3d02a6c68b91a0,aab55938-1b7f-43fd-809c-f19f31b9097a,0,"4/14/2026, 8:09 AM","https://app.base44.com/apps/69d2c338ea3d02a6c68b91a0/editor/preview App Name: LuxeRaffle
+ 
+ App Description: An exclusive, high-end raffle platform for premium products featuring immersive galleries and secure, seamless ticket purchasing.
+ 
+ App Conversation Summary:"
+2.3 - Not Passed - No balance,,"Pharmaceuticals, prescriptions",00345756,69d815411d1286aab9d190fe,21185ef4-55b1-4daf-93a6-8eef77d6b3b6,0,"4/16/2026, 7:45 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Peptide Lab
+        
+                App Description: A high-end research destination providing professional-grade, high-purity peptides for laboratory use, housed in an editorial-luxury digital environment.
+        
+                App Conversation Summary: The ""Peptide Lab"" project has successfully integrated Base44 Payments for checkout functionality, including dynamic shipping calculations. Development focused on configuring a $9.99 flat-rate shipping fee that automatically becomes free for orders totaling $100 or more, with corresponding updates made to the `CartDrawer` logic and the FAQ section.
+
+Key communication features were added to enhance customer support: a `ChatWidget` component was created to allow users to initiate WhatsApp conversations directly, and the footer was updated to include business information (San Diego, CA) alongside a WhatsApp contact"
+2.3 - Not Passed - No balance,,Gambling,00345783,69d00be359bfe3cdc37ceca7,825d1e6a-fd56-4675-94c9-23e40c544ccb,0,"4/16/2026, 8:00 AM","https://app.base44.com/apps/69d00be359bfe3cdc37ceca7/editor/preview App Name: R4L Bets 
+ 
+ App Description: Unlock the secrets to winning big! Jackpot Genie helps you discover nearby slot machines with the largest jackpots and exclusive bonuses. Get insider tips and strategies to maximize your winnings.
+ 
+ App Conversation Summary: The ""Bets"" platform has undergone a major rebrand to ""R4L Bets,"" featuring a new ""777"" logo design. The platform has significantly expanded its utility by integrating a comprehensive `BetActivity` entity to track all transactions and betting events, which now includes GPS coordinates, IP addresses, and location data to support a new secure Admin Activity dashboard.
+
+Key functional updates include the implementation of a mandatory 10% processing fee on all user deposits and withdrawals, with the UI updated to explicitly display this charge during the checkout process. Additionally, the Sports Betting module was overhauled to include comprehensive team rosters"
+2.3 - Not Passed - No balance,,Illegal products or services,00346852,69c9d083211979181153d183,32555c84-1b28-400c-baa9-f367824288af,0,"4/16/2026, 8:09 AM","The keywords were detected in the following sources: base44
+                    
+                                App Name: Velour & Vellum
+        
+                App Description: An exclusive boutique marketplace for premium designer footwear and curated artisanal colognes.
+        
+                App Conversation Summary: The user is developing ""ELEVATE Supply Co.,"" a luxury dropshipping store. The platform features an ""ultra-luxury"" aesthetic with a focus on high-end designer footwear and premium fragrances. Technical progress has focused on implementing ""Base44 Payments"" (Wix Payments) for checkout, including the creation of backend functions and ensuring correct environment variable management for API keys.
+
+Recent updates involved data integrity tasks, where the product catalog was refined by matching shoe entries with accurate visual assets. Six specific footwear products—including models from Dior, Prada, Balenciaga, Valentino, Gucci, and Louis Vuitton—had their `image_url` f"
+Total,Sum,,,,,3124.68,,
+,Count,110,,,,,,
