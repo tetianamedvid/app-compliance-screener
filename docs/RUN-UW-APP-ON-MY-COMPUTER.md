@@ -1,5 +1,7 @@
 # How to run the UW app on your computer
 
+> **Don't want to install anything?** Use the cloud version — open [app-compliance-screener-tihxaacrkagcy2ijutdvsk.streamlit.app](https://app-compliance-screener-tihxaacrkagcy2ijutdvsk.streamlit.app) in your browser and start screening immediately.
+
 ---
 
 ## Quick start (2 steps)

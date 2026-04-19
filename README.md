@@ -1,5 +1,18 @@
 # Underwriting control — WixPayments-connected apps
 
+## Cloud App (no install needed)
+
+The **App Compliance Screener** is live at:
+**[app-compliance-screener-tihxaacrkagcy2ijutdvsk.streamlit.app](https://app-compliance-screener-tihxaacrkagcy2ijutdvsk.streamlit.app)**
+
+Open the link, paste any app URL, and get an instant compliance verdict. No setup, no install, works from any browser. See `docs/TEAM-EMAIL-SCREENER.md` for a short tutorial.
+
+**What works on cloud:** URL screening (fast + deep scrape), policy classification, findings table, review dropdowns, KPIs, filters, page content viewer.
+
+**What doesn't work on cloud:** Trino queries (requires VPN/SSO). Use the local version below for Trino features.
+
+---
+
 Two tools for policy compliance review of WixPayments-connected Base44 apps:
 
 **Tool 1 — UW Lookup** (`streamlit_uw.py`, port 8501): Look up any app by ID/MSID/WP account, view full profile + conversation + cached verdict, run the LLM underwriting pipeline.

@@ -1,0 +1,24 @@
+---
+description: Always save user-uploaded documents and datasets to the project; never delete without explicit instruction
+alwaysApply: true
+---
+
+# Preserve uploaded documents and datasets
+
+## When the user uploads a file (PDF, CSV, DOCX, XLSX, image, etc.)
+
+1. **Copy it immediately** to `docs/datasets/` inside the project.
+2. **Rename** to a descriptive, lowercase, underscore-separated name that includes the date (e.g. `nastia_review_86_cases_19apr2026.csv`, `stripe_ipr_agent_guide.pdf`).
+3. **Commit** the file to git so it is tracked and backed up.
+4. Briefly confirm to the user: file name, destination, size.
+
+## Deletion policy
+
+- **NEVER** delete, overwrite, or remove any file in `docs/datasets/` unless the user **explicitly** says to delete that specific file.
+- If you need a newer version, save it alongside the old one (add a version suffix like `_v2`).
+
+## What counts as "uploaded"
+
+- Files attached via `@` references (e.g. `@/Users/.../file.csv`)
+- Files the user pastes, drags, or otherwise provides during the conversation
+- PDFs opened from Cursor's workspace storage / temp paths
