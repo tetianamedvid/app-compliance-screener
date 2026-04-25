@@ -935,6 +935,24 @@ _POLICY: list[dict] = [
             (15, ["raffle", "giveaway", "sweepstakes", "ticket draw"]),
         ],
     },
+    # ── Bidding Fee / Penny Auction ───────────────────────────────────────
+    {
+        "category": "Gambling and Games of Skill",
+        "subcategory": "Bidding Fee / Penny Auction",
+        "supportability": "not_supportable",
+        "signal_ids": [],
+        "regulation": "Stripe P&R #40; FTC enforcement (penny auctions); BRAM chargeback risk",
+        "keywords": [
+            (90, ["penny auction", "bid auction", "bidding fee", "pay-per-bid",
+                   "bid pack", "buy bids", "bid credits", "bid bundle",
+                   "real-money auction", "auction house bids",
+                   "last bidder wins", "place a bid", "outbid"]),
+            (60, ["auction countdown", "auction timer", "ending auction",
+                   "bid now", "highest bidder", "live auction bids",
+                   "bid tokens", "winning bid", "bid to win"]),
+            (30, ["bid", "bids", "auction", "auctions"]),
+        ],
+    },
     # ── Sexually Oriented Dating (expanded from confirmed violations) ─────
     {
         "category": "Adult Content, Products, and Services",
@@ -1152,6 +1170,12 @@ _NEGATIVE_KEYWORDS: dict[tuple[str, str], list[tuple[int, list[str]]]] = {
     ],
     ("Gambling and Games of Skill", "Lottery / Raffle / Giveaway with Purchase"): [
         (-20, ["loyalty program", "rental", "bike", "reward points"]),
+    ],
+    ("Gambling and Games of Skill", "Bidding Fee / Penny Auction"): [
+        (-50, ["charity auction", "silent auction", "art auction", "ebay",
+                "estate sale", "government auction", "property auction",
+                "free to bid", "no bid fee", "auction house management",
+                "antique auction", "auction software"]),
     ],
     ("Illegal Products and Services", "Counterfeit / Fake IDs / Human Trafficking"): [
         (-40, ["anti-counterfeit", "verify authentic", "authentication",

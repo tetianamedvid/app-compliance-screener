@@ -397,5 +397,12 @@
     "p_and_r_ids": [
       66
     ]
+  },
+  {
+    "stripe_category": "Gambling and Games of Skill",
+    "stripe_subcategory": "Bidding Fee / Penny Auction",
+    "p_and_r_ids": [
+      40
+    ]
   }
 ]
