@@ -17,11 +17,15 @@ _pulled = False
 
 
 def _pull_from_github_once() -> None:
-    """On first load, pull findings.jsonl from GitHub via git blob API (handles >1MB files)."""
+    """On first load, pull findings.jsonl from GitHub via git blob API (handles >1MB files).
+
+    Merges remote rows into local to prevent data loss: if both local and remote
+    have entries, they are deduplicated by URL (newer entry wins, review metadata
+    preserved).
+    """
     global _pulled
     if _pulled:
         return
-    _pulled = True
 
     import os, base64, urllib.request, urllib.error
 
@@ -33,6 +37,7 @@ def _pull_from_github_once() -> None:
         except Exception:
             pass
     if not token:
+        _pulled = True
         return
 
     repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
@@ -44,7 +49,6 @@ def _pull_from_github_once() -> None:
     }
 
     try:
-        # Step 1: get file sha and size via Contents API
         api_url = f"https://api.github.com/repos/{repo}/contents/{file_path}"
         req = urllib.request.Request(api_url, headers=headers)
         with urllib.request.urlopen(req, timeout=15) as resp:
@@ -53,26 +57,87 @@ def _pull_from_github_once() -> None:
         remote_size = meta.get("size", 0)
         local_size = STORE_PATH.stat().st_size if STORE_PATH.exists() else 0
 
-        if remote_size <= local_size:
+        if remote_size == 0:
+            _pulled = True
             return
 
-        # Step 2: for files >1MB, fetch via blob API
+        # Always fetch remote content for merge (unless local is identical size)
+        if remote_size == local_size:
+            _pulled = True
+            return
+
         content_b64 = meta.get("content")
         if content_b64:
-            content = base64.b64decode(content_b64)
+            remote_bytes = base64.b64decode(content_b64)
         else:
             blob_sha = meta.get("sha", "")
             blob_url = f"https://api.github.com/repos/{repo}/git/blobs/{blob_sha}"
             req2 = urllib.request.Request(blob_url, headers=headers)
-            with urllib.request.urlopen(req2, timeout=30) as resp2:
+            with urllib.request.urlopen(req2, timeout=60) as resp2:
                 blob = json.loads(resp2.read())
-            content = base64.b64decode(blob.get("content", ""))
+            remote_bytes = base64.b64decode(blob.get("content", ""))
 
-        if content:
+        if not remote_bytes:
+            _pulled = True
+            return
+
+        remote_rows = []
+        for line in remote_bytes.decode("utf-8", errors="replace").splitlines():
+            line = line.strip()
+            if line:
+                try:
+                    remote_rows.append(json.loads(line))
+                except json.JSONDecodeError:
+                    pass
+
+        local_rows = []
+        if STORE_PATH.exists():
+            for line in STORE_PATH.read_text(encoding="utf-8").splitlines():
+                line = line.strip()
+                if line:
+                    try:
+                        local_rows.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        pass
+
+        if not local_rows:
             STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
-            STORE_PATH.write_bytes(content)
+            STORE_PATH.write_bytes(remote_bytes)
+            _pulled = True
+            return
+
+        # Merge: local as base, remote entries added/updated on top
+        merged: dict[str, dict] = {}
+        no_url: list[dict] = []
+        for row in local_rows:
+            key = _normalize_url(row.get("url", ""))
+            if key:
+                merged[key] = row
+            else:
+                no_url.append(row)
+
+        for row in remote_rows:
+            key = _normalize_url(row.get("url", ""))
+            if not key:
+                no_url.append(row)
+                continue
+            if key in merged:
+                old = merged[key]
+                for k in ("review_status", "review_note", "review_updated", "correct_verdict"):
+                    if k in old and k not in row:
+                        row[k] = old[k]
+            merged[key] = row
+
+        all_rows = list(merged.values()) + no_url
+
+        STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(STORE_PATH, "w", encoding="utf-8") as f:
+            for row in all_rows:
+                f.write(json.dumps(row, default=str) + "\n")
+
+        _pulled = True
     except Exception:
-        pass
+        pass  # don't set _pulled — retry on next load_all()
 
 
 def _normalize_url(url: str) -> str:
@@ -210,7 +275,11 @@ def _rewrite(rows: list[dict]) -> None:
 
 
 def _sync_to_github() -> None:
-    """Push findings.jsonl to GitHub so data survives Streamlit Cloud reboots."""
+    """Push findings.jsonl to GitHub so data survives Streamlit Cloud reboots.
+
+    Safety: refuses to push if the local file has fewer lines than the remote
+    (prevents accidental history wipe on cold starts with failed pulls).
+    """
     import os, base64, urllib.request, urllib.error
 
     token = os.environ.get("GITHUB_TOKEN", "")
@@ -234,19 +303,26 @@ def _sync_to_github() -> None:
 
     try:
         content = STORE_PATH.read_bytes()
-        encoded = base64.b64encode(content).decode()
+        local_line_count = content.count(b"\n")
 
         req = urllib.request.Request(api_url, headers=headers)
         with urllib.request.urlopen(req, timeout=10) as resp:
-            sha = json.loads(resp.read()).get("sha", "")
+            meta = json.loads(resp.read())
+        sha = meta.get("sha", "")
+        remote_size = meta.get("size", 0)
 
+        # Safety: if remote is significantly larger, don't overwrite
+        if remote_size > len(content) * 1.5 and remote_size > 50_000:
+            return
+
+        encoded = base64.b64encode(content).decode()
         body = json.dumps({
             "message": "Auto-save findings from live app",
             "content": encoded,
             "sha": sha,
         }).encode()
         req = urllib.request.Request(api_url, data=body, headers=headers, method="PUT")
-        urllib.request.urlopen(req, timeout=15)
+        urllib.request.urlopen(req, timeout=30)
     except Exception:
         pass
 
