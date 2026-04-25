@@ -166,36 +166,62 @@ def append(result_dict: dict) -> None:
     _rewrite(rows)
 
 
-def load_all() -> list[dict]:
-    """Load all findings from disk, deduplicated by URL (latest wins)."""
-    _pull_from_github_once()
-    if not STORE_PATH.exists():
+def _read_jsonl(path: Path) -> list[dict]:
+    if not path.exists():
         return []
-    raw: list[dict] = []
-    for line in STORE_PATH.read_text(encoding="utf-8").splitlines():
+    rows: list[dict] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line:
             try:
-                raw.append(json.loads(line))
+                rows.append(json.loads(line))
             except json.JSONDecodeError:
                 pass
+    return rows
 
+
+_ARCHIVE_PATH = PROJECT_ROOT / "data" / "findings_archive.jsonl"
+
+
+def load_all() -> list[dict]:
+    """Load all findings from disk, deduplicated by URL (latest wins).
+
+    Merges from findings_archive.jsonl (historical backup) to prevent
+    data loss when the main file gets truncated on cold starts.
+    """
+    _pull_from_github_once()
+
+    main_rows = _read_jsonl(STORE_PATH)
+    archive_rows = _read_jsonl(_ARCHIVE_PATH)
+
+    # Merge: archive as base, main overwrites (main has latest data)
     seen: dict[str, int] = {}
     deduped: list[dict] = []
-    for row in raw:
+
+    for row in archive_rows:
+        key = _normalize_url(row.get("url", ""))
+        if not key:
+            deduped.append(row)
+            continue
+        if key not in seen:
+            seen[key] = len(deduped)
+            deduped.append(row)
+
+    for row in main_rows:
         key = _normalize_url(row.get("url", ""))
         if not key:
             deduped.append(row)
             continue
         if key in seen:
             old = deduped[seen[key]]
-            for k in ("review_status", "review_note", "review_updated"):
+            for k in ("review_status", "review_note", "review_updated", "correct_verdict"):
                 if k in old and k not in row:
                     row[k] = old[k]
             deduped[seen[key]] = row
         else:
             seen[key] = len(deduped)
             deduped.append(row)
+
     return deduped
 
 
