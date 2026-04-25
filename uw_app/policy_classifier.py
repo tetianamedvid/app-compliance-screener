@@ -950,7 +950,7 @@ _POLICY: list[dict] = [
             (60, ["auction countdown", "auction timer", "ending auction",
                    "bid now", "highest bidder", "live auction bids",
                    "bid tokens", "winning bid", "bid to win"]),
-            (30, ["bid", "auction"]),
+            (30, ["bid", "bids", "auction", "auctions"]),
         ],
     },
     # ── Sexually Oriented Dating (expanded from confirmed violations) ─────
