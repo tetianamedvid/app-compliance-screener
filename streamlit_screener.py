@@ -184,6 +184,11 @@ if st.session_state.get("last_results"):
 # ── Findings Table ─────────────────────────────────────────────────────────────
 all_findings = findings_store.load_all()
 
+_dbg_store = findings_store.STORE_PATH
+_dbg_exists = _dbg_store.exists()
+_dbg_size = _dbg_store.stat().st_size if _dbg_exists else 0
+st.caption(f"📂 Store: {_dbg_size:,} bytes, {len(all_findings)} entries loaded | build 2026-04-25a")
+
 if all_findings:
     hdr1, hdr2 = st.columns([3, 1])
     with hdr1:
