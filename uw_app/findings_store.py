@@ -14,6 +14,95 @@ STORE_PATH = PROJECT_ROOT / "data" / "findings.jsonl"
 
 _lock = threading.Lock()
 _pulled = False
+_CONTENTS_API_MAX_BYTES = 900_000  # GitHub Contents API hard limit ~1MB
+
+
+def _github_token() -> str:
+    import os
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if token:
+        return token
+    try:
+        import streamlit as st
+        return st.secrets.get("GITHUB_TOKEN", "")
+    except Exception:
+        return ""
+
+
+def _github_repo() -> str:
+    import os
+    return os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
+
+
+def _github_headers(token: str) -> dict:
+    return {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "uw-app",
+    }
+
+
+def _parse_findings_bytes(data: bytes) -> list[dict]:
+    rows: list[dict] = []
+    for line in data.decode("utf-8", errors="replace").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError:
+            pass
+    return rows
+
+
+def _unique_url_count(rows: list[dict]) -> int:
+    return len({_normalize_url(r.get("url", "")) for r in rows if _normalize_url(r.get("url", ""))})
+
+
+def _merge_rows(local_rows: list[dict], remote_rows: list[dict]) -> list[dict]:
+    merged: dict[str, dict] = {}
+    no_url: list[dict] = []
+    for row in local_rows:
+        key = _normalize_url(row.get("url", ""))
+        if key:
+            merged[key] = row
+        else:
+            no_url.append(row)
+    for row in remote_rows:
+        key = _normalize_url(row.get("url", ""))
+        if not key:
+            no_url.append(row)
+            continue
+        if key in merged:
+            old = merged[key]
+            for k in ("review_status", "review_note", "review_updated", "correct_verdict"):
+                if k in old and k not in row:
+                    row[k] = old[k]
+        merged[key] = row
+    return list(merged.values()) + no_url
+
+
+def _fetch_remote_bytes(token: str, repo: str, file_path: str = "data/findings.jsonl") -> tuple[bytes, dict]:
+    """Return (file bytes, contents API metadata). Uses blob API for large files."""
+    import base64
+    import urllib.request
+
+    headers = _github_headers(token)
+    api_url = f"https://api.github.com/repos/{repo}/contents/{file_path}"
+    req = urllib.request.Request(api_url, headers=headers)
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        meta = json.loads(resp.read())
+
+    content_b64 = meta.get("content")
+    if content_b64:
+        return base64.b64decode(content_b64), meta
+
+    blob_sha = meta.get("sha", "")
+    blob_url = f"https://api.github.com/repos/{repo}/git/blobs/{blob_sha}"
+    req2 = urllib.request.Request(blob_url, headers=headers)
+    with urllib.request.urlopen(req2, timeout=60) as resp2:
+        blob = json.loads(resp2.read())
+    return base64.b64decode(blob.get("content", "")), meta
 
 
 def _pull_from_github_once() -> None:
@@ -27,78 +116,22 @@ def _pull_from_github_once() -> None:
     if _pulled:
         return
 
-    import os, base64, urllib.request, urllib.error
-
-    token = os.environ.get("GITHUB_TOKEN", "")
-    if not token:
-        try:
-            import streamlit as st
-            token = st.secrets.get("GITHUB_TOKEN", "")
-        except Exception:
-            pass
+    token = _github_token()
     if not token:
         _pulled = True
         return
 
-    repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
+    repo = _github_repo()
     file_path = "data/findings.jsonl"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "uw-app",
-    }
 
     try:
-        api_url = f"https://api.github.com/repos/{repo}/contents/{file_path}"
-        req = urllib.request.Request(api_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            meta = json.loads(resp.read())
-
-        remote_size = meta.get("size", 0)
-        local_size = STORE_PATH.stat().st_size if STORE_PATH.exists() else 0
-
-        if remote_size == 0:
-            _pulled = True
-            return
-
-        # Always fetch remote content for merge (unless local is identical size)
-        if remote_size == local_size:
-            _pulled = True
-            return
-
-        content_b64 = meta.get("content")
-        if content_b64:
-            remote_bytes = base64.b64decode(content_b64)
-        else:
-            blob_sha = meta.get("sha", "")
-            blob_url = f"https://api.github.com/repos/{repo}/git/blobs/{blob_sha}"
-            req2 = urllib.request.Request(blob_url, headers=headers)
-            with urllib.request.urlopen(req2, timeout=60) as resp2:
-                blob = json.loads(resp2.read())
-            remote_bytes = base64.b64decode(blob.get("content", ""))
-
+        remote_bytes, meta = _fetch_remote_bytes(token, repo, file_path)
         if not remote_bytes:
             _pulled = True
             return
 
-        remote_rows = []
-        for line in remote_bytes.decode("utf-8", errors="replace").splitlines():
-            line = line.strip()
-            if line:
-                try:
-                    remote_rows.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-
-        local_rows = []
-        if STORE_PATH.exists():
-            for line in STORE_PATH.read_text(encoding="utf-8").splitlines():
-                line = line.strip()
-                if line:
-                    try:
-                        local_rows.append(json.loads(line))
-                    except json.JSONDecodeError:
-                        pass
+        remote_rows = _parse_findings_bytes(remote_bytes)
+        local_rows = _parse_findings_bytes(STORE_PATH.read_bytes()) if STORE_PATH.exists() else []
 
         if not local_rows:
             STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -106,30 +139,13 @@ def _pull_from_github_once() -> None:
             _pulled = True
             return
 
-        # Merge: local as base, remote entries added/updated on top
-        merged: dict[str, dict] = {}
-        no_url: list[dict] = []
-        for row in local_rows:
-            key = _normalize_url(row.get("url", ""))
-            if key:
-                merged[key] = row
-            else:
-                no_url.append(row)
+        local_urls = _unique_url_count(local_rows)
+        remote_urls = _unique_url_count(remote_rows)
+        if local_urls == remote_urls and len(local_rows) == len(remote_rows):
+            _pulled = True
+            return
 
-        for row in remote_rows:
-            key = _normalize_url(row.get("url", ""))
-            if not key:
-                no_url.append(row)
-                continue
-            if key in merged:
-                old = merged[key]
-                for k in ("review_status", "review_note", "review_updated", "correct_verdict"):
-                    if k in old and k not in row:
-                        row[k] = old[k]
-            merged[key] = row
-
-        all_rows = list(merged.values()) + no_url
-
+        all_rows = _merge_rows(local_rows, remote_rows)
         STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(STORE_PATH, "w", encoding="utf-8") as f:
             for row in all_rows:
@@ -300,47 +316,105 @@ def _rewrite(rows: list[dict]) -> None:
     _sync_to_github()
 
 
+def _sync_to_github_git_api(content: bytes, token: str, repo: str,
+                            path: str = "data/findings.jsonl",
+                            branch: str = "main") -> None:
+    """Push large findings files via Git Data API (Contents API limit is ~1MB)."""
+    import base64
+    import urllib.request
+
+    headers = _github_headers(token)
+
+    ref_url = f"https://api.github.com/repos/{repo}/git/ref/heads/{branch}"
+    req = urllib.request.Request(ref_url, headers=headers)
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        ref = json.loads(resp.read())
+    head_sha = ref["object"]["sha"]
+
+    commit_url = f"https://api.github.com/repos/{repo}/git/commits/{head_sha}"
+    req = urllib.request.Request(commit_url, headers=headers)
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        head_commit = json.loads(resp.read())
+    base_tree_sha = head_commit["tree"]["sha"]
+
+    blob_body = json.dumps({
+        "content": base64.b64encode(content).decode(),
+        "encoding": "base64",
+    }).encode()
+    blob_url = f"https://api.github.com/repos/{repo}/git/blobs"
+    req = urllib.request.Request(blob_url, data=blob_body, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        blob = json.loads(resp.read())
+
+    tree_body = json.dumps({
+        "base_tree": base_tree_sha,
+        "tree": [{
+            "path": path,
+            "mode": "100644",
+            "type": "blob",
+            "sha": blob["sha"],
+        }],
+    }).encode()
+    tree_url = f"https://api.github.com/repos/{repo}/git/trees"
+    req = urllib.request.Request(tree_url, data=tree_body, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        tree = json.loads(resp.read())
+
+    commit_body = json.dumps({
+        "message": "Auto-save findings from live app",
+        "tree": tree["sha"],
+        "parents": [head_sha],
+    }).encode()
+    commit_url = f"https://api.github.com/repos/{repo}/git/commits"
+    req = urllib.request.Request(commit_url, data=commit_body, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        new_commit = json.loads(resp.read())
+
+    ref_body = json.dumps({"sha": new_commit["sha"], "force": False}).encode()
+    req = urllib.request.Request(ref_url, data=ref_body, headers=headers, method="PATCH")
+    urllib.request.urlopen(req, timeout=30)
+
+
 def _sync_to_github() -> None:
     """Push findings.jsonl to GitHub so data survives Streamlit Cloud reboots.
 
-    Safety: refuses to push if the local file has fewer lines than the remote
-    (prevents accidental history wipe on cold starts with failed pulls).
+    Safety: refuses to push if the local store has fewer unique URLs than remote.
+    Uses Git Data API for files larger than the Contents API limit (~1MB).
     """
-    import os, base64, urllib.request, urllib.error
+    import base64
+    import urllib.request
 
-    token = os.environ.get("GITHUB_TOKEN", "")
-    if not token:
-        try:
-            import streamlit as st
-            token = st.secrets.get("GITHUB_TOKEN", "")
-        except Exception:
-            pass
+    token = _github_token()
     if not token:
         return
 
-    repo = os.environ.get("GITHUB_REPO", "tetianamedvid/app-compliance-screener")
+    repo = _github_repo()
     path = "data/findings.jsonl"
-    api_url = f"https://api.github.com/repos/{repo}/contents/{path}"
-    headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "uw-app",
-    }
+    headers = _github_headers(token)
 
     try:
         content = STORE_PATH.read_bytes()
-        local_line_count = content.count(b"\n")
+        local_rows = _parse_findings_bytes(content)
+        local_urls = _unique_url_count(local_rows)
 
-        req = urllib.request.Request(api_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            meta = json.loads(resp.read())
-        sha = meta.get("sha", "")
-        remote_size = meta.get("size", 0)
+        remote_urls = 0
+        meta: dict = {}
+        try:
+            remote_bytes, meta = _fetch_remote_bytes(token, repo, path)
+            remote_rows = _parse_findings_bytes(remote_bytes) if remote_bytes else []
+            remote_urls = _unique_url_count(remote_rows)
+        except Exception:
+            remote_bytes = b""
 
-        # Safety: if remote is significantly larger, don't overwrite
-        if remote_size > len(content) * 1.5 and remote_size > 50_000:
+        if remote_urls > local_urls:
+            return  # never wipe a larger remote history with a smaller local cache
+
+        if len(content) > _CONTENTS_API_MAX_BYTES:
+            _sync_to_github_git_api(content, token, repo, path)
             return
 
+        api_url = f"https://api.github.com/repos/{repo}/contents/{path}"
+        sha = meta.get("sha", "")
         encoded = base64.b64encode(content).decode()
         body = json.dumps({
             "message": "Auto-save findings from live app",
