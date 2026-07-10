@@ -194,6 +194,47 @@ FINDINGS_COLUMN_CONFIG = {
 _DISABLED_COLS = ["URL", "Name", "Verdict", "Conf", "P&R Index",
                   "Stripe Category", "Subcategory", "Description", "When"]
 
+DEFAULT_PAGE_SIZE = 100
+
+
+def _paginate(items: list, page: int, page_size: int) -> tuple[list, int, int]:
+    """Return (page_slice, total_pages, safe_page)."""
+    total = len(items)
+    if total == 0:
+        return [], 0, 0
+    total_pages = max(1, (total + page_size - 1) // page_size)
+    safe_page = max(0, min(page, total_pages - 1))
+    start = safe_page * page_size
+    return items[start:start + page_size], total_pages, safe_page
+
+
+def render_pagination_controls(
+    total_items: int,
+    page: int,
+    page_size: int,
+    *,
+    key_prefix: str = "pg",
+) -> int:
+    """Render prev/next + page info. Returns the active page index."""
+    if total_items <= page_size:
+        return 0
+
+    total_pages = max(1, (total_items + page_size - 1) // page_size)
+    safe_page = max(0, min(page, total_pages - 1))
+    start = safe_page * page_size + 1
+    end = min((safe_page + 1) * page_size, total_items)
+
+    c1, c2, c3 = st.columns([1, 2, 1])
+    with c1:
+        if st.button("← Prev", key=f"{key_prefix}_prev", disabled=safe_page <= 0):
+            return safe_page - 1
+    with c2:
+        st.caption(f"Rows {start}–{end} of {total_items}  ·  page {safe_page + 1}/{total_pages}")
+    with c3:
+        if st.button("Next →", key=f"{key_prefix}_next", disabled=safe_page >= total_pages - 1):
+            return safe_page + 1
+    return safe_page
+
 
 @st.dialog("Page Content", width="large")
 def _show_content_dialog(name: str, url: str, summary: str,
@@ -213,8 +254,10 @@ def _show_content_dialog(name: str, url: str, summary: str,
 
 def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
                           key: str = "findings_table",
-                          findings: list[dict] | None = None) -> None:
-    """Render editable findings table with per-row page content toggle."""
+                          findings: list[dict] | None = None,
+                          page: int = 0,
+                          page_size: int = DEFAULT_PAGE_SIZE) -> int:
+    """Render editable findings table with pagination. Returns active page index."""
     sorted_rows = findings_store.sort_findings(findings) if findings else None
     content_by_url: dict[str, dict] = {}
     if sorted_rows:
@@ -223,30 +266,41 @@ def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
             if u:
                 content_by_url[u] = f
 
+    page_rows, total_pages, safe_page = _paginate(
+        list(range(len(df))), page, page_size,
+    )
+    page_df = df.iloc[page_rows].reset_index(drop=True) if page_rows else df.iloc[0:0]
+    page_urls = [url_list[i] for i in page_rows]
+
+    if len(df) > page_size:
+        new_page = render_pagination_controls(len(df), safe_page, page_size, key_prefix=key)
+        if new_page != safe_page:
+            return new_page
+
     edited_df = st.data_editor(
-        df,
+        page_df,
         width="stretch",
-        height=min(700, 60 + 35 * len(df)),
+        height=min(700, 60 + 35 * len(page_df)),
         column_config=FINDINGS_COLUMN_CONFIG,
         disabled=_DISABLED_COLS,
         hide_index=True,
         num_rows="fixed",
-        key=key,
+        key=f"{key}_p{safe_page}",
     )
-    for idx in range(len(df)):
-        old_review = str(df.at[idx, "Review"])
-        old_note = str(df.at[idx, "Note"])
+    for idx in range(len(page_df)):
+        old_review = str(page_df.at[idx, "Review"])
+        old_note = str(page_df.at[idx, "Note"])
         new_review = str(edited_df.at[idx, "Review"])
         new_note = str(edited_df.at[idx, "Note"])
         if new_review != old_review or new_note != old_note:
-            url = url_list[idx]
+            url = page_urls[idx]
             findings_store.update_review(url, new_review, new_note)
 
     if not content_by_url:
-        return
+        return safe_page
 
     options_map: dict[str, str] = {}
-    for u in url_list:
+    for u in page_urls:
         norm = u.strip().rstrip("/").lower()
         f = content_by_url.get(norm)
         if f and f.get("page_content_summary"):
@@ -254,7 +308,7 @@ def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
             options_map[label] = norm
 
     if not options_map:
-        return
+        return safe_page
 
     st.markdown("")
     c_left, c_right = st.columns([3, 1])
@@ -284,6 +338,8 @@ def render_findings_table(df: pd.DataFrame, url_list: list[str], *,
                 f.get("overall_color") or "gray",
             )
 
+    return safe_page
+
 
 def _fmt_list(items: list | None, limit: int = 8) -> str:
     if not items:
@@ -291,10 +347,22 @@ def _fmt_list(items: list | None, limit: int = 8) -> str:
     return ", ".join(str(x) for x in items[:limit])
 
 
-def render_findings_rows(findings: list[dict], *, key_prefix: str = "fr") -> None:
-    """Render each finding as a compact row with a per-row expander for details + inline review."""
+def render_findings_rows(findings: list[dict], *, key_prefix: str = "fr",
+                         page: int = 0,
+                         page_size: int = DEFAULT_PAGE_SIZE) -> int:
+    """Render each finding as a compact row. Returns active page index."""
     sorted_rows = findings_store.sort_findings(findings)
-    for i, f in enumerate(sorted_rows):
+    page_rows, _, safe_page = _paginate(sorted_rows, page, page_size)
+
+    if len(sorted_rows) > page_size:
+        new_page = render_pagination_controls(
+            len(sorted_rows), safe_page, page_size, key_prefix=f"{key_prefix}_pg",
+        )
+        if new_page != safe_page:
+            return new_page
+        page_rows, _, safe_page = _paginate(sorted_rows, new_page, page_size)
+
+    for i, f in enumerate(page_rows):
         vrd = f.get("overall_verdict", "")
         icon = verdict_icon(vrd)
         name = f.get("app_name") or "—"
@@ -446,6 +514,8 @@ def render_findings_rows(findings: list[dict], *, key_prefix: str = "fr") -> Non
             screened = f.get("screened_at", "")
             if screened:
                 st.caption(f"Screened: {screened}")
+
+    return safe_page
 
 
 def render_policy_matches(matches: list[dict], *, expanded: bool | None = None) -> None:

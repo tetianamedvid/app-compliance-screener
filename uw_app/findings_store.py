@@ -5,7 +5,7 @@ Supports append, query, export. Thread-safe.
 from __future__ import annotations
 import json
 import threading
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
 
@@ -160,26 +160,52 @@ def _normalize_url(url: str) -> str:
     return (url or "").strip().rstrip("/").lower()
 
 
-def append(result_dict: dict) -> None:
-    """Save a screening result. If the same URL was screened before, the old
-    entry is replaced (preserving any existing review_status / review_note)."""
-    url = _normalize_url(result_dict.get("url", ""))
-    rows = load_all()
+def make_batch_id() -> str:
+    """Unique id for a screening run (used to filter UI to current batch)."""
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    replaced = False
+
+_REVIEW_PRESERVE_KEYS = (
+    "review_status", "review_note", "review_updated", "correct_verdict",
+)
+
+
+def _merge_row_into_store(rows: list[dict], result_dict: dict) -> None:
+    """Upsert one result into an in-memory row list (preserves review metadata)."""
+    url = _normalize_url(result_dict.get("url", ""))
+    if not url:
+        rows.append(result_dict)
+        return
+
     for i, row in enumerate(rows):
         if _normalize_url(row.get("url", "")) == url:
-            for key in ("review_status", "review_note", "review_updated"):
+            for key in _REVIEW_PRESERVE_KEYS:
                 if key in row and key not in result_dict:
                     result_dict[key] = row[key]
             rows[i] = result_dict
-            replaced = True
-            break
+            return
+    rows.append(result_dict)
 
-    if not replaced:
-        rows.append(result_dict)
 
-    _rewrite(rows)
+def append_many(results: list[dict], *, sync_github: bool = True) -> int:
+    """Save multiple screening results in one read/write cycle.
+
+    Returns the number of rows written/updated.
+    """
+    if not results:
+        return 0
+
+    rows = load_all()
+    for result_dict in results:
+        _merge_row_into_store(rows, result_dict)
+    _rewrite(rows, sync_github=sync_github)
+    return len(results)
+
+
+def append(result_dict: dict) -> None:
+    """Save a screening result. If the same URL was screened before, the old
+    entry is replaced (preserving any existing review_status / review_note)."""
+    append_many([result_dict])
 
 
 def _read_jsonl(path: Path) -> list[dict]:
@@ -239,6 +265,58 @@ def load_all() -> list[dict]:
             deduped.append(row)
 
     return deduped
+
+
+def load_recent(
+    *,
+    batch_id: str | None = None,
+    since: date | datetime | str | None = None,
+    include_archive: bool = False,
+) -> list[dict]:
+    """Load findings for UI display — fast path that skips archive by default.
+
+    Args:
+        batch_id: Only rows from this screening run.
+        since: Only rows screened on/after this date (ISO date or datetime).
+        include_archive: Merge findings_archive.jsonl (slow; use for full history).
+    """
+    _pull_from_github_once()
+
+    if include_archive:
+        rows = load_all()
+    else:
+        rows = _read_jsonl(STORE_PATH)
+
+    if batch_id:
+        rows = [r for r in rows if r.get("batch_id") == batch_id]
+
+    if since is not None:
+        if isinstance(since, datetime):
+            since_d = since.date()
+        elif isinstance(since, date):
+            since_d = since
+        else:
+            since_d = date.fromisoformat(str(since)[:10])
+        rows = [
+            r for r in rows
+            if r.get("screened_at")
+            and date.fromisoformat(r["screened_at"][:10]) >= since_d
+        ]
+
+    return rows
+
+
+def store_total_count(*, include_archive: bool = False) -> int:
+    """Row count without building full merge (for captions)."""
+    _pull_from_github_once()
+    n = 0
+    if STORE_PATH.exists():
+        with STORE_PATH.open(encoding="utf-8") as f:
+            n = sum(1 for line in f if line.strip())
+    if include_archive and _ARCHIVE_PATH.exists():
+        with _ARCHIVE_PATH.open(encoding="utf-8") as f:
+            n += sum(1 for line in f if line.strip())
+    return n
 
 
 def count() -> int:
@@ -306,14 +384,15 @@ def sort_findings(rows: list[dict]) -> list[dict]:
     )
 
 
-def _rewrite(rows: list[dict]) -> None:
+def _rewrite(rows: list[dict], *, sync_github: bool = True) -> None:
     """Rewrite entire store (used for updates)."""
     with _lock:
         STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(STORE_PATH, "w", encoding="utf-8") as f:
             for row in rows:
                 f.write(json.dumps(row, default=str) + "\n")
-    _sync_to_github()
+    if sync_github:
+        _sync_to_github()
 
 
 def _sync_to_github_git_api(content: bytes, token: str, repo: str,
@@ -448,19 +527,22 @@ def export_csv(path: Optional[Path] = None) -> Path:
 _CSV_FIELDS = [
     "url", "app_id", "app_name", "overall_verdict", "overall_color",
     "confidence", "top_category", "top_subcategory", "top_p_and_r_name",
-    "app_description", "screened_at", "elapsed_seconds",
+    "app_description", "screened_at", "elapsed_seconds", "batch_id",
     "review_status", "review_note", "correct_verdict",
 ]
 
 
-def export_csv_bytes() -> bytes:
-    """Return findings as CSV bytes for st.download_button."""
+def export_csv_bytes(rows: list[dict] | None = None) -> bytes:
+    """Return findings as CSV bytes for st.download_button.
+
+    If rows is provided, export only that subset; otherwise export full store.
+    """
     import csv
     import io
-    rows = sort_findings(load_all())
+    data = sort_findings(rows if rows is not None else load_all())
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=_CSV_FIELDS, extrasaction="ignore")
     w.writeheader()
-    for row in rows:
+    for row in data:
         w.writerow(row)
     return buf.getvalue().encode("utf-8")

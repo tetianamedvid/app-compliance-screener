@@ -2,7 +2,9 @@
 App Compliance Screener — paste URL(s), get instant verdicts, build findings table.
 Run:  streamlit run streamlit_screener.py --server.port 8502
 """
+import os
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -28,6 +30,9 @@ except Exception as _import_err:
     import traceback
     st.code(traceback.format_exc())
     st.stop()
+
+CHUNK_SIZE = 25
+LARGE_BATCH_WARN = 100
 
 st.set_page_config(
     page_title="App Compliance Screener",
@@ -66,9 +71,120 @@ def _get_trino_ctx(url: str) -> dict:
     key = (url or "").strip().rstrip("/").lower()
     return ctx.get(key, {})
 
+
+def _batch_workers(n_urls: int) -> int:
+    """Fewer workers on large batches / cloud to reduce memory pressure."""
+    on_cloud = bool(
+        os.environ.get("STREAMLIT_RUNTIME_ENV")
+        or os.environ.get("STREAMLIT_SHARING_MODE")
+    )
+    if on_cloud or n_urls > LARGE_BATCH_WARN:
+        return 4
+    return 6
+
+
+def _result_to_store_dict(r: ScreenResult, batch_id: str) -> dict:
+    d = r.to_dict()
+    for k in ("_body_text", "_deep_text"):
+        d.pop(k, None)
+    if d.get("app_description"):
+        d["app_description"] = d["app_description"][:300]
+    d.setdefault("review_status", "Pending")
+    d.setdefault("review_note", "")
+    d["batch_id"] = batch_id
+    return d
+
+
+def _normalize_urls(raw_urls: list[str]) -> list[str]:
+    urls = []
+    for u in raw_urls:
+        u = u.strip()
+        if not u:
+            continue
+        if not u.startswith("http"):
+            u = "https://" + u
+        urls.append(u)
+    return urls
+
+
+def _trino_rows_for_urls(urls: list[str]) -> list[dict]:
+    rows = []
+    for u in urls:
+        ctx = _get_trino_ctx(u)
+        if ctx:
+            rows.append({"url": u, **ctx})
+    return rows
+
+
+def _process_batch_chunk(job: dict) -> None:
+    """Screen one chunk and persist. Updates job in session_state."""
+    urls: list[str] = job["urls"]
+    index: int = job["index"]
+    chunk_size: int = job.get("chunk_size", CHUNK_SIZE)
+    batch_id: str = job["batch_id"]
+    deep: bool = job.get("deep", False)
+
+    chunk_urls = urls[index:index + chunk_size]
+    if not chunk_urls:
+        job["status"] = "complete"
+        return
+
+    trino_rows = _trino_rows_for_urls(chunk_urls)
+    workers = _batch_workers(len(urls))
+    results = screen_batch(
+        chunk_urls,
+        deep=deep,
+        max_workers=workers,
+        trino_rows=trino_rows if trino_rows else None,
+    )
+
+    store_rows = [_result_to_store_dict(r, batch_id) for r in results]
+    findings_store.append_many(store_rows)
+
+    job.setdefault("results", []).extend(results)
+    job["index"] = index + len(chunk_urls)
+    if job["index"] >= len(urls):
+        job["status"] = "complete"
+        st.session_state["active_batch_id"] = batch_id
+        st.session_state["last_results"] = job["results"]
+        st.session_state["findings_view"] = "Current batch"
+
+
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.title("🛡️ App Compliance Screener")
-st.caption("Paste any app URL → instant scrape + policy classification → verdict. All results saved to findings table.")
+st.caption(
+    "Paste any app URL → instant scrape + policy classification → verdict. "
+    "Large batches run in chunks so Cloud does not time out."
+)
+
+# ── Active batch job (chunked runner) ─────────────────────────────────────────
+batch_job = st.session_state.get("batch_job")
+if batch_job and batch_job.get("status") == "running":
+    total = len(batch_job["urls"])
+    done = batch_job.get("index", 0)
+    st.info(f"Batch screening in progress: **{done} / {total}** URLs")
+    st.progress(min(done / total, 1.0) if total else 0.0)
+
+    stop_col, _ = st.columns([1, 4])
+    with stop_col:
+        if st.button("⏹ Stop batch", key="stop_batch"):
+            batch_job["status"] = "stopped"
+            if batch_job.get("results"):
+                st.session_state["last_results"] = batch_job["results"]
+                st.session_state["active_batch_id"] = batch_job.get("batch_id")
+            st.rerun()
+
+    _process_batch_chunk(batch_job)
+    if batch_job.get("status") == "running":
+        st.rerun()
+    elif batch_job.get("status") == "complete":
+        st.success(f"Batch complete — {len(batch_job.get('results', []))} apps screened.")
+        del st.session_state["batch_job"]
+        st.rerun()
+    elif batch_job.get("status") == "stopped":
+        st.warning("Batch stopped. Partial results were saved.")
+        del st.session_state["batch_job"]
+        st.rerun()
 
 # ── Screen URL(s) — always at the top ─────────────────────────────────────────
 with st.form("screen_form", clear_on_submit=False):
@@ -80,49 +196,49 @@ with st.form("screen_form", clear_on_submit=False):
     )
     col1, col2 = st.columns([1, 3])
     with col1:
-        deep_mode = st.checkbox("Deep scrape (Playwright)", value=True,
-                                help="Off = fast API-only (~2-3s). On = full browser render (~8-15s).")
+        deep_mode = st.checkbox(
+            "Deep scrape (Playwright)", value=False,
+            help="Off = fast API-only (~2-3s). On = full browser render (~8-15s). "
+                 "Turn off for bulk runs (100+ URLs).",
+        )
     with col2:
         submitted = st.form_submit_button("🔍 Screen", type="primary", use_container_width=True)
 
-if submitted:
+if submitted and not (batch_job and batch_job.get("status") == "running"):
     raw_urls = [u.strip() for u in (urls_input or "").splitlines() if u.strip()]
     if not raw_urls:
         st.warning("Paste at least one URL.")
     else:
-        urls = []
-        for u in raw_urls:
-            if not u.startswith("http"):
-                u = "https://" + u
-            urls.append(u)
+        urls = _normalize_urls(raw_urls)
+
+        if len(urls) > LARGE_BATCH_WARN and deep_mode:
+            st.warning(
+                f"You pasted **{len(urls)}** URLs with deep scrape on. "
+                "For bulk runs, turn off **Deep scrape** — otherwise this may take hours."
+            )
+
+        batch_id = findings_store.make_batch_id()
 
         if len(urls) == 1:
             ctx = _get_trino_ctx(urls[0])
             with st.spinner(f"Screening {urls[0]}…"):
                 result = screen(urls[0], deep=deep_mode, **ctx)
             st.session_state["last_results"] = [result]
+            findings_store.append_many([_result_to_store_dict(result, batch_id)])
+            st.session_state["active_batch_id"] = batch_id
+            st.session_state["findings_view"] = "Current batch"
+            st.rerun()
         else:
-            trino_rows = []
-            for u in urls:
-                ctx = _get_trino_ctx(u)
-                if ctx:
-                    trino_rows.append({"url": u, **ctx})
-            with st.spinner(f"Screening {len(urls)} URLs in parallel…"):
-                results = screen_batch(urls, deep=deep_mode,
-                                       trino_rows=trino_rows if trino_rows else None)
-            st.session_state["last_results"] = results
-
-        for r in st.session_state["last_results"]:
-            d = r.to_dict()
-            for k in ("_body_text", "_deep_text"):
-                d.pop(k, None)
-            if d.get("app_description"):
-                d["app_description"] = d["app_description"][:300]
-            d.setdefault("review_status", "Pending")
-            d.setdefault("review_note", "")
-            findings_store.append(d)
-
-        st.rerun()
+            st.session_state["batch_job"] = {
+                "urls": urls,
+                "batch_id": batch_id,
+                "index": 0,
+                "chunk_size": CHUNK_SIZE,
+                "deep": deep_mode,
+                "status": "running",
+                "results": [],
+            }
+            st.rerun()
 
 # ── Last screening results (compact cards) ────────────────────────────────────
 if st.session_state.get("last_results"):
@@ -130,7 +246,11 @@ if st.session_state.get("last_results"):
     st.markdown("---")
     st.subheader(f"Latest screening — {len(results)} app(s)")
 
-    for r in results:
+    show_cards = min(len(results), 50)
+    if len(results) > show_cards:
+        st.caption(f"Showing first {show_cards} of {len(results)} — use Findings Table for full list.")
+
+    for r in results[:show_cards]:
         color_class = f"verdict-{r.overall_color}"
         badge = f'<span class="verdict-badge {color_class}">{r.overall_verdict}</span>'
 
@@ -182,49 +302,105 @@ if st.session_state.get("last_results"):
         st.markdown("---")
 
 # ── Findings Table ─────────────────────────────────────────────────────────────
-all_findings = findings_store.load_all()
-
+store_total = findings_store.store_total_count()
 _dbg_store = findings_store.STORE_PATH
 _dbg_exists = _dbg_store.exists()
 _dbg_size = _dbg_store.stat().st_size if _dbg_exists else 0
-st.caption(f"📂 Store: {_dbg_size:,} bytes, {len(all_findings)} entries loaded | build 2026-04-25a")
 
-if all_findings:
+active_batch = st.session_state.get("active_batch_id")
+view_options = ["Current batch", "Today", "All history"]
+default_view = st.session_state.get("findings_view")
+if default_view not in view_options:
+    default_view = "Current batch" if active_batch else "Today"
+
+view_col, cap_col = st.columns([2, 3])
+with view_col:
+    findings_view = st.radio(
+        "Show findings",
+        view_options,
+        index=view_options.index(default_view),
+        horizontal=True,
+        key="findings_view_radio",
+    )
+st.session_state["findings_view"] = findings_view
+
+if findings_view == "Current batch":
+    if active_batch:
+        display_findings = findings_store.load_recent(batch_id=active_batch)
+    else:
+        display_findings = []
+elif findings_view == "Today":
+    display_findings = findings_store.load_recent(since=date.today())
+else:
+    display_findings = findings_store.load_all()
+
+st.caption(
+    f"📂 Store: {_dbg_size:,} bytes · {store_total:,} total on disk · "
+    f"viewing **{findings_view.lower()}** ({len(display_findings)} rows) · build 2026-07-10"
+)
+
+if display_findings:
     hdr1, hdr2 = st.columns([3, 1])
     with hdr1:
         st.subheader("📋 Findings Table")
     with hdr2:
-        detailed_view = st.toggle("Detailed view", value=False, key="detailed_toggle",
-                                  help="Toggle between compact table and per-row expandable details.")
-    st.caption("All screened apps — persistent across sessions. Sort, filter, review.")
+        detailed_view = st.toggle(
+            "Detailed view", value=False, key="detailed_toggle",
+            help="Toggle between compact table and per-row expandable details.",
+        )
+    st.caption("Sort, filter, and review. Large lists are paginated (100 per page).")
 
-    render_kpis(all_findings)
+    render_kpis(display_findings)
     st.markdown("")
 
-    filtered = render_filters(all_findings, key_prefix="ft")
-    total = len(all_findings)
-    st.caption(f"Showing {len(filtered)} of {total}")
+    filtered = render_filters(display_findings, key_prefix="ft")
+    st.caption(f"Showing {len(filtered)} of {len(display_findings)} in this view")
+
+    if "findings_page" not in st.session_state:
+        st.session_state["findings_page"] = 0
 
     if detailed_view:
-        render_findings_rows(filtered)
+        new_page = render_findings_rows(
+            filtered, key_prefix="fr", page=st.session_state["findings_page"],
+        )
     else:
         df, url_list = build_findings_df(filtered)
-        render_findings_table(df, url_list, key="findings_table", findings=filtered)
+        new_page = render_findings_table(
+            df, url_list, key="findings_table", findings=filtered,
+            page=st.session_state["findings_page"],
+        )
 
-    bc1, bc2 = st.columns(2)
+    if new_page != st.session_state["findings_page"]:
+        st.session_state["findings_page"] = new_page
+        st.rerun()
+
+    bc1, bc2, bc3 = st.columns(3)
     with bc1:
-        csv_data = findings_store.export_csv_bytes()
+        view_csv = findings_store.export_csv_bytes(filtered)
         st.download_button(
-            label="📥 Export findings to CSV",
-            data=csv_data,
-            file_name="findings_export.csv",
+            label="📥 Download current view (CSV)",
+            data=view_csv,
+            file_name="findings_view.csv",
             mime="text/csv",
-            key="export_btn",
+            key="export_view_btn",
         )
     with bc2:
         if st.button("🗑️ Clear last results", key="clear_btn"):
             if "last_results" in st.session_state:
                 del st.session_state["last_results"]
             st.rerun()
+    with bc3:
+        with st.expander("Export full history"):
+            full_csv = findings_store.export_csv_bytes()
+            st.download_button(
+                label="📥 Download all findings (CSV)",
+                data=full_csv,
+                file_name="findings_export.csv",
+                mime="text/csv",
+                key="export_full_btn",
+            )
 else:
-    st.info("No findings yet. Screen a URL above to get started.")
+    if findings_view == "Current batch" and not active_batch:
+        st.info("No current batch. Screen URLs above to start.")
+    else:
+        st.info("No findings in this view. Screen a URL above or change the view filter.")
