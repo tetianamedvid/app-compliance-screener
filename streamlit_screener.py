@@ -3,6 +3,7 @@ App Compliance Screener — paste URL(s), get instant verdicts, build findings t
 Run:  streamlit run streamlit_screener.py --server.port 8502
 """
 import os
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -98,12 +99,125 @@ def _result_to_store_dict(r: ScreenResult, batch_id: str) -> dict:
 def _normalize_urls(raw_urls: list[str]) -> list[str]:
     urls = []
     for u in raw_urls:
-        u = u.strip()
+        u = u.strip().strip('"\'').rstrip(".,;)")
         if not u:
             continue
         if not u.startswith("http"):
             u = "https://" + u
         urls.append(u)
+    return urls
+
+
+_URL_IN_TEXT = re.compile(r"https?://[^\s,;\"'<>\[\]()]+", re.I)
+_DOMAIN_LIKE = re.compile(
+    r"[\w.-]+\.(?:base44\.app|base44\.com|velino\.org)(?:/[^\s,;\"'<>]*)?",
+    re.I,
+)
+
+
+def _dedupe_urls(urls: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for u in urls:
+        u = u.strip().strip('"\'').rstrip(".,;)")
+        if not u:
+            continue
+        key = u.lower().rstrip("/")
+        if not key.startswith("http"):
+            key = "https://" + key
+        if key not in seen:
+            seen.add(key)
+            out.append(u)
+    return out
+
+
+def _extract_urls_from_text(text: str) -> list[str]:
+    """Parse URLs from pasted text: one per line, CSV rows, or comma-separated."""
+    if not text or not text.strip():
+        return []
+
+    found: list[str] = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        http_found = _URL_IN_TEXT.findall(line)
+        found.extend(http_found)
+
+        if not http_found:
+            found.extend(_DOMAIN_LIKE.findall(line))
+            # Whole line may be a single URL or slug without scheme
+            if not _DOMAIN_LIKE.search(line):
+                if any(d in line.lower() for d in (".base44.app", ".base44.com", ".velino.org")):
+                    found.append(line)
+                elif "," in line or ";" in line or "\t" in line:
+                    for part in re.split(r"[,;\t]", line):
+                        part = part.strip().strip('"\'')
+                        if not part:
+                            continue
+                        part_http = _URL_IN_TEXT.findall(part)
+                        if part_http:
+                            found.extend(part_http)
+                        else:
+                            found.extend(_DOMAIN_LIKE.findall(part))
+                            if any(d in part.lower() for d in (".base44.app", ".base44.com")):
+                                found.append(part)
+                elif line.startswith("http") or "." in line:
+                    found.append(line)
+
+    return _dedupe_urls(found)
+
+
+def _extract_urls_from_bytes(data: bytes, filename: str) -> list[str]:
+    """Parse URLs from an uploaded .txt, .csv, .tsv, or .json file."""
+    import csv
+    import io
+    import json
+
+    text = data.decode("utf-8", errors="replace")
+    name = (filename or "").lower()
+
+    if name.endswith(".json"):
+        try:
+            obj = json.loads(text)
+        except json.JSONDecodeError:
+            return _extract_urls_from_text(text)
+
+        urls: list[str] = []
+        items = obj if isinstance(obj, list) else obj.get("apps") or obj.get("data") or []
+        if isinstance(items, list):
+            for item in items:
+                if isinstance(item, str):
+                    urls.append(item)
+                elif isinstance(item, dict):
+                    for key in ("app_url", "url", "appUrl", "URL", "link"):
+                        val = item.get(key)
+                        if val:
+                            urls.append(str(val))
+                            break
+        if urls:
+            return _dedupe_urls(urls)
+        return _extract_urls_from_text(text)
+
+    if name.endswith(".csv") or name.endswith(".tsv"):
+        delim = "\t" if name.endswith(".tsv") else ","
+        urls = []
+        for row in csv.reader(io.StringIO(text), delimiter=delim):
+            urls.extend(_extract_urls_from_text(" ".join(row)))
+        return _dedupe_urls(urls) if urls else _extract_urls_from_text(text)
+
+    return _extract_urls_from_text(text)
+
+
+def _collect_urls_from_input(text: str, uploaded_file) -> list[str]:
+    """Merge pasted text and optional uploaded file into one deduped URL list."""
+    urls = _extract_urls_from_text(text or "")
+    if uploaded_file is not None:
+        file_urls = _extract_urls_from_bytes(
+            uploaded_file.getvalue(), uploaded_file.name or "list.txt",
+        )
+        urls = _dedupe_urls(urls + file_urls)
     return urls
 
 
@@ -153,8 +267,8 @@ def _process_batch_chunk(job: dict) -> None:
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.title("🛡️ App Compliance Screener")
 st.caption(
-    "Paste any app URL → instant scrape + policy classification → verdict. "
-    "Large batches run in chunks so Cloud does not time out."
+    "Paste a full URL list or upload a file (.txt / .csv) — then screen hundreds or "
+    "thousands of apps in one batch."
 )
 
 # ── Active batch job (chunked runner) ─────────────────────────────────────────
@@ -186,28 +300,49 @@ if batch_job and batch_job.get("status") == "running":
         del st.session_state["batch_job"]
         st.rerun()
 
-# ── Screen URL(s) — always at the top ─────────────────────────────────────────
-with st.form("screen_form", clear_on_submit=False):
-    urls_input = st.text_area(
-        "App URL(s) — one per line",
-        placeholder="https://my-app.base44.app\nhttps://another-app.base44.app",
-        height=100,
-        key="urls_input",
+# ── Screen URL(s) — bulk paste or file upload ─────────────────────────────────
+uploaded_list = st.file_uploader(
+    "Upload URL list (.txt, .csv, .tsv, .json)",
+    type=["txt", "csv", "tsv", "json"],
+    key="url_list_file",
+    help="One URL per line, or a CSV/JSON export with an app_url / url column.",
+)
+
+urls_input = st.text_area(
+    "Paste URL list (all at once)",
+    placeholder=(
+        "Paste your full list here — one URL per line.\n"
+        "Also works: comma-separated, tab-separated, or copied from Excel/Sheets.\n\n"
+        "https://app-one.base44.app\n"
+        "https://app-two.base44.app\n"
+        "…"
+    ),
+    height=320,
+    key="urls_input",
+)
+
+preview_urls = _collect_urls_from_input(urls_input, uploaded_list)
+if preview_urls:
+    st.info(f"**{len(preview_urls):,}** URLs loaded — click Screen to start.")
+
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+    deep_mode = st.checkbox(
+        "Deep scrape (Playwright)", value=False,
+        help="Off = fast API-only (~2-3s). On = full browser render (~8-15s). "
+             "Turn off for bulk runs (100+ URLs).",
     )
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        deep_mode = st.checkbox(
-            "Deep scrape (Playwright)", value=False,
-            help="Off = fast API-only (~2-3s). On = full browser render (~8-15s). "
-                 "Turn off for bulk runs (100+ URLs).",
-        )
-    with col2:
-        submitted = st.form_submit_button("🔍 Screen", type="primary", use_container_width=True)
+with col2:
+    submitted = st.button("🔍 Screen", type="primary", use_container_width=True)
+with col3:
+    if preview_urls and st.button("Clear list", use_container_width=True):
+        st.session_state["urls_input"] = ""
+        st.rerun()
 
 if submitted and not (batch_job and batch_job.get("status") == "running"):
-    raw_urls = [u.strip() for u in (urls_input or "").splitlines() if u.strip()]
+    raw_urls = _collect_urls_from_input(urls_input, uploaded_list)
     if not raw_urls:
-        st.warning("Paste at least one URL.")
+        st.warning("Paste or upload at least one URL.")
     else:
         urls = _normalize_urls(raw_urls)
 
