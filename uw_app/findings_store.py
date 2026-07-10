@@ -11,6 +11,7 @@ from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STORE_PATH = PROJECT_ROOT / "data" / "findings.jsonl"
+LAST_BATCH_PATH = PROJECT_ROOT / "data" / "last_batch.json"
 
 _lock = threading.Lock()
 _pulled = False
@@ -149,6 +150,28 @@ def make_batch_id() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
+def save_last_batch(batch_id: str, count: int) -> None:
+    """Persist last completed batch so UI can recover after a Cloud reboot."""
+    LAST_BATCH_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LAST_BATCH_PATH.write_text(
+        json.dumps({"batch_id": batch_id, "count": count, "saved_at": datetime.now().isoformat(timespec="seconds")}),
+        encoding="utf-8",
+    )
+
+
+def load_last_batch() -> dict | None:
+    """Return {batch_id, count, saved_at} for the most recent completed batch."""
+    if not LAST_BATCH_PATH.exists():
+        return None
+    try:
+        data = json.loads(LAST_BATCH_PATH.read_text(encoding="utf-8"))
+        if data.get("batch_id"):
+            return data
+    except (json.JSONDecodeError, OSError):
+        pass
+    return None
+
+
 _REVIEW_PRESERVE_KEYS = (
     "review_status", "review_note", "review_updated", "correct_verdict",
 )
@@ -174,12 +197,14 @@ def _merge_row_into_store(rows: list[dict], result_dict: dict) -> None:
 def append_many(results: list[dict], *, sync_github: bool = True) -> int:
     """Save multiple screening results in one read/write cycle.
 
+    Uses main store file only (not archive merge) to keep large batches fast.
     Returns the number of rows written/updated.
     """
     if not results:
         return 0
 
-    rows = load_all()
+    _pull_from_github_once()
+    rows = _read_jsonl(STORE_PATH)
     for result_dict in results:
         _merge_row_into_store(rows, result_dict)
     _rewrite(rows, sync_github=sync_github)
@@ -251,25 +276,54 @@ def load_all() -> list[dict]:
     return deduped
 
 
+def _iter_jsonl(path: Path):
+    """Stream-parse JSONL without loading the whole file at once."""
+    if not path.exists():
+        return
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError:
+                pass
+
+
 def load_recent(
     *,
     batch_id: str | None = None,
     since: date | datetime | str | None = None,
     include_archive: bool = False,
 ) -> list[dict]:
-    """Load findings for UI display — fast path that skips archive by default.
-
-    Args:
-        batch_id: Only rows from this screening run.
-        since: Only rows screened on/after this date (ISO date or datetime).
-        include_archive: Merge findings_archive.jsonl (slow; use for full history).
-    """
+    """Load findings for UI display — fast path that skips archive by default."""
     _pull_from_github_once()
 
     if include_archive:
         rows = load_all()
     else:
-        rows = _read_jsonl(STORE_PATH)
+        rows = []
+        since_d: date | None = None
+        if since is not None:
+            if isinstance(since, datetime):
+                since_d = since.date()
+            elif isinstance(since, date):
+                since_d = since
+            else:
+                since_d = date.fromisoformat(str(since)[:10])
+
+        for row in _iter_jsonl(STORE_PATH):
+            if batch_id and row.get("batch_id") != batch_id:
+                continue
+            if since_d is not None:
+                screened = row.get("screened_at", "")
+                if not screened:
+                    continue
+                if date.fromisoformat(screened[:10]) < since_d:
+                    continue
+            rows.append(row)
+        return rows
 
     if batch_id:
         rows = [r for r in rows if r.get("batch_id") == batch_id]
@@ -288,6 +342,15 @@ def load_recent(
         ]
 
     return rows
+
+
+def count_batch(batch_id: str) -> int:
+    """Count rows for a batch without loading them into memory."""
+    n = 0
+    for row in _iter_jsonl(STORE_PATH):
+        if row.get("batch_id") == batch_id:
+            n += 1
+    return n
 
 
 def store_total_count(*, include_archive: bool = False) -> int:
@@ -327,7 +390,7 @@ def update_review(url: str, status: str, note: str = "",
                    *, correct_verdict: str = "") -> bool:
     """Update review status, analyst note, and optional verdict override."""
     key = _normalize_url(url)
-    rows = load_all()
+    rows = _read_jsonl(STORE_PATH)
     found = False
     for row in reversed(rows):
         if _normalize_url(row.get("url", "")) == key:
@@ -418,6 +481,10 @@ def _sync_to_github() -> None:
 
         # Safety: if remote is significantly larger, don't overwrite
         if remote_size > len(content) * 1.5 and remote_size > 50_000:
+            return
+
+        # GitHub Contents API limit is 100 MB; skip huge files to avoid OOM/timeouts
+        if len(content) > 45_000_000:
             return
 
         encoded = base64.b64encode(content).decode()

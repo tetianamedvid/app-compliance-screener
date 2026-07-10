@@ -2,6 +2,7 @@
 App Compliance Screener — paste URL(s), get instant verdicts, build findings table.
 Run:  streamlit run streamlit_screener.py --server.port 8502
 """
+import gc
 import os
 import re
 import sys
@@ -34,6 +35,14 @@ except Exception as _import_err:
 
 CHUNK_SIZE = 25
 LARGE_BATCH_WARN = 100
+LARGE_VIEW_WARN = 1500
+
+_STORE_KEYS = frozenset({
+    "url", "app_id", "app_name", "app_description", "overall_verdict",
+    "overall_color", "confidence", "top_category", "top_subcategory",
+    "top_p_and_r_id", "top_p_and_r_name", "screened_at", "elapsed_seconds",
+    "batch_id", "review_status", "review_note", "error",
+})
 
 st.set_page_config(
     page_title="App Compliance Screener",
@@ -42,6 +51,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 st.markdown(SCREENER_CSS, unsafe_allow_html=True)
+
+# Recover last batch after Cloud reboot / crash
+if "active_batch_id" not in st.session_state:
+    _recovered = findings_store.load_last_batch()
+    if _recovered:
+        st.session_state["active_batch_id"] = _recovered["batch_id"]
+        st.session_state["last_batch_count"] = _recovered.get("count", 0)
+        st.session_state.setdefault("findings_view", "Current batch")
 
 
 @st.cache_data(ttl=600)
@@ -84,7 +101,7 @@ def _batch_workers(n_urls: int) -> int:
     return 6
 
 
-def _result_to_store_dict(r: ScreenResult, batch_id: str) -> dict:
+def _result_to_store_dict(r: ScreenResult, batch_id: str, *, slim: bool = True) -> dict:
     d = r.to_dict()
     for k in ("_body_text", "_deep_text"):
         d.pop(k, None)
@@ -93,6 +110,8 @@ def _result_to_store_dict(r: ScreenResult, batch_id: str) -> dict:
     d.setdefault("review_status", "Pending")
     d.setdefault("review_note", "")
     d["batch_id"] = batch_id
+    if slim:
+        d = {k: d.get(k) for k in _STORE_KEYS if k in d}
     return d
 
 
@@ -249,15 +268,20 @@ def _process_batch_chunk(job: dict) -> None:
     )
 
     store_rows = [_result_to_store_dict(r, batch_id) for r in results]
-    findings_store.append_many(store_rows)
+    next_index = index + len(chunk_urls)
+    is_last_chunk = next_index >= len(urls)
+    findings_store.append_many(store_rows, sync_github=is_last_chunk)
 
-    job.setdefault("results", []).extend(results)
-    job["index"] = index + len(chunk_urls)
-    if job["index"] >= len(urls):
+    job["saved_count"] = job.get("saved_count", 0) + len(store_rows)
+    job["index"] = next_index
+    if is_last_chunk:
         job["status"] = "complete"
         st.session_state["active_batch_id"] = batch_id
-        st.session_state["last_results"] = job["results"]
+        st.session_state["last_batch_count"] = job["saved_count"]
         st.session_state["findings_view"] = "Current batch"
+        st.session_state.pop("last_results", None)
+        findings_store.save_last_batch(batch_id, job["saved_count"])
+        gc.collect()
 
 
 # ── Header ─────────────────────────────────────────────────────────────────────
@@ -279,17 +303,20 @@ if batch_job and batch_job.get("status") == "running":
     with stop_col:
         if st.button("⏹ Stop batch", key="stop_batch"):
             batch_job["status"] = "stopped"
-            if batch_job.get("results"):
-                st.session_state["last_results"] = batch_job["results"]
-                st.session_state["active_batch_id"] = batch_job.get("batch_id")
+            st.session_state["active_batch_id"] = batch_job.get("batch_id")
+            st.session_state["last_batch_count"] = batch_job.get("saved_count", batch_job.get("index", 0))
+            st.session_state.pop("last_results", None)
+            gc.collect()
             st.rerun()
 
     _process_batch_chunk(batch_job)
     if batch_job.get("status") == "running":
         st.rerun()
     elif batch_job.get("status") == "complete":
-        st.success(f"Batch complete — {len(batch_job.get('results', []))} apps screened.")
+        n = batch_job.get("saved_count", batch_job.get("index", 0))
+        st.success(f"Batch complete — **{n:,}** apps screened. Download CSV below.")
         del st.session_state["batch_job"]
+        gc.collect()
         st.rerun()
     elif batch_job.get("status") == "stopped":
         st.warning("Batch stopped. Partial results were saved.")
@@ -367,76 +394,60 @@ if submitted and not (batch_job and batch_job.get("status") == "running"):
                 "chunk_size": CHUNK_SIZE,
                 "deep": deep_mode,
                 "status": "running",
-                "results": [],
+                "saved_count": 0,
             }
             st.rerun()
 
-# ── Last screening results (compact cards) ────────────────────────────────────
+# ── Last batch / single-URL results ─────────────────────────────────────────────
+last_batch_count = st.session_state.get("last_batch_count")
+if last_batch_count:
+    st.success(
+        f"**{last_batch_count:,}** apps in the last batch — "
+        "use **Current batch** view and **Download current view (CSV)** below."
+    )
+
 if st.session_state.get("last_results"):
     results: list[ScreenResult] = st.session_state["last_results"]
-    st.markdown("---")
-    st.subheader(f"Latest screening — {len(results)} app(s)")
-
-    show_cards = min(len(results), 50)
-    if len(results) > show_cards:
-        st.caption(f"Showing first {show_cards} of {len(results)} — use Findings Table for full list.")
-
-    for r in results[:show_cards]:
-        color_class = f"verdict-{r.overall_color}"
-        badge = f'<span class="verdict-badge {color_class}">{r.overall_verdict}</span>'
-
-        with st.container():
-            c1, c2, c3 = st.columns([2, 2, 1])
-            with c1:
-                name = r.app_name or r.url
-                st.markdown(f"**{name}**")
-                st.caption(f"`{r.url}`  •  {r.elapsed_seconds}s  •  ID: `{r.app_id or '—'}`")
-            with c2:
-                if r.app_description:
-                    st.caption((r.app_description or "")[:180])
-            with c3:
-                st.markdown(badge, unsafe_allow_html=True)
-                st.caption(f"Conf: {r.confidence}%")
-
-            if r.error:
-                st.error(r.error)
-
-            if r.policy_matches:
-                render_policy_matches(r.policy_matches)
-
-            signals = []
-            if r.entity_types:
-                signals.append(("Data entities", ", ".join(r.entity_types[:8])))
-            if r.payment_signals:
-                signals.append(("Payments", ", ".join(r.payment_signals[:5])))
-            if getattr(r, "login_methods", None):
-                signals.append(("Auth", ", ".join(r.login_methods[:5])))
-            if getattr(r, "features", None):
-                signals.append(("Features", ", ".join(r.features[:6])))
-            if getattr(r, "integrations", None):
-                signals.append(("Integrations", ", ".join(r.integrations[:5])))
-            if getattr(r, "visibility", None):
-                signals.append(("Visibility", str(r.visibility)))
-            if getattr(r, "data_sources", None):
-                signals.append(("Sources", ", ".join(r.data_sources)))
-            if signals:
-                with st.expander("Signals & metadata", expanded=False):
-                    for label, val in signals:
-                        st.markdown(f"**{label}:** {val}")
-
-            summary = getattr(r, "page_content_summary", "") or ""
-            content_len = getattr(r, "content_length", 0) or 0
-            if summary:
-                with st.expander(f"Page content ({content_len:,} chars scraped)", expanded=False):
-                    st.text(summary[:2500])
-
+    if len(results) <= 20:
         st.markdown("---")
+        st.subheader(f"Latest screening — {len(results)} app(s)")
+
+        for r in results:
+            color_class = f"verdict-{r.overall_color}"
+            badge = f'<span class="verdict-badge {color_class}">{r.overall_verdict}</span>'
+
+            with st.container():
+                c1, c2, c3 = st.columns([2, 2, 1])
+                with c1:
+                    name = r.app_name or r.url
+                    st.markdown(f"**{name}**")
+                    st.caption(f"`{r.url}`  •  {r.elapsed_seconds}s  •  ID: `{r.app_id or '—'}`")
+                with c2:
+                    if r.app_description:
+                        st.caption((r.app_description or "")[:180])
+                with c3:
+                    st.markdown(badge, unsafe_allow_html=True)
+                    st.caption(f"Conf: {r.confidence}%")
+
+                if r.error:
+                    st.error(r.error)
+
+                if r.policy_matches:
+                    render_policy_matches(r.policy_matches)
+
+            st.markdown("---")
+
+@st.cache_data(ttl=120)
+def _export_full_history_cached(store_mtime: float) -> bytes:
+    return findings_store.export_csv_bytes()
+
 
 # ── Findings Table ─────────────────────────────────────────────────────────────
 store_total = findings_store.store_total_count()
 _dbg_store = findings_store.STORE_PATH
 _dbg_exists = _dbg_store.exists()
 _dbg_size = _dbg_store.stat().st_size if _dbg_exists else 0
+_dbg_mtime = _dbg_store.stat().st_mtime if _dbg_exists else 0.0
 
 active_batch = st.session_state.get("active_batch_id")
 view_options = ["Current batch", "Today", "All history"]
@@ -467,8 +478,14 @@ else:
 
 st.caption(
     f"📂 Store: {_dbg_size:,} bytes · {store_total:,} total on disk · "
-    f"viewing **{findings_view.lower()}** ({len(display_findings)} rows) · build 2026-07-10"
+    f"viewing **{findings_view.lower()}** ({len(display_findings)} rows) · build 2026-07-10b"
 )
+
+if len(display_findings) > LARGE_VIEW_WARN:
+    st.warning(
+        f"Large result set ({len(display_findings):,} rows). "
+        "Use **Download current view (CSV)** — avoid Detailed view to save memory."
+    )
 
 if display_findings:
     hdr1, hdr2 = st.columns([3, 1])
@@ -478,6 +495,7 @@ if display_findings:
         detailed_view = st.toggle(
             "Detailed view", value=False, key="detailed_toggle",
             help="Toggle between compact table and per-row expandable details.",
+            disabled=len(display_findings) > LARGE_VIEW_WARN,
         )
     st.caption("Sort, filter, and review. Large lists are paginated (100 per page).")
 
@@ -522,10 +540,9 @@ if display_findings:
             st.rerun()
     with bc3:
         with st.expander("Export full history"):
-            full_csv = findings_store.export_csv_bytes()
             st.download_button(
                 label="📥 Download all findings (CSV)",
-                data=full_csv,
+                data=_export_full_history_cached(_dbg_mtime),
                 file_name="findings_export.csv",
                 mime="text/csv",
                 key="export_full_btn",
