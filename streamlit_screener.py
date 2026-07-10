@@ -142,29 +142,25 @@ def _extract_urls_from_text(text: str) -> list[str]:
         if not line or line.startswith("#"):
             continue
 
-        http_found = _URL_IN_TEXT.findall(line)
-        found.extend(http_found)
+        found.extend(_URL_IN_TEXT.findall(line))
 
-        if not http_found:
-            found.extend(_DOMAIN_LIKE.findall(line))
-            # Whole line may be a single URL or slug without scheme
-            if not _DOMAIN_LIKE.search(line):
-                if any(d in line.lower() for d in (".base44.app", ".base44.com", ".velino.org")):
-                    found.append(line)
-                elif "," in line or ";" in line or "\t" in line:
-                    for part in re.split(r"[,;\t]", line):
-                        part = part.strip().strip('"\'')
-                        if not part:
-                            continue
-                        part_http = _URL_IN_TEXT.findall(part)
-                        if part_http:
-                            found.extend(part_http)
-                        else:
-                            found.extend(_DOMAIN_LIKE.findall(part))
-                            if any(d in part.lower() for d in (".base44.app", ".base44.com")):
-                                found.append(part)
-                elif line.startswith("http") or "." in line:
-                    found.append(line)
+        segments = [line]
+        if "," in line or ";" in line or "\t" in line:
+            segments = re.split(r"[,;\t]", line)
+
+        for part in segments:
+            part = part.strip().strip('"\'')
+            if not part:
+                continue
+            part_http = _URL_IN_TEXT.findall(part)
+            if part_http:
+                found.extend(part_http)
+                continue
+            found.extend(_DOMAIN_LIKE.findall(part))
+            if any(d in part.lower() for d in (".base44.app", ".base44.com", ".velino.org")):
+                found.append(part)
+            elif part.startswith("http"):
+                found.append(part)
 
     return _dedupe_urls(found)
 
